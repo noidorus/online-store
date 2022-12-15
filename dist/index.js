@@ -1,0 +1,1 @@
+(()=>{"use strict";["Hello","ByBy"].forEach((o=>{console.log(o)}))})();
