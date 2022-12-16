@@ -21,15 +21,15 @@
   "rules": {
     "no-debugger": "off",
     "no-console": 0,
-    "class-methods-use-this": "off"
-    // "@typescript-eslint/no-explicit-any": "error",
-    // "prettier/prettier": [
-    //   "error",
-    //   {
-    //     "endOfLine": "auto",
-    //     "tabWidth": 2,
-    //     "singleQuote": true
-    //   }
-    // ]
+    "class-methods-use-this": "off",
+    "@typescript-eslint/no-explicit-any": "error",
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto",
+        "tabWidth": 2,
+        "singleQuote": true
+      }
+    ]
   }
 }
