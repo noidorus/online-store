@@ -4,37 +4,50 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./styles/style-reset.css">
+  <link rel="stylesheet" href="./styles/fonts.css">
+  <link rel="stylesheet" href="./styles/general.css">
+  <!-- TEMP CATALOG -->
+  <link rel="stylesheet" href="./styles/catalog.css">
   <title>Document</title>
 </head>
-<body>
+<body class="body">
   <header class="header">
-    <div class="logo-wrapper">
-      <img src="" alt="store-logo">
-      <h1>Online Store</h1>
-    </div>
-    <nav class="nav">
-      <ul>
-        <li><a href="">Catalog</a></li>
-        <!-- TEMPOPARY LINKS -->
-        <li class="TEMP">Cart</li>
-        <li class="TEMP">Product details</li>
-        <li class="TEMP">404</li>
-      </ul>
-    </nav>
-    <div class="shopping-cart">
-      <p class="shopping-cart__amount">0</p>
-      <img src="" alt="" class="shopping-cart__img">
+    <div class="header-wrapper">
+      <div class="header-logo-wrapper">
+        <img src="./assets/icons/shop-icon.svg" alt="store-logo" class="header-logo header-img">
+        <div class="header-logo-text-wrapper">
+          <h1 class="header-header">ONLINE STORE</h1>
+          <p class="header-subheader">TECH SHOP</p>
+        </div>
+      </div>
+      <nav class="nav">
+        <ul class="nav-list">
+          <li class="nav-list__item"><a href="" class="nav-list__link">Catalog</a></li>
+          <!-- TEMPOPARY LINKS -->
+          <li class="TEMP">Cart</li>
+          <li class="TEMP">Product details</li>
+          <li class="TEMP">404</li>
+        </ul>
+      </nav>
+      <div class="shopping-cart">
+        <img src="./assets/icons/shopping-cart-icon.svg" alt="shopping-cart" class="shopping-cart__img">
+        <p class="shopping-cart__price">$20.56</p>
+        <p class="shopping-cart__count">0</p>
+      </div>
     </div>
   </header>
-  <main>
+  <main class="main">
     <div id="app">MAIN</div>
   </main>
   <footer class="footer">
-    <div class="footer-logo-wrapper">
-      <img src="https://github.com/" alt="" class="git-logo footer-img">
-      <p class="footer-text">2022</p>
+    <div class="footer-wrapper">
+      <div class="footer-logo-wrapper">
+        <img src="https://github.com/" alt="" class="git-logo footer-img">
+        <p class="footer-text">2022</p>
+      </div>
+      <a href="https://rs.school/js/"><img src="" alt="" class="footer-img"></a>
     </div>
-    <a href="https://rs.school/js/"><img src="" alt="" class="footer-img"></a>
   </footer>
 </body>
 </html>
