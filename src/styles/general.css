@@ -20,7 +20,9 @@
 .header-wrapper,
 .header-logo-wrapper,
 .nav-list,
-.shopping-cart {
+.shopping-cart,
+.footer-wrapper,
+.footer-logo-wrapper  {
   display: flex;
   align-items: center;
 }
@@ -72,13 +74,13 @@
 
   font-family: 'Landasans', 'Roboto', sans-serif;
   letter-spacing: 2px;
-  font-size: 2em;
+  font-size: 2.5em;
 }
 
 .shopping-cart {
-  width: 200px;
+  width: 12em;
   justify-content: space-between;
-  padding: 20px;
+  padding: 1.2em;
 
   font-size: 1.2em;
   font-weight: 600;
@@ -86,7 +88,7 @@
   color: #fef8ff;
 
   background: linear-gradient(to right, #8e2de2, #6901ff);
-  border-radius: 10px;
+  border-radius: 0.8em;
 
   cursor: pointer;
 }
@@ -99,4 +101,39 @@
   background-color: #ffffff44;
   padding: 0.5em;
   border-radius: 0.8em;
+}
+
+
+/* FOOTER */
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: #eeeff0;
+}
+
+.footer-wrapper {
+  padding: 2em;
+  justify-content: space-between;
+}
+
+.footer-logo-wrapper {
+  gap: 2em;
+}
+
+.footer-text {
+  color: #656565;
+  font-family: 'Landasans', 'Roboto', sans-serif;
+  letter-spacing: 3px;
+  font-size: 3em;
+  font-weight: 500;
+}
+
+.footer .git-logo {
+  width: 5em;
+}
+
+.footer .rs-logo {
+  width: 10em;
 }
