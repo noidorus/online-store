@@ -1,1 +1,143 @@
-<div></div>
+<div class="cart">
+  <div class="cart-substitute" style="display: none;">
+    <p class="cart-substitute__big-text">Your cart is empty</p>
+    <button class="cart-substitute__button button">Start shopping now!</button>
+  </div>
+  <div class="cart-header">
+    <div class="cart-header-wrapper">
+      <h2 class="cart-header-main">My Cart</h2>
+      <div class="back-btn">
+        <img src="./assets/icons/arrow-left.svg" alt="" class="back-btn-img">
+        <p class="back-btn-txt">Continue shopping</p>
+      </div>
+    </div>
+  </div>
+  <div class="cart-wrapper">
+    <div class="item-header-wrapper">
+      <div class="item-header__num"></div>
+      <p class="item-header__product">PRODUCT</p>
+      <p class="item-header__price">PRICE</p>
+      <p class="item-header__qty">QTY</p>
+      <p class="item-header__total">TOTAL</p>
+    </div>
+    <div class="cart-items-wrapper">
+      <div class="cart__item">
+        <p class="cart__item-num">1</p>
+        <img src="./assets/imgs/test-img.webp" alt="" class="cart__item-img">
+        <p class="cart__item-name">Lenovo Legion 5 Pro</p>
+        <div class="cart__item-details">
+          <span class="details__item">AMD Ryzen 7-5800H</span> //
+          <span class="details__item">16GB RAM</span> //
+          <span class="details__item">1TB SSD</span> //
+          <span class="details__item">RTX 3070 8GB</span>
+        </div>
+        <p class="cart__item-price">$1,418</p>
+        <div class="cart__item-qty">
+          <button class="button btn-minus">−</button>
+          <input type="text" class="amount">
+          <button class="button btn-plus">+</button>
+        </div>
+        <p class="cart__item-total">$1,418</p>
+        <p class="cart__item-del">&#9587;</p>
+      </div>
+      <hr class="split-line">
+      <div class="cart__item">
+        <p class="cart__item-num">2</p>
+        <img src="./assets/imgs/test-img.webp" alt="" class="cart__item-img">
+        <p class="cart__item-name">Lenovo Legion 5 Pro</p>
+        <div class="cart__item-details">
+          <span class="details__item">AMD Ryzen 7-5800H</span> //
+          <span class="details__item">16GB RAM</span> //
+          <span class="details__item">1TB SSD</span> //
+          <span class="details__item">RTX 3070 8GB</span>
+        </div>
+        <p class="cart__item-price">$1,418</p>
+        <div class="cart__item-qty">
+          <button class="button btn-minus">−</button>
+          <input type="text" class="amount">
+          <button class="button btn-plus">+</button>
+        </div>
+        <p class="cart__item-total">$1,418</p>
+        <p class="cart__item-del">&#9587;</p>
+      </div>
+    </div>
+    <div class="cart-pages">
+      <img src="./assets/icons/btn-prev.svg" alt="" class="page-prev btn-page">
+      <div class="pages-wrapper">
+        <p class="cart__page page-idx">1</p>
+        <p class="cart__pade page-idx--active">2</p>
+      </div>
+      <img src="./assets/icons/btn-next.svg" alt="" class="page-next btn-page">
+    </div>
+    <div class="cart-checkout-min">
+      <div class="promocode">
+        <h3 class="cart-checkout-min-header">Promo code</h3>
+        <p class="cart-checkout-min-txt">
+          Enter your promocode if you have one:
+        </p>
+        <input type="text" class="promocode-input">
+        <button class="button btn-submit">Apply</button>
+        <div class="promocode-input-wrapper">
+        </div>
+      </div>
+      <div class="checkout-counting">
+        <div class="title-wrapper">
+          <p class="title title-subtotal">SUBTOTAL TTC</p>
+          <p class="amount amount-subtotal">$1,418</p>
+        </div>
+        <div class="promo-wrapper">
+          <div class="promo-title-wrapper">
+            <p class="title title-promo">PROMO</p>
+            <p class="title title-promo-amount">10%</p>
+          </div>
+          <p class="amount amount-promo">-$10</p>
+        </div>
+        <hr class="split-line">
+        <div class="total-wrapper">
+          <p class="title title-total">TOTAL</p>
+          <p class="amount amount-total">$1,408</p>
+        </div>
+        <div class="checkout-button-wrapper">
+          <p class="title title-checkout">Checkout</p>
+          <p class="amount amount-checkout">$1,408</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<section class="modal hidden">
+  <div class="modal-left">
+    <h3 class="modal-header">How would you like to get your order?</h3>
+    <label for="first-name" class="modal-label label-first-name">First name</label>
+    <input type="text" id="first-name" class="modal-input input-first-name">
+    <label for="last-name" class="modal-label label-last-name">Last name</label>
+    <input type="text" id="last-name" class="modal-input input-last-name">
+    <label for="phone-num" class="modal-label label-phone-num">Phone number</label>
+    <div class="modal-input-wrapper input-wrapper-phone-num">
+      <span class="country-code">+375</span>
+      <input type="text" id="phone-num" class="modal-input input-phone">
+    </div>
+    <label for="address" class="modal-label label-address">Billing address</label>
+    <input type="text" id="address" class="modal-input input-address">
+    <label for="email" class="modal-label label-email">E-mail</label>
+    <input type="email" id="email" class="modal-input input-email">
+    <h3 class="modal-header">Payment details</h3>
+    <label for="name" class="modal-label label-name">Name on card</label>
+    <input type="text" id="name" class="modal-input input-name">
+    <label for="card-num" class="modal-label label-card-num">Card number</label>
+    <input type="text" id="card-num" class="modal-input input-card-num">
+    <label for="cvv" class="modal-label label-cvv">CVV</label>
+    <input type="text" id="cvv" class="modal-input input-cvv">
+    <label for="expiry" class="modal-label label-expiry">Expiry</label>
+    <input type="text" id="expiry" class="modal-input input-expiry">
+    <button class="button modal-button">Complete payment — $1408</button>
+  </div>
+  <div class="modal-right">
+    <div class="indep-logo-text-wrapper">
+      <p class="indep-header">ONLINE STORE</p>
+      <p class="indep-subheader">TECH SHOP</p>
+    </div>
+  </div>
+</section>
+<div class="overlay hidden">
+</div>
