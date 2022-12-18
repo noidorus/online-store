@@ -1,5 +1,4 @@
-const greatings: string[] = ['Hello', 'ByBy'];
+import App from './components/app/app';
 
-greatings.forEach((greating): void => {
-  console.log(greating);
-});
+const app = new App();
+app.start();
