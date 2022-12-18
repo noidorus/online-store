@@ -10,6 +10,5 @@ class App {
     this.loadRoutes.init();
   }
 }
-// const loadRoutes: LoadRoutes = new LoadRoutes();
-// loadRoutes.init();
+
 export default App;

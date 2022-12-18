@@ -19,6 +19,14 @@ const baseConfig = {
         use: 'ts-loader',
         exclude: /node_modules/,
       },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif|ogg|mp3|wav)/,
+        type: 'asset/resource',
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf|svg)/,
+        type: 'asset/resource',
+      },
     ],
   },
   resolve: {
@@ -39,6 +47,14 @@ const baseConfig = {
         {
           from: './src/components/views',
           to: path.resolve(__dirname, './dist/components/views'),
+        },
+        {
+          from: './src/assets/imgs',
+          to: path.resolve(__dirname, './dist/assets/imgs'),
+        },
+        {
+          from: './src/assets/icons',
+          to: path.resolve(__dirname, './dist/assets/icons'),
         },
       ],
     }),

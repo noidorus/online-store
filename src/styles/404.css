@@ -1,0 +1,40 @@
+.store-404 {
+  width: fit-content;
+  text-align: center;
+  margin: 0 auto;
+  padding: 12em 0;
+}
+
+.header--important,
+.store-404 .subtext,
+.store-404 .main-text,
+.store-404 .image {
+  margin-bottom: 2rem;
+}
+
+
+.header--important {
+  color: #8e2de2;
+  font-size: 10em;
+  font-weight: 700;
+}
+
+.store-404 .subtext {
+  color: #b8bbbc;
+  font-size: 3em;
+}
+
+.store-404 .image {
+  width: 55em;
+  border-radius: 1em;
+}
+
+.store-404 .main-text {
+  color: #656565;
+  font-size: 2em;
+}
+
+.store-404__link {
+  color: #8e2de2;
+  font-weight: 600;
+}
