@@ -1,0 +1,148 @@
+* {
+  box-sizing: border-box;
+}
+
+.button {
+  border: none;
+  cursor: pointer;
+}
+
+.body {
+  font-family: 'Lato', sans-serif;
+  background-color: 
+  #f9f8fb;
+}
+
+.header-wrapper,
+/* .main, */
+.footer-wrapper {
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
+/* HEADER */
+
+.header-wrapper,
+.header-logo-wrapper,
+.nav-list,
+.shopping-cart,
+.footer-wrapper,
+.footer-logo-wrapper  {
+  display: flex;
+  align-items: center;
+}
+
+.header,
+.nav-list__link {
+  color: #656565;
+}
+
+.header {
+  background-color: #eeeff0;
+}
+
+.header-wrapper {
+  justify-content: space-between;
+  padding: 2em;
+}
+
+.header-logo-wrapper {
+  gap: 1em;
+
+  cursor: pointer;
+}
+
+.header-logo {
+  width: 9em;
+}
+
+.header-header,
+.indep-header,
+.header-subheader,
+.indep-subheader {
+  text-align: center;
+}
+
+.header-header,
+.indep-header {
+  font-size: 2em;
+  font-weight: 600;
+}
+
+.header-subheader,
+.indep-subheader {
+  color: #8c8c8e;
+  font-size: 1.5em;
+  letter-spacing: 0.4em;
+}
+
+.nav-list {
+  display: flex;
+  justify-content: space-between;
+  width: 15em;
+
+  font-family: 'Landasans', 'Roboto', sans-serif;
+  letter-spacing: 2px;
+  font-size: 2.5em;
+}
+
+.shopping-cart {
+  width: 12em;
+  justify-content: space-between;
+  padding: 1.2em;
+
+  font-size: 1.2em;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #fef8ff;
+
+  background: linear-gradient(to right, #8e2de2, #6901ff);
+  border-radius: 0.8em;
+
+  cursor: pointer;
+}
+
+.shopping-cart__img {
+  width: 1.5em;
+}
+
+.shopping-cart__count {
+  background-color: #ffffff44;
+  padding: 0.5em;
+  border-radius: 0.8em;
+}
+
+
+/* FOOTER */
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: #eeeff0;
+}
+
+.footer-wrapper {
+  padding: 2em;
+  justify-content: space-between;
+}
+
+.footer-logo-wrapper {
+  gap: 2em;
+}
+
+.footer-text {
+  color: #656565;
+  font-family: 'Landasans', 'Roboto', sans-serif;
+  letter-spacing: 3px;
+  font-size: 3em;
+  font-weight: 500;
+}
+
+.footer .git-logo {
+  width: 5em;
+}
+
+.footer .rs-logo {
+  width: 10em;
+}
