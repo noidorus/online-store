@@ -4,6 +4,7 @@ const { merge } = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const baseConfig = {
   entry: path.resolve(__dirname, './src/index.ts'),
@@ -11,8 +12,17 @@ const baseConfig = {
   module: {
     rules: [
       {
-        test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: './',
+            },
+          },
+          'css-loader',
+          'sass-loader',
+        ],
       },
       {
         test: /\.tsx?$/,
@@ -22,10 +32,16 @@ const baseConfig = {
       {
         test: /\.(png|svg|jpg|jpeg|gif|ogg|mp3|wav)/,
         type: 'asset/resource',
+        generator: {
+          filename: 'assets/images/[hash][ext][query]',
+        },
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf|svg)/,
         type: 'asset/resource',
+        generator: {
+          filename: 'assets/fonts/[hash][ext][query]',
+        },
       },
     ],
   },
@@ -42,6 +58,7 @@ const baseConfig = {
       filename: 'index.html',
     }),
     new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin(),
     new CopyWebpackPlugin({
       patterns: [
         {
@@ -49,8 +66,8 @@ const baseConfig = {
           to: path.resolve(__dirname, './dist/components/views'),
         },
         {
-          from: './src/assets/imgs',
-          to: path.resolve(__dirname, './dist/assets/imgs'),
+          from: './src/assets/images',
+          to: path.resolve(__dirname, './dist/assets/images'),
         },
         {
           from: './src/assets/icons',
