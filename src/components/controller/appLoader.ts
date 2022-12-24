@@ -1,5 +1,5 @@
 import Loader from './loader';
-const baseLink = 'https://dummyjson.com/products?limit=100';
+const baseLink = 'https://dummyjson.com/products';
 
 class LoadData extends Loader {
   constructor() {
