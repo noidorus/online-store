@@ -13,11 +13,10 @@ class Loader {
       console.error('No callback for GET response');
     }
   ) {
-    this.load()
+    this.load(options, callback);
   }
 
-  async load() {
-    
+  async load(options, callback) {
     const response = await fetch(this.baseLink);
     const data: DataTypes.RootObject = await response.json();
 
