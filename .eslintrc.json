@@ -23,6 +23,7 @@
     "no-console": 0,
     "class-methods-use-this": "off",
     "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/no-var-require": "no",
     "prettier/prettier": [
       "error",
       {

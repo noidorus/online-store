@@ -1,5 +1,4 @@
-const greatings: string[] = ['Hello', 'ByBy'];
-
-greatings.forEach((greating): void => {
-  console.log(greating);
-});
+import App from './components/app/app';
+import './components/loadStyle.ts';
+const app = new App();
+app.start();
