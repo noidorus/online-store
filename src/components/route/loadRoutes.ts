@@ -9,7 +9,6 @@ class LoadRoutes {
       new Route('product-details', 'product-details.html'),
       new Route('404', '404.html'),
     ]);
-    console.log(router);
     router.init();
   }
 }

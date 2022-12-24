@@ -7,7 +7,6 @@ class Router {
   constructor(routes: Route[]) {
     this.routes = routes;
     this.rootElem = document.getElementById('app') as HTMLDivElement;
-    console.log(this.routes);
   }
 
   init() {
@@ -21,6 +20,7 @@ class Router {
   }
 
   hasChanged(scope: this, r: Route[]) {
+    console.log(r);
     if (window.location.hash.length > 0) {
       for (let i = 0, length = r.length; i < length; i += 1) {
         const route = r[i];
