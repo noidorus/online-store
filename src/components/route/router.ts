@@ -7,7 +7,6 @@ class Router {
   constructor(routes: Route[]) {
     this.routes = routes;
     this.rootElem = document.getElementById('app') as HTMLDivElement;
-    console.log(this.routes);
   }
 
   init() {
