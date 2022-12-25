@@ -20,7 +20,6 @@ class Router {
   }
 
   hasChanged(scope: this, r: Route[]) {
-    console.log(r);
     if (window.location.hash.length > 0) {
       for (let i = 0, length = r.length; i < length; i += 1) {
         const route = r[i];

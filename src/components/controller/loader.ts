@@ -35,7 +35,7 @@ class Loader {
 
   async load(callback: Types.CallBackType, options: Types.IOptions) {
     const response = await fetch(this.makeUrl(options));
-    console.log(this.makeUrl(options));
+    console.log('URL: ', this.makeUrl(options));
     const data: Types.TypesOfData = await response.json();
 
     try {
