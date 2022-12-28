@@ -410,7 +410,9 @@
 }
 
 .card-image {
-  width: inherit;
+  /* width: inherit; */
+  width: 100%;
+  object-fit: cover;
   height: 20em;
   background: url('https://i.dummyjson.com/data/products/1/1.jpg');
   background-position: center;
