@@ -10,4 +10,10 @@ export default class AppController extends AppLoader {
     // Show Product Details
     super.getResp(callback, options);
   }
+
+  getCategories(callback: Types.CallBackType) {
+    super.getResp(callback, {
+      endpoint: Types.Endpoint.CATEGORIES,
+    });
+  }
 }

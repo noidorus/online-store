@@ -15,15 +15,15 @@ export namespace Types {
   }
 
   export interface RootObject {
-    products: Product;
+    products: Product[];
     total: number;
     skip: number;
     limit: number;
   }
 
-  export type TypesOfData = RootObject | string[] | Product;
+  export type TypesOfData = string[] | RootObject | Product;
 
-  export type CallBackType = (data?: TypesOfData) => void;
+  export type CallBackType = (data?: Types.TypesOfData) => void;
 
   export interface IOptions {
     id?: number;
