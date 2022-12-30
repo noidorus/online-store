@@ -85,6 +85,22 @@ class Catalog {
     // console.log('cardTitle: ', cardTitle);
     div.append(productCard);
   }
+
+  addCardViewToggler() {
+    const toggleBtn = document.querySelector('.display-icon');
+    const catalogContainer = document.querySelector('.cards-wrapper');
+    if (toggleBtn && catalogContainer) {
+      toggleBtn.addEventListener('click', () => {
+        if (toggleBtn.classList.contains('list')) {
+          toggleBtn.classList.remove('list');
+          catalogContainer.classList.remove('list');
+        } else {
+          toggleBtn.classList.add('list');
+          catalogContainer.classList.add('list');
+        } 
+      });
+    }
+  }
 }
 
 export default Catalog;

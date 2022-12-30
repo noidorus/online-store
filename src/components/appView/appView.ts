@@ -15,6 +15,10 @@ class AppView {
     this.productDetails.drawProduct(data);
   }
 
+  createToggle() {
+    this.catalog.addCardViewToggler();
+  }
+
   createFilterCaregories(data: Types.RootObject, filtersDiv: HTMLDivElement) {
     const categoriesDiv: HTMLDivElement | null = filtersDiv.querySelector('.category-filters');
     const newData = data.toString().split(',');

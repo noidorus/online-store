@@ -36,6 +36,7 @@ export default class Init {
       this.controller.getProducts((data?) => {
         if (data !== undefined && catalogDiv) {
           this.view.createCatalog(data, catalogDiv); // Function this.view.showProductDetails()
+          this.view.createToggle();
           this.selectCards();
         } else if (data !== undefined) {
           for (let i = 0; i < data.products.length; i++) {
