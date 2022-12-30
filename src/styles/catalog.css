@@ -195,20 +195,20 @@
   display: block;
 }
 
-.category-filters {
+.filters-scroll {
   height: 15em;
   overflow-y: scroll;
   scroll-snap-type: both proximity;
   scroll-margin-block: 1em;
 }
 
-.category-filters::-webkit-scrollbar {
+.filters-scroll::-webkit-scrollbar {
   width: 1em;
   background-color: #eeeff0;
   border-radius: 0.5em;
 }
 
-.category-filters::-webkit-scrollbar-thumb {
+.filters-scroll::-webkit-scrollbar-thumb {
   background-color: #8e2de2;
   border-radius: 0.5em;
 }

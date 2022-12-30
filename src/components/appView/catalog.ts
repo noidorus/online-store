@@ -1,10 +1,6 @@
 import { Types } from '../types/Types';
 
 class Catalog {
-  show(data: Types.RootObject) {
-    console.log(data);
-  }
-
   drawCategory(category: string, div: HTMLDivElement) {
     const label = document.createElement('label');
     const input = document.createElement('input');
@@ -61,6 +57,7 @@ class Catalog {
     raitingText.textContent = card.rating.toString();
 
     // Add to html
+    div.append(productCard);
     productCard.append(productImg);
     productCard.append(cardTextWrapper);
 
@@ -76,9 +73,18 @@ class Catalog {
     cardRating.append(raitingText);
 
     cardCart.append(cardCartImg);
+  }
 
-    // console.log('cardTitle: ', cardTitle);
-    div.append(productCard);
+  drawPrice(price: { min: number; max: number }, filtersDiv: HTMLDivElement) {
+    const inputTextMin: HTMLInputElement | null = document.querySelector('.price-min');
+    const inputTextMax: HTMLInputElement | null = document.querySelector('.price-max');
+
+    if (inputTextMin && inputTextMax) {
+      inputTextMin.value = price.min.toString();
+      inputTextMax.value = price.max.toString();
+    }
+
+    console.log(price, filtersDiv);
   }
 }
 

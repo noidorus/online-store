@@ -11,12 +11,19 @@ export default class Init {
     this.view = new AppView();
   }
 
+  init() {
+    this.initHeaderLinks();
+    this.initFilters();
+    this.initCatalog();
+    this.initCards(800);
+  }
+
   initHeaderLinks() {
     const catalogLink = document.querySelector('.nav-list__item');
     catalogLink?.addEventListener('click', () => {
-      this.initCards();
       this.initFilters();
       this.initCatalog();
+      this.initCards(800);
     });
   }
 
@@ -31,11 +38,10 @@ export default class Init {
     }, 50);
   }
 
-  initCards() {
+  initCards(sec: number) {
     setTimeout(() => {
       const productCards = document.querySelectorAll('.product-card');
       console.log('productCards: ', productCards);
-
       productCards.forEach((card) => {
         card.addEventListener('click', () => {
           window.location.hash = 'product-details';
@@ -52,15 +58,23 @@ export default class Init {
           );
         });
       });
-    }, 500);
+    }, sec);
   }
 
   initFilters() {
     setTimeout(() => {
       const filtersDiv: HTMLDivElement | null = document.querySelector('.filters-wrapper');
+
       this.controller.getCategories((data?) => {
         if (data !== undefined && filtersDiv) {
           this.view.createFilterCaregories(data, filtersDiv);
+        }
+      });
+
+      this.controller.getProducts((data?) => {
+        if (data !== undefined && filtersDiv) {
+          this.view.createFilterBrands(data, filtersDiv);
+          this.view.createFilterPrice(data, filtersDiv);
         }
       });
     }, 50);

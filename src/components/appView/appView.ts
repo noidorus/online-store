@@ -15,9 +15,23 @@ class AppView {
     this.productDetails.show(data);
   }
 
+  createFilterPrice(data: Types.TypesOfData, filtersDiv: HTMLDivElement) {
+    const newData = data as Types.RootObject;
+    const pricesArr = newData.products.map((product) => {
+      return product.price;
+    });
+
+    const price = {
+      min: Math.min(...pricesArr),
+      max: Math.max(...pricesArr),
+    };
+
+    this.catalog.drawPrice(price, filtersDiv);
+  }
+
   createFilterCaregories(data: Types.TypesOfData, filtersDiv: HTMLDivElement) {
     const categoriesDiv: HTMLDivElement | null = filtersDiv.querySelector('.category-filters');
-    const newData = data.toString().split(',');
+    const newData = data as string[];
 
     if (categoriesDiv) {
       newData.forEach((category) => {
@@ -26,19 +40,32 @@ class AppView {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  createCatalog(data: Types.TypesOfData, catalogDiv: HTMLDivElement) {
+  createFilterBrands(data: Types.TypesOfData, filtersDiv: HTMLDivElement) {
+    const brandsDiv: HTMLDivElement | null = filtersDiv.querySelector('.brands-filters');
     const newData = data as Types.RootObject;
-    newData.products.forEach((card) => {
-      this.catalog.drawCard(card, catalogDiv);
+    const brands = newData.products.map((product) => {
+      return product.brand;
     });
-    console.log('newData: ', newData.products);
+    const uniqueBrands = [...new Set(brands)];
+
+    if (brandsDiv) {
+      uniqueBrands.forEach((brand) => {
+        this.catalog.drawCategory(brand, brandsDiv);
+      });
+    }
   }
 
-  // createFilterBrands(data: Types.TypesOfData, filtersDiv: HTMLDivElement) {
-  //   const brandsDiv: HTMLDivElement | null = filtersDiv.querySelector('.category-filters');
-  //   console.log('brandsDiv: ', brandsDiv);
+  // filterData(data, options) {
+
   // }
+
+  createCatalog(data: Types.TypesOfData, catalogDiv: HTMLDivElement) {
+    const newData = (data as Types.RootObject).products;
+    // const filteredArr
+    newData.forEach((card) => {
+      this.catalog.drawCard(card, catalogDiv);
+    });
+  }
 }
 
 export default AppView;
