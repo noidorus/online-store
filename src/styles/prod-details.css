@@ -211,15 +211,35 @@
   border: 1px solid #8e2de2;
   border-radius: 2em;
   padding: 1em;
+  overflow: hidden;
 
   cursor: pointer;
+  position: relative;
+
+}
+
+.to-cart::before,
+.to-catalog::before {
+  content: '';
+  position: absolute;
+  left: -25em;
+  height: 5em;
+  width: 25em;
+  background: #dab0ffa6;
+  z-index: -1;
+  transition: left 0.2s ease-out;
+}
+
+.to-cart:hover::before,
+.to-catalog:hover::before {
+  left: 0;
 }
 
 .to-catalog-txt-wrapper {
   gap: 0.5em;
 }
 
-.to-catalog__link {
+.to-catalog .emph {
   font-weight: 600;
   color: #8e2de2;
 }
@@ -232,7 +252,19 @@
   filter: invert(28%) sepia(84%) saturate(6114%) hue-rotate(267deg) brightness(91%) contrast(93%);
 }
 
+.modal {
+  position: fixed;
+  background-repeat: no-repeat;
+  background-size: 300%;
+  top: 19%;
+  left: 41%;
+  width: 50em;
+  height: 50em;
+}
+
 @media (max-width: 1919px) {
+  
+  .breadcrumbs,
   .product-wrapper {
     width: 100%;
   }

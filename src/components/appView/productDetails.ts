@@ -58,11 +58,19 @@ class ProductDetails {
       if (!images[i].includes('thumbnail')) {
         imgThumbs.push(document.createElement('div'));
         imgThumbs[i].classList.add('product-thumb');
-        console.log(imgThumbs[i]);
         document.querySelector('.product-img-wrapper')?.append(imgThumbs[i]);
       }
     }
     imgThumbs[0].classList.add('thumb--active');
+    mainImg.addEventListener('mouseenter', () => {
+      this.createMagnifyerDiv();
+    });
+    mainImg.addEventListener('mousemove', (e) => {
+      this.magnifyImage(e);
+    });
+    mainImg.addEventListener('mouseleave', (e) => {
+      this.removeMagnify(e);
+    });
 
     // fill thumbnails
     for (let i = 0; i < imgThumbs.length; i++) {
@@ -85,6 +93,26 @@ class ProductDetails {
         mainImg.style.backgroundImage = `url(${dataImages[i]})`;
       });
     }
+  }
+
+  createMagnifyerDiv() {
+    const modal = document.createElement('div');
+    modal.classList.add('modal');
+    document.body.append(modal);
+  }
+
+  magnifyImage(e: MouseEvent) {
+    const modal = <HTMLDivElement>document.querySelector('.modal');
+    if (modal) {
+      const currImg = <HTMLDivElement>document.querySelector('.product-img');
+      modal.style.backgroundImage = currImg.style.backgroundImage;
+      modal.style.backgroundPositionX = `${((e.pageX - currImg.offsetLeft) / currImg.offsetWidth) * 100}%`;
+      modal.style.backgroundPositionY = `${((e.pageY - currImg.offsetTop) / currImg.offsetHeight) * 100}%`;
+    }
+  }
+
+  removeMagnify(e: MouseEvent) {
+    document.querySelector('.modal')?.remove();
   }
 }
 export default ProductDetails;

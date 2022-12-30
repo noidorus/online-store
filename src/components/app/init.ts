@@ -77,7 +77,7 @@ export default class Init {
           }
         );
       }
-    }, 300);
+    }, 500);
   }
 
   makeRoute(elId: number) {
