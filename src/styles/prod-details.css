@@ -50,7 +50,7 @@
 .product-img-wrapper {
   display: grid;
   row-gap: 1em;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   justify-items: center;
   grid-row: 1/8;
 }
@@ -59,23 +59,40 @@
   width: 50em;
   height: 50em;
 
-  background: url('https://i.dummyjson.com/data/products/1/1.jpg') no-repeat;
+  background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
 
   border-radius: 3em;
   grid-column: 1/5;
+
+  position: relative;
+}
+
+.product-img .sale {
+  font-size: 2em;
+  text-transform: uppercase;
+  font-weight: 600
+  ;
+  position: absolute;
+  right: 0;
+  top: 10%;
+
+  background: #f4c517;
+  padding: 0.5em;
 }
 
 .product-thumb {
   width: 10em;
   height: 10em;
 
-  background: url('https://i.dummyjson.com/data/products/1/1.jpg') no-repeat;
+  background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
 
   border-radius: 2em;
+
+  cursor: pointer;
 }
 
 .product-thumb.thumb--active {
@@ -108,10 +125,11 @@
   width: 2em;
   height: 2em;
   background: url("../assets/icons/star.svg") center/cover no-repeat;
+  filter: invert(7%) sepia(0%) saturate(1896%) hue-rotate(174deg) brightness(99%) contrast(91%);
 }
 
 .rating-star.checked {
-  filter: invert(83%) sepia(30%) saturate(6739%) hue-rotate(360deg) brightness(102%) contrast(103%);
+  filter: invert(28%) sepia(73%) saturate(697%) hue-rotate(349deg) brightness(101%) contrast(91%);
 }
 
 .product-brand,

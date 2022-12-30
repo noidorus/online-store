@@ -24,6 +24,7 @@ class Catalog {
 
   drawCard(card: Types.Product, div: HTMLDivElement) {
     const productCard = document.createElement('div');
+    const productCardLink = document.createElement('a');
     const productImg = document.createElement('img');
     const cardTextWrapper = document.createElement('div');
     const cardPrice = document.createElement('h4');
@@ -37,7 +38,10 @@ class Catalog {
     const cardCartImg = document.createElement('img');
 
     // Add Classes
+    productCardLink.className = 'product-card-link';
     productCard.className = 'product-card';
+    productCardLink.href = `#product-details/${card.id}`;
+    productCard.id = String(card.id);
     productImg.className = 'card-image';
     cardTextWrapper.className = 'card-txt-wrapper';
     cardPrice.className = 'card-price';
@@ -46,7 +50,7 @@ class Catalog {
 
     cardBottom.className = 'card-bottom-wrapper';
     cardRating.className = 'card-rating';
-    ratingStar.className = 'rating-star';
+    ratingStar.className = 'card-rating-star';
     raitingText.className = 'card-rating-txt';
     cardCart.className = 'card-cart';
     cardCartImg.className = 'card-cart-img';
@@ -61,8 +65,9 @@ class Catalog {
     raitingText.textContent = card.rating.toString();
 
     // Add to html
-    productCard.append(productImg);
-    productCard.append(cardTextWrapper);
+    productCard.append(productCardLink);
+    productCardLink.append(productImg);
+    productCardLink.append(cardTextWrapper);
 
     cardTextWrapper.append(cardPrice);
     cardTextWrapper.append(cardTitle);

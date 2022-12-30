@@ -406,7 +406,13 @@
   border-radius: 1em;
   overflow: hidden;
 
+  cursor: pointer;
+}
+
+.product-card-link {
   display: grid;
+  grid-template-rows: auto 25em;
+  
 }
 
 .card-image {
@@ -422,7 +428,6 @@
 
 .card-txt-wrapper {
   display: grid;
-  row-gap: 1.51em;
 
   padding: 1em;
 }
@@ -467,7 +472,7 @@
   padding: 0.5em 0.9em;
 }
 
-.rating-star {
+.card-rating-star {
   width: 1.9em;
   height: 1.9em;
   background: url("../assets/icons/star.svg") center/cover no-repeat;

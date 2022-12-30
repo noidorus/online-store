@@ -12,10 +12,10 @@ class AppView {
   }
 
   showProductDetails(data: Types.Product) {
-    this.productDetails.show(data);
+    this.productDetails.drawProduct(data);
   }
 
-  createFilterCaregories(data: Types.TypesOfData, filtersDiv: HTMLDivElement) {
+  createFilterCaregories(data: Types.RootObject, filtersDiv: HTMLDivElement) {
     const categoriesDiv: HTMLDivElement | null = filtersDiv.querySelector('.category-filters');
     const newData = data.toString().split(',');
 
@@ -27,12 +27,11 @@ class AppView {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  createCatalog(data: Types.TypesOfData, catalogDiv: HTMLDivElement) {
+  createCatalog(data: Types.RootObject, catalogDiv: HTMLDivElement) {
     const newData = data as Types.RootObject;
     newData.products.forEach((card) => {
       this.catalog.drawCard(card, catalogDiv);
     });
-    console.log('newData: ', newData.products);
   }
 
   // createFilterBrands(data: Types.TypesOfData, filtersDiv: HTMLDivElement) {
