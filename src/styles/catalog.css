@@ -344,22 +344,22 @@
   transition: all 0.5s ease-in-out;
 }
 
-.display-icon:hover .display-icon-dot {
+.display-icon.list .display-icon-dot {
   height: 0.4em;
   width: 1.2em;
 }
 
-.display-icon:hover .dot-left {
+.display-icon.list .dot-left {
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
 }
 
-.display-icon:hover .dot-right {
+.display-icon.list .dot-right {
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
 }
 
-.display-icon:hover {
+.display-icon.list {
   column-gap: 0;
   padding: 1.3em 0.8em;
 }
@@ -399,14 +399,30 @@
   gap: 1em;
 }
 
-.product-card {
-  /* width: 30em; */
+.cards-wrapper.list {
+  grid-template-columns: 1fr;
+}
 
+.cards-wrapper.list .product-card-link {
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 3fr;
+}
+
+.cards-wrapper.list .card-description {
+  text-align: left;
+}
+
+.product-card {
   border: 3px solid #e7e9ed;
   border-radius: 1em;
   overflow: hidden;
 
+  cursor: pointer;
+}
+
+.product-card-link {
   display: grid;
+  grid-template-rows: auto 25em;
 }
 
 .card-image {
@@ -422,7 +438,6 @@
 
 .card-txt-wrapper {
   display: grid;
-  row-gap: 1.51em;
 
   padding: 1em;
 }
@@ -467,7 +482,7 @@
   padding: 0.5em 0.9em;
 }
 
-.rating-star {
+.card-rating-star {
   width: 1.9em;
   height: 1.9em;
   background: url("../assets/icons/star.svg") center/cover no-repeat;
