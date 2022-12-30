@@ -33,6 +33,7 @@ class Loader {
     }
   }
 
+  // shortened prev
   load(callback: Types.CallBackType, options: Types.IOptions) {
     fetch(this.makeUrl(options))
       .then((res) => res.json())

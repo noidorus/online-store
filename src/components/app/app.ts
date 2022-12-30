@@ -1,8 +1,6 @@
 import LoadRoutes from '../route/loadRoutes';
-import Router from '../route/router';
 import { Types } from '../types/Types';
 // import AppController from '../controller/controller';
-// import { Types } from '../types/Types';
 // import AppView from '../appView/appView';
 import Init from './init';
 

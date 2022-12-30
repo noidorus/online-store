@@ -2,12 +2,12 @@ import AppController from '../controller/controller';
 import AppView from '../appView/appView';
 import Router from '../route/router';
 import Route from '../route/route';
-import { Types } from '../types/Types';
-// import { Types } from '../types/Types';
 
 export default class Init {
   controller: AppController;
+
   view: AppView;
+
   cardRouter: Router = new Router([]);
 
   constructor() {
@@ -19,7 +19,6 @@ export default class Init {
     const catalogLink = document.querySelector('.nav-list__item');
     catalogLink?.addEventListener('click', () => {
       this.initCatalog();
-      // this.initCards();
       this.initFilters();
     });
   }
@@ -66,7 +65,6 @@ export default class Init {
     setTimeout(() => {
       const windowHash = window.location.hash.split('/');
       console.log(windowHash[0] === '#product-details');
-      
       if (windowHash[0] === '#product-details') {
         const productWrapperDiv: HTMLDivElement | null = document.querySelector('.product-wrapper');
         this.controller.getProductDetails((data?) => {
@@ -86,33 +84,6 @@ export default class Init {
     this.cardRouter.routes.push(new Route(`product-details/${elId}`, 'product-details.html'));
     this.cardRouter.init();
   }
-
-  // initCards() {
-    
-  //   setTimeout(() => {
-  //     const productCards = document.querySelectorAll('.product-card');
-  //     console.log('productCards: ', productCards);
-
-  //     productCards.forEach((card) => {
-  //       card.addEventListener('click', () => {
-  //         console.log(card.id);
-          
-  //         window.location.hash = 'product-details';
-
-  //         this.controller.getProductDetails(
-  //           (data?) => {
-  //             if (data !== undefined) {
-  //               console.log('data: ', data); // Function this.view.showProductDetails()
-  //             }
-  //           },
-  //           {
-  //             id: 10, // Полученный Id
-  //           }
-  //         );
-  //       });
-  //     });
-  //   }, 500);
-  // }
 
   initFilters() {
     setTimeout(() => {

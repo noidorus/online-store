@@ -26,7 +26,6 @@ class AppView {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   createCatalog(data: Types.RootObject, catalogDiv: HTMLDivElement) {
     const newData = data as Types.RootObject;
     newData.products.forEach((card) => {

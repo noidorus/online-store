@@ -42,7 +42,7 @@ class ProductDetails {
       salePersent.innerHTML = `${Math.round(data.discountPercentage)}% OFF`;
     }
 
-    // fill rating txtx and stars
+    // fill rating txt and stars
     if (ratingText) {
       ratingText.innerHTML = String(data.rating);
     }
