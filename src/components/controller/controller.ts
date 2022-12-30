@@ -6,7 +6,7 @@ export default class AppController extends AppLoader {
     super.getResp(callback, options);
   }
 
-  getProductDetails(callback: Types.CallBackType, options: Types.IOptions = {}) {
+  getProductDetails(callback: Types.TProductCallback, options: Types.IOptions = {}) {
     // Show Product Details
     super.getResp(callback, options);
   }

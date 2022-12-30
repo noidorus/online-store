@@ -12,7 +12,11 @@ class AppView {
   }
 
   showProductDetails(data: Types.Product) {
-    this.productDetails.show(data);
+    this.productDetails.drawProduct(data);
+  }
+
+  createToggle() {
+    this.catalog.addCardViewToggler();
   }
 
   createFilterPrice(data: Types.TypesOfData, filtersDiv: HTMLDivElement) {
@@ -55,14 +59,10 @@ class AppView {
     }
   }
 
-  // filterData(data, options) {
-
-  // }
-
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   createCatalog(data: Types.TypesOfData, catalogDiv: HTMLDivElement) {
-    const newData = (data as Types.RootObject).products;
-    // const filteredArr
-    newData.forEach((card) => {
+    const newData = data as Types.RootObject;
+    newData.products.forEach((card) => {
       this.catalog.drawCard(card, catalogDiv);
     });
   }

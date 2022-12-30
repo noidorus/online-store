@@ -23,7 +23,8 @@ export namespace Types {
 
   export type TypesOfData = string[] | RootObject | Product;
 
-  export type CallBackType = (data?: Types.TypesOfData) => void;
+  export type CallBackType = (data?: Types.RootObject) => void;
+  export type TProductCallback = (data?: Types.Product) => void;
 
   export interface IOptions {
     id?: number;
