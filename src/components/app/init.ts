@@ -17,9 +17,20 @@ export default class Init {
 
   initHeaderLinks() {
     const catalogLink = document.querySelector('.nav-list__item');
+    const cartLink = document.querySelector('.shopping-cart');
+
     catalogLink?.addEventListener('click', () => {
-      this.initCatalog();
-      this.initFilters();
+      window.onhashchange = () => {
+        this.initCatalog();
+        this.initFilters();
+      }
+    });
+
+    cartLink?.addEventListener('click', () => {
+      window.location.hash = '#cart';
+      window.onhashchange = () => {
+        this.initCart();
+      }
     });
   }
 
@@ -35,7 +46,7 @@ export default class Init {
       const catalogDiv: HTMLDivElement | null = document.querySelector('.cards-wrapper');
       this.controller.getProducts((data?) => {
         if (data !== undefined && catalogDiv) {
-          this.view.createCatalog(data, catalogDiv); // Function this.view.showProductDetails()
+          this.view.createCatalog(data, catalogDiv);
           this.view.createToggle();
           this.selectCards();
         } else if (data !== undefined) {
@@ -50,22 +61,30 @@ export default class Init {
   selectCards() {
     const productCards = document.querySelectorAll('.product-card');
     productCards.forEach((el) => {
-      this.makeRoute(Number(el.id));
+      this.makeRoute(Number(el.id.split('-')[1]));
       this.initCardLinks(el);
     });
   }
 
   initCardLinks(el: Element) {
-    el.addEventListener('click', () => {
-      console.log(el.id);
-      this.initProductDetails();
+    el.addEventListener('click', (e) => {
+      if (e.target) {
+        const eventTarget = <HTMLDivElement>e.target;
+        if (
+          !eventTarget.classList.contains('card-cart-img') &&
+          !eventTarget.classList.contains('card-cart') &&
+          !eventTarget.classList.contains('card-bottom-wrapper')
+        ) {
+          window.location.hash = `#product-details/${el.id.split('-')[1]}`;
+          this.initProductDetails();
+        }
+      }
     });
   }
 
   initProductDetails() {
     setTimeout(() => {
       const windowHash = window.location.hash.split('/');
-      console.log(windowHash[0] === '#product-details');
       if (windowHash[0] === '#product-details') {
         const productWrapperDiv: HTMLDivElement | null = document.querySelector('.product-wrapper');
         this.controller.getProductDetails((data?) => {
@@ -94,6 +113,12 @@ export default class Init {
           this.view.createFilterCaregories(data, filtersDiv);
         }
       });
+    }, 50);
+  }
+
+  initCart() {
+    setTimeout(() => {
+      this.view.createCart();
     }, 50);
   }
 }

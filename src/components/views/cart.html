@@ -1,8 +1,4 @@
 <div class="cart">
-  <div class="cart-substitute" style="display: none;">
-    <p class="cart-substitute__big-text">Your cart is empty</p>
-    <button class="cart-substitute__button button">Start shopping now!</button>
-  </div>
   <div class="cart-header">
     <div class="cart-header-wrapper">
       <h2 class="cart-header-main">My Cart</h2>
@@ -11,6 +7,10 @@
         <p class="back-btn-txt">Continue shopping</p>
       </div>
     </div>
+  </div>
+  <div class="cart-substitute" style="display: none;">
+    <p class="cart-substitute__big-text">Your cart is empty</p>
+    <button class="cart-substitute__button button">Start shopping now!</button>
   </div>
   <div class="cart-wrapper">
     <div class="item-header-wrapper">
@@ -21,45 +21,6 @@
       <p class="item-header__total">TOTAL</p>
     </div>
     <div class="cart-items-wrapper">
-      <div class="cart__item">
-        <p class="cart__item-num">1</p>
-        <img src="./assets/imgs/test-img.webp" alt="" class="cart__item-img">
-        <p class="cart__item-name">Lenovo Legion 5 Pro</p>
-        <div class="cart__item-details">
-          <span class="details__item">AMD Ryzen 7-5800H</span> //
-          <span class="details__item">16GB RAM</span> //
-          <span class="details__item">1TB SSD</span> //
-          <span class="details__item">RTX 3070 8GB</span>
-        </div>
-        <p class="cart__item-price">$1,418</p>
-        <div class="cart__item-qty">
-          <button class="button btn-minus">−</button>
-          <input type="text" class="amount">
-          <button class="button btn-plus">+</button>
-        </div>
-        <p class="cart__item-total">$1,418</p>
-        <p class="cart__item-del">&#9587;</p>
-      </div>
-      <hr class="split-line">
-      <div class="cart__item">
-        <p class="cart__item-num">2</p>
-        <img src="./assets/imgs/test-img.webp" alt="" class="cart__item-img">
-        <p class="cart__item-name">Lenovo Legion 5 Pro</p>
-        <div class="cart__item-details">
-          <span class="details__item">AMD Ryzen 7-5800H</span> //
-          <span class="details__item">16GB RAM</span> //
-          <span class="details__item">1TB SSD</span> //
-          <span class="details__item">RTX 3070 8GB</span>
-        </div>
-        <p class="cart__item-price">$1,418</p>
-        <div class="cart__item-qty">
-          <button class="button btn-minus">−</button>
-          <input type="text" class="amount">
-          <button class="button btn-plus">+</button>
-        </div>
-        <p class="cart__item-total">$1,418</p>
-        <p class="cart__item-del">&#9587;</p>
-      </div>
     </div>
     <div class="cart-pages">
       <img src="./assets/icons/btn-prev.svg" alt="" class="page-prev btn-page">
@@ -91,6 +52,10 @@
             <p class="title title-promo-amount">10%</p>
           </div>
           <p class="amount amount-promo">-$10</p>
+        </div>
+        <div class="discount-wrapper">
+          <p class="title title-discount">DISCOUNT</p>
+          <p class="amount amount-discount">$1,418</p>
         </div>
         <hr class="split-line">
         <div class="total-wrapper">

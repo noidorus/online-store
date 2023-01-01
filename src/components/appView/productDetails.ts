@@ -1,7 +1,14 @@
 import { Types } from '../types/Types';
 import { capitalizeExpr, createRating } from '../helpers/helpers';
+import Cart from './cart';
 
 class ProductDetails {
+  cart: Cart;
+
+  constructor(cart: Cart) {
+    this.cart = cart;
+  }
+
   drawProduct(data: Types.Product) {
     this.drawCrumbs(data);
     this.drawProductDescr(data);
@@ -47,6 +54,7 @@ class ProductDetails {
       ratingText.innerHTML = String(data.rating);
     }
     createRating(ratingStars, data.rating);
+    this.initButtons(data);
   }
 
   drawProductImgs(data: Types.Product) {
@@ -97,12 +105,12 @@ class ProductDetails {
 
   createMagnifyerDiv() {
     const modal = document.createElement('div');
-    modal.classList.add('modal');
+    modal.classList.add('modal-prodDetails');
     document.body.append(modal);
   }
 
   magnifyImage(e: MouseEvent) {
-    const modal = <HTMLDivElement>document.querySelector('.modal');
+    const modal = <HTMLDivElement>document.querySelector('.modal-prodDetails');
     if (modal) {
       const currImg = <HTMLDivElement>document.querySelector('.product-img');
       modal.style.backgroundImage = currImg.style.backgroundImage;
@@ -112,7 +120,42 @@ class ProductDetails {
   }
 
   removeMagnify(e: MouseEvent) {
-    document.querySelector('.modal')?.remove();
+    document.querySelector('.modal-prodDetails')?.remove();
+  }
+
+  initButtons(data: Types.Product) {
+    const btnAdd = document.querySelector('.button-add');
+    const btnBuyNow = document.querySelector('.button-buy-now');
+    const btnGoToCart = document.querySelector('.to-cart');
+    const btnGoToCatalog = document.querySelector('.to-catalog');
+    if (btnAdd) {
+      for (let i = 0; i < this.cart.cartItems.length; i++) {
+        if (this.cart.cartItems[i].product.id == data.id) {
+          btnAdd.classList.add('added');
+          btnAdd.innerHTML = 'Added';
+        }
+      }
+    }
+    btnAdd?.addEventListener('click', () => {
+      if (btnAdd.classList.contains('added')) {
+        btnAdd.classList.remove('added');
+        btnAdd.innerHTML = 'Add to cart';
+        this.cart.deleteProduct(data);
+      } else {
+        btnAdd.classList.add('added');
+        btnAdd.innerHTML = 'Added';
+        console.log('added to cart');
+        this.cart.addToCart(data);
+        console.log(this.cart.cartItems);
+      }
+    });
+    btnBuyNow?.addEventListener('click', () => {});
+    btnGoToCart?.addEventListener('click', () => {
+      window.location.href = '#cart';
+    });
+    btnGoToCatalog?.addEventListener('click', () => {
+      window.location.href = '#catalog';
+    });
   }
 }
 export default ProductDetails;

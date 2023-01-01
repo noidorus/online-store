@@ -21,6 +21,13 @@ export namespace Types {
     limit: number;
   }
 
+  export interface ICartSlot {
+    product: Types.Product;
+    qty: number;
+  }
+
+  export type TCart = ICartSlot[];
+
   // export type TypesOfData = string[] | RootObject | Product;
 
   export type CallBackType = (data?: Types.RootObject) => void;
