@@ -143,18 +143,18 @@
   position: relative;
   margin: 0.5em;
   padding-left: 1.5em;
-  -webkit-user-select: none;
+  /* -webkit-user-select: none;
   -moz-user-select: none;
-  -ms-user-select: none;
+  -ms-user-select: none; */
   user-select: none;
   scroll-snap-align: start;
   cursor: pointer;
 }
 .filter-content .checkbox__item-input {
   position: absolute;
-  opacity: 0;
+  /* opacity: 0;
   height: 0;
-  width: 0;
+  width: 0; */
   cursor: pointer;
 }
 
@@ -195,20 +195,20 @@
   display: block;
 }
 
-.category-filters {
+.filters-scroll {
   height: 15em;
   overflow-y: scroll;
   scroll-snap-type: both proximity;
   scroll-margin-block: 1em;
 }
 
-.category-filters::-webkit-scrollbar {
+.filters-scroll::-webkit-scrollbar {
   width: 1em;
   background-color: #eeeff0;
   border-radius: 0.5em;
 }
 
-.category-filters::-webkit-scrollbar-thumb {
+.filters-scroll::-webkit-scrollbar-thumb {
   background-color: #8e2de2;
   border-radius: 0.5em;
 }
@@ -419,7 +419,7 @@
 
   cursor: pointer;
   display: grid;
-  grid-template-rows: auto 25em;
+  /* grid-template-rows: auto 25em; */
 }
 
 .card-image {

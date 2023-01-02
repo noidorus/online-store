@@ -1,21 +1,19 @@
 import { Types } from '../types/Types';
 
 class Catalog {
-  show(data: Types.RootObject) {
-    console.log(data);
-  }
-
-  drawCategory(category: string, div: HTMLDivElement) {
+  drawCategory(category: string, div: HTMLDivElement, name: string): void {
     const label = document.createElement('label');
     const input = document.createElement('input');
     const span = document.createElement('span');
 
-    label.className = 'checkbox__item category__item';
-    input.className = 'checkbox__item-input category__item-input';
+    label.className = `checkbox__item ${name}__item`;
+    input.className = `checkbox__item-input ${name}__item-input`;
     span.className = 'checkmark';
 
     label.textContent = category;
     input.setAttribute('type', 'checkbox');
+    input.setAttribute('name', name);
+    input.value = category;
 
     label.append(input);
     label.append(span);
@@ -65,9 +63,10 @@ class Catalog {
     raitingText.textContent = card.rating.toString();
 
     // Add to html
-    // productCard.append(productCardLink);
-    productCard.append(productImg);
-    productCard.append(cardTextWrapper);
+    div.append(productCard);
+    productCard.append(productCardLink);
+    productCardLink.append(productImg);
+    productCardLink.append(cardTextWrapper);
 
     cardTextWrapper.append(cardPrice);
     cardTextWrapper.append(cardTitle);
@@ -81,9 +80,16 @@ class Catalog {
     cardRating.append(raitingText);
 
     cardCart.append(cardCartImg);
+  }
 
-    // console.log('cardTitle: ', cardTitle);
-    div.append(productCard);
+  drawPrice(price: { min: number; max: number }, filtersDiv: HTMLDivElement) {
+    const inputTextMin: HTMLInputElement | null = filtersDiv.querySelector('.price-min');
+    const inputTextMax: HTMLInputElement | null = filtersDiv.querySelector('.price-max');
+
+    if (inputTextMin && inputTextMax) {
+      inputTextMin.value = price.min.toString();
+      inputTextMax.value = price.max.toString();
+    }
   }
 
   addCardViewToggler() {
@@ -97,7 +103,7 @@ class Catalog {
         } else {
           toggleBtn.classList.add('list');
           catalogContainer.classList.add('list');
-        } 
+        }
       });
     }
   }

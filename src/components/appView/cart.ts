@@ -294,7 +294,7 @@ class Cart {
     const inputPhone = <HTMLInputElement>document.querySelector('.input-phone');
     const inputAddress = <HTMLInputElement>document.querySelector('.input-address');
     const inputEmail = <HTMLInputElement>document.querySelector('.input-email');
-    const inputCardName = <HTMLInputElement>document.querySelector('.input-name');
+    // const inputCardName = <HTMLInputElement>document.querySelector('.input-name');
     const inputCardNum = <HTMLInputElement>document.querySelector('.input-card-num');
     const inputCVV = <HTMLInputElement>document.querySelector('.input-cvv');
     const inputExpiry = <HTMLInputElement>document.querySelector('.input-expiry');
@@ -332,11 +332,10 @@ class Cart {
     }
 
     if (inputCVV) {
-      
       if (!inputCVV.value.match(/^\d{3}$/g)) {
         console.log('inputCVV');
         formValid = false;
-      } 
+      }
     }
 
     if (inputExpiry) {
@@ -377,9 +376,9 @@ class Cart {
     });
   }
 
-  showConfirmationMessage() {
+  // showConfirmationMessage() {
 
-  }
+  // }
 }
 
 export default Cart;

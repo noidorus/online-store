@@ -14,6 +14,15 @@ export namespace Types {
     images: string[];
   }
 
+  export interface IFilters {
+    price?: {
+      min: number;
+      max: number;
+    };
+    categories: string[];
+    brands: string[];
+  }
+
   export interface RootObject {
     products: Product[];
     total: number;
@@ -28,7 +37,7 @@ export namespace Types {
 
   export type TCart = ICartSlot[];
 
-  // export type TypesOfData = string[] | RootObject | Product;
+  export type TypesOfData = string[] | RootObject | Product;
 
   export type CallBackType = (data?: Types.RootObject) => void;
   export type TProductCallback = (data?: Types.Product) => void;

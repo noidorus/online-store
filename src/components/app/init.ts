@@ -2,51 +2,41 @@ import AppController from '../controller/controller';
 import AppView from '../appView/appView';
 import Router from '../route/router';
 import Route from '../route/route';
+import { Types } from '../types/Types';
 
 export default class Init {
   controller: AppController;
-
   view: AppView;
-
   cardRouter: Router = new Router([]);
+  filtersObj: Types.IFilters;
 
   constructor() {
     this.controller = new AppController();
     this.view = new AppView();
+    this.filtersObj = {
+      categories: [],
+      brands: [],
+    };
   }
 
   initHeaderLinks() {
     const catalogLink = document.querySelector('.nav-list__item');
-    const cartLink = document.querySelector('.shopping-cart');
 
     catalogLink?.addEventListener('click', () => {
       window.onhashchange = () => {
         this.initCatalog();
         this.initFilters();
-      }
-    });
-
-    cartLink?.addEventListener('click', () => {
-      window.location.hash = '#cart';
-      window.onhashchange = () => {
-        this.initCart();
-      }
+      };
     });
   }
 
   initCatalog() {
-    // const catalogDiv: HTMLDivElement | null = document.querySelector('.cards-wrapper');
-
-    // this.controller.getProducts((data) => {
-    //   if (data !== undefined && catalogDiv) {
-    //     this.view.createCatalog(data, catalogDiv);
-    //   }
-    // });
     setTimeout(() => {
       const catalogDiv: HTMLDivElement | null = document.querySelector('.cards-wrapper');
       this.controller.getProducts((data?) => {
         if (data !== undefined && catalogDiv) {
-          this.view.createCatalog(data, catalogDiv);
+          catalogDiv.innerHTML = '';
+          this.view.createCatalog(data, catalogDiv, this.filtersObj);
           this.view.createToggle();
           this.selectCards();
         } else if (data !== undefined) {
@@ -87,7 +77,8 @@ export default class Init {
       const windowHash = window.location.hash.split('/');
       if (windowHash[0] === '#product-details') {
         const productWrapperDiv: HTMLDivElement | null = document.querySelector('.product-wrapper');
-        this.controller.getProductDetails((data?) => {
+        this.controller.getProductDetails(
+          (data?) => {
             if (data !== undefined && productWrapperDiv) {
               this.view.showProductDetails(data);
             }
@@ -108,12 +99,60 @@ export default class Init {
   initFilters() {
     setTimeout(() => {
       const filtersDiv: HTMLDivElement | null = document.querySelector('.filters-wrapper');
+
       this.controller.getCategories((data?) => {
         if (data !== undefined && filtersDiv) {
           this.view.createFilterCaregories(data, filtersDiv);
         }
       });
+
+      this.controller.getProducts((data?) => {
+        if (data !== undefined && filtersDiv) {
+          this.view.createFilterBrands(data, filtersDiv);
+          this.view.createFilterPrice(data, filtersDiv, this.filtersObj);
+        }
+      });
     }, 50);
+
+    setTimeout(() => {
+      this.filtersListener();
+    }, 1000);
+  }
+
+  changeCheckboxes(input: NodeListOf<HTMLElement>, index: number, arr: string[]) {
+    const checkbox = input[index] as HTMLInputElement;
+    const checkboxArr = arr;
+
+    if (checkbox.checked) {
+      checkboxArr.push(checkbox.value);
+    } else {
+      const idx = checkboxArr.indexOf(checkbox.value);
+      checkboxArr.splice(idx, 1);
+    }
+  }
+
+  filtersListener() {
+    const categoriesInput = document.getElementsByName('categories');
+    const categoriesLabels = document.querySelectorAll('.categories__item');
+
+    const brandInputs = document.getElementsByName('brands');
+    const brandLabels = document.querySelectorAll('.brands__item');
+
+    categoriesLabels.forEach((label, indx) => {
+      label.addEventListener('input', () => {
+        this.changeCheckboxes(categoriesInput, indx, this.filtersObj.categories);
+        this.initCatalog();
+        console.log('this.filtersObj: ', this.filtersObj);
+      });
+    });
+
+    brandLabels.forEach((label, indx) => {
+      label.addEventListener('input', () => {
+        this.changeCheckboxes(brandInputs, indx, this.filtersObj.brands);
+        this.initCatalog();
+        console.log('this.filtersObj: ', this.filtersObj);
+      });
+    });
   }
 
   initCart() {

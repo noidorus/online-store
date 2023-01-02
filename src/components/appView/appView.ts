@@ -24,19 +24,71 @@ class AppView {
     this.catalog.addCardViewToggler();
   }
 
-  createFilterCaregories(data: Types.RootObject, filtersDiv: HTMLDivElement) {
+  createFilterPrice(data: Types.TypesOfData, filtersDiv: HTMLDivElement, filtersObj: Types.IFilters) {
+    const newData = data as Types.RootObject;
+    const pricesArr = newData.products.map((product) => {
+      return product.price;
+    });
+
+    const price = {
+      min: Math.min(...pricesArr),
+      max: Math.max(...pricesArr),
+    };
+    filtersObj.price = price;
+
+    this.catalog.drawPrice(price, filtersDiv);
+  }
+
+  createFilterCaregories(data: Types.TypesOfData, filtersDiv: HTMLDivElement) {
     const categoriesDiv: HTMLDivElement | null = filtersDiv.querySelector('.category-filters');
-    const newData = data.toString().split(',');
+    const newData = data as string[];
     if (categoriesDiv) {
       newData.forEach((category) => {
-        this.catalog.drawCategory(category, categoriesDiv);
+        this.catalog.drawCategory(category, categoriesDiv, 'categories');
       });
     }
   }
 
-  createCatalog(data: Types.RootObject, catalogDiv: HTMLDivElement) {
-    const newData = data as Types.RootObject;
-    newData.products.forEach((card) => {
+  createFilterBrands(data: Types.TypesOfData, filtersDiv: HTMLDivElement) {
+    const brandsDiv: HTMLDivElement | null = filtersDiv.querySelector('.brands-filters');
+    const newData = (data as Types.RootObject).products;
+    const brands = newData.map((product) => {
+      return product.brand;
+    });
+    const uniqueBrands = [...new Set(brands)];
+
+    if (brandsDiv) {
+      uniqueBrands.forEach((brand) => {
+        this.catalog.drawCategory(brand, brandsDiv, 'brands');
+      });
+    }
+  }
+
+  filterProducts(data: Types.Product[], filtersObj: Types.IFilters): Types.Product[] {
+    const filterCategory = data.filter((product) => {
+      if (filtersObj.categories.length > 0) {
+        return filtersObj.categories.includes(product.category);
+      } else {
+        return true;
+      }
+    });
+
+    const filterBrand = filterCategory.filter((product) => {
+      if (filtersObj.brands.length > 0) {
+        return filtersObj.brands.includes(product.brand);
+      } else {
+        return true;
+      }
+    });
+
+    return filterBrand;
+  }
+
+  createCatalog(data: Types.TypesOfData, catalogDiv: HTMLDivElement, filtersObj: Types.IFilters) {
+    const products = (data as Types.RootObject).products;
+    const filteredArr = this.filterProducts(products, filtersObj);
+    console.log('filteredArr: ', filteredArr);
+    filteredArr.forEach((card) => {
       this.catalog.drawCard(card, catalogDiv);
     });
 
@@ -44,7 +96,7 @@ class AppView {
     const productCardsDivsCart = document.querySelectorAll('.card-cart');
     if (productCardsDivsCart && productCards) {
       for (let i = 0; i < productCardsDivsCart.length; i++) {
-        this.cart.initCartAdd(productCardsDivsCart[i], data.products[i]);
+        this.cart.initCartAdd(productCardsDivsCart[i], products[i]);
       }
     }
   }
@@ -55,11 +107,6 @@ class AppView {
       this.cart.fillCart();
     }
   }
-
-  // createFilterBrands(data: Types.TypesOfData, filtersDiv: HTMLDivElement) {
-  //   const brandsDiv: HTMLDivElement | null = filtersDiv.querySelector('.category-filters');
-  //   console.log('brandsDiv: ', brandsDiv);
-  // }
 }
 
 export default AppView;
