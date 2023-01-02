@@ -1,13 +1,18 @@
 import ProductDetails from './productDetails';
+import Cart from './cart';
 import Catalog from './catalog';
 import { Types } from '../types/Types';
 
 class AppView {
   productDetails: ProductDetails;
+
   catalog: Catalog;
 
+  cart: Cart;
+
   constructor() {
-    this.productDetails = new ProductDetails();
+    this.cart = new Cart();
+    this.productDetails = new ProductDetails(this.cart);
     this.catalog = new Catalog();
   }
 
@@ -37,7 +42,6 @@ class AppView {
   createFilterCaregories(data: Types.TypesOfData, filtersDiv: HTMLDivElement) {
     const categoriesDiv: HTMLDivElement | null = filtersDiv.querySelector('.category-filters');
     const newData = data as string[];
-
     if (categoriesDiv) {
       newData.forEach((category) => {
         this.catalog.drawCategory(category, categoriesDiv, 'categories');
@@ -71,18 +75,31 @@ class AppView {
         }
       }
     });
-
-    console.log('filteredData: ', filterCategory);
     return filterCategory;
   }
 
   createCatalog(data: Types.TypesOfData, catalogDiv: HTMLDivElement, filtersObj: Types.IFilters) {
-    const newData = (data as Types.RootObject).products;
-    const filteredArr = this.filterProducts(newData, filtersObj);
-
+    const products = (data as Types.RootObject).products;
+    const filteredArr = this.filterProducts(products, filtersObj);
+    console.log('filteredArr: ', filteredArr);
     filteredArr.forEach((card) => {
       this.catalog.drawCard(card, catalogDiv);
     });
+
+    const productCards = document.querySelectorAll('.product-card');
+    const productCardsDivsCart = document.querySelectorAll('.card-cart');
+    if (productCardsDivsCart && productCards) {
+      for (let i = 0; i < productCardsDivsCart.length; i++) {
+        this.cart.initCartAdd(productCardsDivsCart[i], products[i]);
+      }
+    }
+  }
+
+  createCart() {
+    const cartDiv = document.querySelector('.cart');
+    if (cartDiv) {
+      this.cart.fillCart();
+    }
   }
 }
 

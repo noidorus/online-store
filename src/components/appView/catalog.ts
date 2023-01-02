@@ -36,10 +36,10 @@ class Catalog {
     const cardCartImg = document.createElement('img');
 
     // Add Classes
-    productCardLink.className = 'product-card-link';
+    // productCardLink.className = 'product-card-link';
     productCard.className = 'product-card';
-    productCardLink.href = `#product-details/${card.id}`;
-    productCard.id = String(card.id);
+    // productCardLink.href = `#product-details/${card.id}`;
+    productCard.id = `product-${card.id}`;
     productImg.className = 'card-image';
     cardTextWrapper.className = 'card-txt-wrapper';
     cardPrice.className = 'card-price';
@@ -66,7 +66,7 @@ class Catalog {
     div.append(productCard);
     productCard.append(productCardLink);
     productCardLink.append(productImg);
-    productCard.append(cardTextWrapper);
+    productCardLink.append(cardTextWrapper);
 
     cardTextWrapper.append(cardPrice);
     cardTextWrapper.append(cardTitle);

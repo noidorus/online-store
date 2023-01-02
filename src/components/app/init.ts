@@ -26,9 +26,13 @@ export default class Init {
 
   initHeaderLinks() {
     const catalogLink = document.querySelector('.nav-list__item');
+    const cartLink = document.querySelector('.shopping-cart');
+
     catalogLink?.addEventListener('click', () => {
-      this.initFilters();
-      this.initCatalog();
+      window.onhashchange = () => {
+        this.initCatalog();
+        this.initFilters();
+      };
     });
   }
 
@@ -38,7 +42,7 @@ export default class Init {
       this.controller.getProducts((data?) => {
         if (data !== undefined && catalogDiv) {
           catalogDiv.innerHTML = '';
-          this.view.createCatalog(data, catalogDiv, this.filtersObj); // Function this.view.showProductDetails()
+          this.view.createCatalog(data, catalogDiv, this.filtersObj);
           this.view.createToggle();
           this.selectCards();
         } else if (data !== undefined) {
@@ -53,21 +57,30 @@ export default class Init {
   selectCards() {
     const productCards = document.querySelectorAll('.product-card');
     productCards.forEach((el) => {
-      this.makeRoute(Number(el.id));
+      this.makeRoute(Number(el.id.split('-')[1]));
       this.initCardLinks(el);
     });
   }
 
   initCardLinks(el: Element) {
-    el.addEventListener('click', () => {
-      this.initProductDetails();
+    el.addEventListener('click', (e) => {
+      if (e.target) {
+        const eventTarget = <HTMLDivElement>e.target;
+        if (
+          !eventTarget.classList.contains('card-cart-img') &&
+          !eventTarget.classList.contains('card-cart') &&
+          !eventTarget.classList.contains('card-bottom-wrapper')
+        ) {
+          window.location.hash = `#product-details/${el.id.split('-')[1]}`;
+          this.initProductDetails();
+        }
+      }
     });
   }
 
   initProductDetails() {
     setTimeout(() => {
       const windowHash = window.location.hash.split('/');
-      console.log(windowHash[0] === '#product-details');
       if (windowHash[0] === '#product-details') {
         const productWrapperDiv: HTMLDivElement | null = document.querySelector('.product-wrapper');
         this.controller.getProductDetails(
@@ -114,28 +127,49 @@ export default class Init {
     }, 500);
   }
 
+  changeCheckboxes(input: NodeListOf<HTMLElement>, index: number, arr: string[]) {
+    const checkbox = input[index] as HTMLInputElement;
+    const checkboxArr = arr;
+
+    if (checkbox.checked) {
+      checkboxArr.push(checkbox.value);
+    } else {
+      const idx = checkboxArr.indexOf(checkbox.value);
+      checkboxArr.splice(idx, 1);
+    }
+
+    this.initCatalog();
+  }
+
   filtersListener() {
     const categoriesInput = document.getElementsByName('categories');
-    const labels = document.querySelectorAll('.categories__item');
+    const categoriesLabels = document.querySelectorAll('.categories__item');
 
-    console.log('labels: ', labels);
+    console.log('labels: ', categoriesLabels);
     console.log('categories: ', categoriesInput);
 
-    labels.forEach((label, indx) => {
+    categoriesLabels.forEach((label, indx) => {
       label.addEventListener('input', () => {
-        const checkbox = categoriesInput[indx] as HTMLInputElement;
-        const categoriesArr = this.filtersObj.categories;
+        this.changeCheckboxes(categoriesInput, indx, this.filtersObj.categories);
+        // const checkbox = categoriesInput[indx] as HTMLInputElement;
+        // const categoriesArr = this.filtersObj.categories;
 
-        if (checkbox.checked) {
-          categoriesArr.push(checkbox.value);
-        } else {
-          const idx = categoriesArr.indexOf(checkbox.value);
-          categoriesArr.splice(idx, 1);
-        }
+        // if (checkbox.checked) {
+        //   categoriesArr.push(checkbox.value);
+        // } else {
+        //   const idx = categoriesArr.indexOf(checkbox.value);
+        //   categoriesArr.splice(idx, 1);
+        // }
 
-        this.initCatalog();
-        console.log(this.filtersObj, (categoriesInput[indx] as HTMLInputElement).checked);
+        // this.initCatalog();
+        // console.log(this.filtersObj, (categoriesInput[indx] as HTMLInputElement).checked);
       });
     });
+  }
+
+  initCart() {
+    setTimeout(() => {
+      this.view.createCart();
+    }, 50);
   }
 }

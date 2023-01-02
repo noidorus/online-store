@@ -176,6 +176,12 @@
   background-color: #8e2de2;
 }
 
+.button-add.added {
+  background-color: #eeeff0;
+  border: 2px solid #8e2de2;
+  color: #8e2de2;
+}
+
 .button-buy-now {
   background-color: #000000;
 }
@@ -222,9 +228,9 @@
 .to-catalog::before {
   content: '';
   position: absolute;
-  left: -25em;
+  left: -33em;
   height: 5em;
-  width: 25em;
+  width: 33em;
   background: #dab0ffa6;
   z-index: -1;
   transition: left 0.2s ease-out;
@@ -252,10 +258,12 @@
   filter: invert(28%) sepia(84%) saturate(6114%) hue-rotate(267deg) brightness(91%) contrast(93%);
 }
 
-.modal {
+.modal-prodDetails {
   position: fixed;
   background-repeat: no-repeat;
   background-size: 300%;
+  border-radius: 1em;
+  box-shadow: 0 0 50px 2px black;
   top: 19%;
   left: 41%;
   width: 50em;

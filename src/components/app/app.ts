@@ -18,6 +18,7 @@ class App {
     this.init.initFilters();
     this.init.initCatalog();
     this.init.initProductDetails();
+    this.init.initCart();
   }
 }
 
