@@ -15,18 +15,12 @@ export default class Init {
     this.view = new AppView();
     this.filtersObj = {
       categories: [],
+      brands: [],
     };
   }
 
-  // init() {
-  //   this.initHeaderLinks();
-  //   this.initFilters();
-  //   this.initCatalog();
-  // }
-
   initHeaderLinks() {
     const catalogLink = document.querySelector('.nav-list__item');
-    const cartLink = document.querySelector('.shopping-cart');
 
     catalogLink?.addEventListener('click', () => {
       window.onhashchange = () => {
@@ -114,17 +108,15 @@ export default class Init {
 
       this.controller.getProducts((data?) => {
         if (data !== undefined && filtersDiv) {
-          this.view.createFilterBrands(data, filtersDiv, this.filtersObj);
+          this.view.createFilterBrands(data, filtersDiv);
           this.view.createFilterPrice(data, filtersDiv, this.filtersObj);
         }
       });
-
-      console.log('this.filtersObj: ', this.filtersObj);
     }, 50);
 
     setTimeout(() => {
       this.filtersListener();
-    }, 500);
+    }, 1000);
   }
 
   changeCheckboxes(input: NodeListOf<HTMLElement>, index: number, arr: string[]) {
@@ -137,32 +129,28 @@ export default class Init {
       const idx = checkboxArr.indexOf(checkbox.value);
       checkboxArr.splice(idx, 1);
     }
-
-    this.initCatalog();
   }
 
   filtersListener() {
     const categoriesInput = document.getElementsByName('categories');
     const categoriesLabels = document.querySelectorAll('.categories__item');
 
-    console.log('labels: ', categoriesLabels);
-    console.log('categories: ', categoriesInput);
+    const brandInputs = document.getElementsByName('brands');
+    const brandLabels = document.querySelectorAll('.brands__item');
 
     categoriesLabels.forEach((label, indx) => {
       label.addEventListener('input', () => {
         this.changeCheckboxes(categoriesInput, indx, this.filtersObj.categories);
-        // const checkbox = categoriesInput[indx] as HTMLInputElement;
-        // const categoriesArr = this.filtersObj.categories;
+        this.initCatalog();
+        console.log('this.filtersObj: ', this.filtersObj);
+      });
+    });
 
-        // if (checkbox.checked) {
-        //   categoriesArr.push(checkbox.value);
-        // } else {
-        //   const idx = categoriesArr.indexOf(checkbox.value);
-        //   categoriesArr.splice(idx, 1);
-        // }
-
-        // this.initCatalog();
-        // console.log(this.filtersObj, (categoriesInput[indx] as HTMLInputElement).checked);
+    brandLabels.forEach((label, indx) => {
+      label.addEventListener('input', () => {
+        this.changeCheckboxes(brandInputs, indx, this.filtersObj.brands);
+        this.initCatalog();
+        console.log('this.filtersObj: ', this.filtersObj);
       });
     });
   }

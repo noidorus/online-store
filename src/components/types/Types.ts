@@ -20,7 +20,7 @@ export namespace Types {
       max: number;
     };
     categories: string[];
-    brands?: string[] | [];
+    brands: string[];
   }
 
   export interface RootObject {

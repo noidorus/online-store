@@ -49,7 +49,7 @@ class AppView {
     }
   }
 
-  createFilterBrands(data: Types.TypesOfData, filtersDiv: HTMLDivElement, filtersObj: Types.IFilters) {
+  createFilterBrands(data: Types.TypesOfData, filtersDiv: HTMLDivElement) {
     const brandsDiv: HTMLDivElement | null = filtersDiv.querySelector('.brands-filters');
     const newData = (data as Types.RootObject).products;
     const brands = newData.map((product) => {
@@ -57,7 +57,6 @@ class AppView {
     });
     const uniqueBrands = [...new Set(brands)];
 
-    filtersObj.brands = uniqueBrands;
     if (brandsDiv) {
       uniqueBrands.forEach((brand) => {
         this.catalog.drawCategory(brand, brandsDiv, 'brands');
@@ -67,15 +66,22 @@ class AppView {
 
   filterProducts(data: Types.Product[], filtersObj: Types.IFilters): Types.Product[] {
     const filterCategory = data.filter((product) => {
-      if (filtersObj.categories) {
-        if (filtersObj.categories.length > 0) {
-          return filtersObj.categories.some((category) => category === product.category);
-        } else {
-          return true;
-        }
+      if (filtersObj.categories.length > 0) {
+        return filtersObj.categories.includes(product.category);
+      } else {
+        return true;
       }
     });
-    return filterCategory;
+
+    const filterBrand = filterCategory.filter((product) => {
+      if (filtersObj.brands.length > 0) {
+        return filtersObj.brands.includes(product.brand);
+      } else {
+        return true;
+      }
+    });
+
+    return filterBrand;
   }
 
   createCatalog(data: Types.TypesOfData, catalogDiv: HTMLDivElement, filtersObj: Types.IFilters) {
