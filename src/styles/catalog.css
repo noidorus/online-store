@@ -403,7 +403,7 @@
   grid-template-columns: 1fr;
 }
 
-.cards-wrapper.list .product-card-link {
+.cards-wrapper.list .product-card {
   grid-template-rows: 1fr;
   grid-template-columns: 1fr 3fr;
 }
@@ -418,9 +418,6 @@
   overflow: hidden;
 
   cursor: pointer;
-}
-
-.product-card-link {
   display: grid;
   grid-template-rows: auto 25em;
 }
@@ -500,8 +497,18 @@
   padding: 1em;
 }
 
+.card-cart.added {
+  background-color: #eeeff0;
+  border: 2px solid #8e2de2;
+}
+
 .card-cart-img {
   width: 2em;
+}
+
+.card-cart.added .card-cart-img {
+  filter: invert(71%) sepia(74%) saturate(2911%) hue-rotate(262deg) brightness(87%) contrast(104%);
+
 }
 
 @media (max-width: 1919px) {

@@ -24,7 +24,7 @@ class App {
     this.init.initFilters();
     this.init.initCatalog();
     this.init.initProductDetails();
-    // this.init.initCards();
+    this.init.initCart();
   }
 }
 
