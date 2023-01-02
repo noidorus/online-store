@@ -29,7 +29,8 @@ class Loader {
           return `${this.baseLink}/${options.id}`;
       }
     } else {
-      return `${this.baseLink}`;
+      // return `${this.baseLink}`;
+      return `${this.baseLink}?limit=100`;
     }
   }
 

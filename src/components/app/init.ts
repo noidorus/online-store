@@ -2,30 +2,33 @@ import AppController from '../controller/controller';
 import AppView from '../appView/appView';
 import Router from '../route/router';
 import Route from '../route/route';
+import { Types } from '../types/Types';
 
 export default class Init {
   controller: AppController;
-
   view: AppView;
-
   cardRouter: Router = new Router([]);
+  filtersObj: Types.IFilters;
 
   constructor() {
     this.controller = new AppController();
     this.view = new AppView();
+    this.filtersObj = {
+      categories: [],
+    };
   }
 
-  init() {
-    this.initHeaderLinks();
-    this.initFilters();
-    this.initCatalog();
-  }
+  // init() {
+  //   this.initHeaderLinks();
+  //   this.initFilters();
+  //   this.initCatalog();
+  // }
 
   initHeaderLinks() {
     const catalogLink = document.querySelector('.nav-list__item');
     catalogLink?.addEventListener('click', () => {
-      this.initCatalog();
       this.initFilters();
+      this.initCatalog();
     });
   }
 
@@ -34,7 +37,8 @@ export default class Init {
       const catalogDiv: HTMLDivElement | null = document.querySelector('.cards-wrapper');
       this.controller.getProducts((data?) => {
         if (data !== undefined && catalogDiv) {
-          this.view.createCatalog(data, catalogDiv); // Function this.view.showProductDetails()
+          catalogDiv.innerHTML = '';
+          this.view.createCatalog(data, catalogDiv, this.filtersObj); // Function this.view.showProductDetails()
           this.view.createToggle();
           this.selectCards();
         } else if (data !== undefined) {
@@ -56,7 +60,6 @@ export default class Init {
 
   initCardLinks(el: Element) {
     el.addEventListener('click', () => {
-      console.log(el.id);
       this.initProductDetails();
     });
   }
@@ -98,10 +101,41 @@ export default class Init {
 
       this.controller.getProducts((data?) => {
         if (data !== undefined && filtersDiv) {
-          this.view.createFilterBrands(data, filtersDiv);
-          this.view.createFilterPrice(data, filtersDiv);
+          this.view.createFilterBrands(data, filtersDiv, this.filtersObj);
+          this.view.createFilterPrice(data, filtersDiv, this.filtersObj);
         }
       });
+
+      console.log('this.filtersObj: ', this.filtersObj);
     }, 50);
+
+    setTimeout(() => {
+      this.filtersListener();
+    }, 500);
+  }
+
+  filtersListener() {
+    const categoriesInput = document.getElementsByName('categories');
+    const labels = document.querySelectorAll('.categories__item');
+
+    console.log('labels: ', labels);
+    console.log('categories: ', categoriesInput);
+
+    labels.forEach((label, indx) => {
+      label.addEventListener('input', () => {
+        const checkbox = categoriesInput[indx] as HTMLInputElement;
+        const categoriesArr = this.filtersObj.categories;
+
+        if (checkbox.checked) {
+          categoriesArr.push(checkbox.value);
+        } else {
+          const idx = categoriesArr.indexOf(checkbox.value);
+          categoriesArr.splice(idx, 1);
+        }
+
+        this.initCatalog();
+        console.log(this.filtersObj, (categoriesInput[indx] as HTMLInputElement).checked);
+      });
+    });
   }
 }

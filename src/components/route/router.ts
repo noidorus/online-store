@@ -2,7 +2,6 @@ import Route from './route';
 
 class Router {
   routes: Route[];
-
   rootElem: HTMLDivElement;
 
   constructor(routes: Route[]) {

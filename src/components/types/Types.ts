@@ -14,6 +14,15 @@ export namespace Types {
     images: string[];
   }
 
+  export interface IFilters {
+    price?: {
+      min: number;
+      max: number;
+    };
+    categories: string[];
+    brands?: string[] | [];
+  }
+
   export interface RootObject {
     products: Product[];
     total: number;

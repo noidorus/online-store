@@ -19,7 +19,7 @@ class AppView {
     this.catalog.addCardViewToggler();
   }
 
-  createFilterPrice(data: Types.TypesOfData, filtersDiv: HTMLDivElement) {
+  createFilterPrice(data: Types.TypesOfData, filtersDiv: HTMLDivElement, filtersObj: Types.IFilters) {
     const newData = data as Types.RootObject;
     const pricesArr = newData.products.map((product) => {
       return product.price;
@@ -29,6 +29,7 @@ class AppView {
       min: Math.min(...pricesArr),
       max: Math.max(...pricesArr),
     };
+    filtersObj.price = price;
 
     this.catalog.drawPrice(price, filtersDiv);
   }
@@ -39,30 +40,47 @@ class AppView {
 
     if (categoriesDiv) {
       newData.forEach((category) => {
-        this.catalog.drawCategory(category, categoriesDiv);
+        this.catalog.drawCategory(category, categoriesDiv, 'categories');
       });
     }
   }
 
-  createFilterBrands(data: Types.TypesOfData, filtersDiv: HTMLDivElement) {
+  createFilterBrands(data: Types.TypesOfData, filtersDiv: HTMLDivElement, filtersObj: Types.IFilters) {
     const brandsDiv: HTMLDivElement | null = filtersDiv.querySelector('.brands-filters');
-    const newData = data as Types.RootObject;
-    const brands = newData.products.map((product) => {
+    const newData = (data as Types.RootObject).products;
+    const brands = newData.map((product) => {
       return product.brand;
     });
     const uniqueBrands = [...new Set(brands)];
 
+    filtersObj.brands = uniqueBrands;
     if (brandsDiv) {
       uniqueBrands.forEach((brand) => {
-        this.catalog.drawCategory(brand, brandsDiv);
+        this.catalog.drawCategory(brand, brandsDiv, 'brands');
       });
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  createCatalog(data: Types.TypesOfData, catalogDiv: HTMLDivElement) {
-    const newData = data as Types.RootObject;
-    newData.products.forEach((card) => {
+  filterProducts(data: Types.Product[], filtersObj: Types.IFilters): Types.Product[] {
+    const filterCategory = data.filter((product) => {
+      if (filtersObj.categories) {
+        if (filtersObj.categories.length > 0) {
+          return filtersObj.categories.some((category) => category === product.category);
+        } else {
+          return true;
+        }
+      }
+    });
+
+    console.log('filteredData: ', filterCategory);
+    return filterCategory;
+  }
+
+  createCatalog(data: Types.TypesOfData, catalogDiv: HTMLDivElement, filtersObj: Types.IFilters) {
+    const newData = (data as Types.RootObject).products;
+    const filteredArr = this.filterProducts(newData, filtersObj);
+
+    filteredArr.forEach((card) => {
       this.catalog.drawCard(card, catalogDiv);
     });
   }

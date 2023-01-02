@@ -9,8 +9,6 @@ class App {
 
   constructor() {
     this.loadRoutes = new LoadRoutes();
-    // this.controller = new AppController();
-    // this.view = new AppView();
     this.init = new Init();
   }
 
