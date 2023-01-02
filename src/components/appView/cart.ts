@@ -71,6 +71,31 @@ class Cart {
     backBtn?.addEventListener('click', () => {
       window.location.hash = '#catalog';
     });
+
+    const inputCVV = <HTMLInputElement>document.querySelector('.input-cvv');
+    const inputExpiry = <HTMLInputElement>document.querySelector('.input-expiry');
+    inputCVV.addEventListener('input', () => {
+      if (isNaN(Number(inputCVV.value))) inputCVV.value = '';
+    });
+    inputExpiry.addEventListener('input', () => {
+      if (inputExpiry.value.match(/\//g))
+        inputExpiry.value = inputExpiry.value.slice(0, 2) + inputExpiry.value.slice(3);
+      if (
+        +inputExpiry.value.slice(0, 2) > 12 ||
+        +inputExpiry.value.slice(0, 2) < 0 ||
+        +inputExpiry.value.slice(2) > 31 ||
+        +inputExpiry.value.slice(2) < 0
+      ) {
+        inputExpiry.setCustomValidity('Invalid date');
+      } else inputExpiry.setCustomValidity('');
+    });
+    inputExpiry.addEventListener('change', () => {
+      if (inputExpiry.value.length == 4) {
+        inputExpiry.value = inputExpiry.value.slice(0, 2) + '/' + inputExpiry.value.slice(2);
+      }
+      if (+inputExpiry.value.slice(0, 2) > 12 || +inputExpiry.value.slice(0, 2) < 0) inputExpiry.value = '';
+      if (+inputExpiry.value.slice(3) > 31 || +inputExpiry.value.slice(3) < 0) inputExpiry.value = '';
+    });
   }
 
   addItem(item: Types.ICartSlot, itemPos: number, position: boolean) {
@@ -248,6 +273,9 @@ class Cart {
         modalBtn.innerHTML = `Complete payment — $${
           this.totalPrice - this.totalDiscount - (this.totalPrice * this.promoPc) / 100
         }`;
+        modalBtn.addEventListener('click', () => {
+          this.showMessage(this.validateForm());
+        });
       }
     }
   }
@@ -257,6 +285,100 @@ class Cart {
       if (this.cartItems[i].product.id === product.id) return true;
     }
     return false;
+  }
+
+  validateForm() {
+    let formValid = true;
+    const inputFirstName = <HTMLInputElement>document.querySelector('.input-first-name');
+    const inputLastName = <HTMLInputElement>document.querySelector('.input-last-name');
+    const inputPhone = <HTMLInputElement>document.querySelector('.input-phone');
+    const inputAddress = <HTMLInputElement>document.querySelector('.input-address');
+    const inputEmail = <HTMLInputElement>document.querySelector('.input-email');
+    const inputCardName = <HTMLInputElement>document.querySelector('.input-name');
+    const inputCardNum = <HTMLInputElement>document.querySelector('.input-card-num');
+    const inputCVV = <HTMLInputElement>document.querySelector('.input-cvv');
+    const inputExpiry = <HTMLInputElement>document.querySelector('.input-expiry');
+
+    if (inputFirstName && inputLastName) {
+      if (inputFirstName.value.length < 3 || inputLastName.value.length < 3) formValid = false;
+    }
+
+    if (inputPhone) {
+      if (!inputPhone.value.match(/\+\d{9}/g)) {
+        console.log('inputPhone');
+        formValid = false;
+      }
+    }
+
+    if (inputAddress) {
+      if (!inputAddress.value.match(/^(\b[A-Za-z]{3,}\s+[A-Za-z]{3,}\s+[A-Za-z]{3,}\b)$/g)) {
+        console.log('inputAddress');
+        formValid = false;
+      }
+    }
+
+    if (inputEmail) {
+      if (!inputEmail.value.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g)) {
+        formValid = false;
+        console.log('inputEmail');
+      }
+    }
+
+    if (inputCardNum) {
+      if (!inputCardNum.value.match(/^\d{16}$/g)) {
+        formValid = false;
+        console.log('inputCardNum');
+      }
+    }
+
+    if (inputCVV) {
+      
+      if (!inputCVV.value.match(/^\d{3}$/g)) {
+        console.log('inputCVV');
+        formValid = false;
+      } 
+    }
+
+    if (inputExpiry) {
+      if (!inputExpiry.value.match(/^\d{4}$|^\d{2}\/\d{2}$/g)) {
+        console.log('inputExpiry');
+        formValid = false;
+      }
+    }
+
+    return formValid;
+  }
+
+  showMessage(mesType: boolean) {
+    const modalWarning = document.createElement('div');
+    const modalTxt = document.createElement('p');
+    const modalBtn = document.createElement('button');
+
+    modalWarning.classList.add('modal-warning');
+    modalTxt.classList.add('modal-warning__text');
+    modalBtn.classList.add('button');
+
+    modalWarning.append(modalTxt, modalBtn);
+    document.querySelector('.main-wrapper')?.append(modalWarning);
+
+    if (mesType) {
+      modalBtn.remove();
+      modalTxt.innerHTML = 'The order was successfully completed!\nRedirecting...';
+      setTimeout(() => {
+        window.location.hash = '#catalog';
+      }, 5000);
+    } else {
+      modalTxt.innerHTML = 'Please check the validity of all areas!';
+      modalBtn.innerHTML = 'Back to checkout';
+    }
+
+    modalBtn.addEventListener('click', () => {
+      modalWarning.remove();
+    });
+  }
+
+  showConfirmationMessage() {
+
   }
 }
 

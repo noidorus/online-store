@@ -440,7 +440,7 @@
 
 .modal-input:focus {
   outline: 10px solid #181818;
-  box-shadow: 0 0 1em #719ECE;
+  box-shadow: 0 0 0.5em #719ECE;
 }
 
 .label-first-name,
@@ -451,6 +451,18 @@
 .input-first-name,
 .input-last-name {
   grid-row: 3/4;
+}
+
+.input-first-name:invalid,
+.input-last-name:invalid,
+.input-phone:invalid,
+.input-address:invalid,
+.input-email:invalid,
+.input-card-num:invalid,
+.input-cvv:invalid,
+.input-expiry:invalid {
+  outline: 10px solid #ee0101;
+  box-shadow: 0 0 0.5em #ce7171;
 }
 
 .label-last-name,
@@ -464,8 +476,8 @@
 .input-address,
 .label-email,
 .input-email,
-.label-name,
-.input-name,
+.label-card-name,
+.input-card-name,
 .modal-button {
   grid-column: 1/5;
 }
@@ -506,4 +518,39 @@
 
 .indep-header {
   margin-bottom: 0.3em;
+}
+
+.modal-warning {
+  position: absolute;
+    top: 30%;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 134em;
+    height: 61em;
+    background-color: #fefffe;
+    z-index: 4;
+    border-radius: 10em;
+    box-shadow: 0px 0px 62px 0px #0000005c;
+    display: flex;
+    flex-direction: column;
+    justify-items: space-between;
+    justify-content: space-between;
+}
+
+.modal-warning__text {
+  text-align: center;
+    font-size: 5em;
+    font-weight: 600;
+    margin: 2em;
+}
+
+.modal-warning .button {
+  background: #8e2de2;
+  color: #fefefe;
+  font-size: 4em;
+  font-weight: 600;
+  border-radius: 2em;
+  padding: 1em;
+  margin: 3em auto;
 }

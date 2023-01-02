@@ -149,7 +149,18 @@ class ProductDetails {
         console.log(this.cart.cartItems);
       }
     });
-    btnBuyNow?.addEventListener('click', () => {});
+    btnBuyNow?.addEventListener('click', () => {
+      this.cart.addToCart(data);
+      console.log(this.cart.cartItems);
+      window.location.href = '#cart';
+      setTimeout(() => {
+        const cartDiv = document.querySelector('.cart');
+        if (cartDiv) {
+          this.cart.fillCart();
+        }
+        this.cart.openModal();
+      }, 50);
+    });
     btnGoToCart?.addEventListener('click', () => {
       window.location.href = '#cart';
     });

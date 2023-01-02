@@ -25,7 +25,6 @@ class App {
     this.init.initCatalog();
     this.init.initProductDetails();
     this.init.initCart();
-    // this.init.initCards();
   }
 }
 
