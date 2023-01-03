@@ -49,6 +49,27 @@ class AppView {
     }
   }
 
+  createFilters(data: Types.Product[], type: string) {
+    const filterDiv = <HTMLDivElement>document.querySelector(`.${type}-filters`);
+    let filters: string[] = [];
+    if (type == 'brands') {
+      filters = data.map((product) => {
+        return product.brand;
+      });
+    }
+    if (type == 'category') {
+      filters = data.map((product) => {
+        return product.category;
+      });
+    }
+    const uniqueFilters = [...new Set(filters)];
+    if (filterDiv) {
+      uniqueFilters.forEach((filter) => {
+        this.catalog.drawCategory(filter, filterDiv, type);
+      });
+    }
+  }
+
   createFilterBrands(data: Types.TypesOfData, filtersDiv: HTMLDivElement) {
     const brandsDiv: HTMLDivElement | null = filtersDiv.querySelector('.brands-filters');
     const newData = (data as Types.RootObject).products;
@@ -84,10 +105,9 @@ class AppView {
     return filterBrand;
   }
 
-  createCatalog(data: Types.TypesOfData, catalogDiv: HTMLDivElement, filtersObj: Types.IFilters) {
-    const products = (data as Types.RootObject).products;
+  createCatalog(products: Types.Product[], catalogDiv: HTMLDivElement, filtersObj: Types.IFilters) {
     const filteredArr = this.filterProducts(products, filtersObj);
-    console.log('filteredArr: ', filteredArr);
+    // console.log('filteredArr: ', filteredArr);
     filteredArr.forEach((card) => {
       this.catalog.drawCard(card, catalogDiv);
     });
@@ -102,10 +122,7 @@ class AppView {
   }
 
   createCart() {
-    const cartDiv = document.querySelector('.cart');
-    if (cartDiv) {
-      this.cart.fillCart();
-    }
+    this.cart.fillCart();
   }
 }
 

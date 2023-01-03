@@ -36,9 +36,9 @@ class Catalog {
     const cardCartImg = document.createElement('img');
 
     // Add Classes
-    // productCardLink.className = 'product-card-link';
+    productCardLink.className = 'product-card-link';
     productCard.className = 'product-card';
-    // productCardLink.href = `#product-details/${card.id}`;
+    productCardLink.href = `#product-details/${card.id}`;
     productCard.id = `product-${card.id}`;
     productImg.className = 'card-image';
     cardTextWrapper.className = 'card-txt-wrapper';
