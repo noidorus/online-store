@@ -7,17 +7,17 @@ import { Types } from '../types/Types';
 export default class Init {
   controller: AppController;
   view: AppView;
-  router: Router;
+  // router: Router;
   filtersObj: Types.IFilters;
   cache: Types.Product[] = [];
   cartItems: Types.TCart = [];
 
   constructor() {
-    this.router = new Router([
-      new Route('catalog', 'catalog.html', true),
-      new Route('cart', 'cart.html'),
-      new Route('404', '404.html'),
-    ]);
+    // this.router = new Router([
+    //   new Route('catalog', 'catalog.html', true),
+    //   new Route('cart', 'cart.html'),
+    //   new Route('404', '404.html'),
+    // ]);
     this.controller = new AppController();
     this.view = new AppView();
     this.filtersObj = {
@@ -38,53 +38,48 @@ export default class Init {
     };
   }
 
-  getData() {
+  getData(routeArr: Route[], callback: () => void) {
     this.controller.getProducts((data?) => {
       if (data !== undefined) {
         this.cache = [...data.products];
-        this.loadCardRoutes(data.products);
-        this.initApp();
+        this.loadCardRoutes(routeArr, data.products);
+        callback();
       }
     });
   }
 
-  loadCardRoutes(data: Types.Product[]) {
+  loadCardRoutes(routeArr: Route[], data: Types.Product[]) {
     for (let i = 0; i < data.length; i++) {
-      this.router.routes.push(new Route(`product-details/${data[i].id}`, 'product-details.html'));
+      routeArr.push(new Route(`product-details/${data[i].id}`, 'product-details.html'));
     }
   }
 
-  initApp() {
-    if (window.location.hash == '' || window.location.hash == '#catalog') {
-      this.router.init(() => {
-        this.initFilters(this.cache);
-        this.initCatalog(this.cache);
-      });
-    } else if (window.location.hash == '#cart') {
-      this.router.init(() => {
-        this.initCart();
-      });
-    } else if (window.location.hash.match(/^(\#product-details\/(100|[1-9][0-9]?))$/g)) {
-      this.router.init(() => {
-        console.log(this.router.routes);
-        const windowHash = window.location.hash.split('/');
-        const productWrapperDiv: HTMLDivElement | null = document.querySelector('.product-wrapper');
-        this.controller.getProductDetails(
-          (data?) => {
-            if (data !== undefined && productWrapperDiv) {
-              this.view.showProductDetails(data);
-            }
-          },
-          {
-            id: Number(windowHash[windowHash.length - 1]),
-          }
-        );
-      });
-    }
-  }
+  // initApp() {
+  //   if (window.location.hash == '' || window.location.hash == '#catalog') {
+  //     this.initFilters();
+  //     this.initCatalog();
+  //   } else if (window.location.hash == '#cart') {
+  //     this.initCart();
+  //   } else if (window.location.hash.match(/^(\#product-details\/(100|[1-9][0-9]?))$/g)) {
+  //     const windowHash = window.location.hash.split('/');
+  //     const productWrapperDiv: HTMLDivElement | null = document.querySelector('.product-wrapper');
+  //     this.controller.getProductDetails(
+  //       (data?) => {
+  //         if (data !== undefined && productWrapperDiv) {
+  //           this.view.showProductDetails(data);
+  //         }
+  //       },
+  //       {
+  //         id: Number(windowHash[windowHash.length - 1]),
+  //       }
+  //     );
+  //   }
+  // }
 
-  initCatalog(data: Types.Product[]) {
+  initCatalog(/* data: Types.Product[] */) {
     const catalogDiv: HTMLDivElement | null = document.querySelector('.cards-wrapper');
+    const data = this.cache;
+    console.log(data);
     if (data !== undefined && catalogDiv) {
       catalogDiv.innerHTML = '';
       this.view.createCatalog(data, catalogDiv, this.filtersObj);
@@ -99,7 +94,23 @@ export default class Init {
     }
   }
 
-  initFilters(data: Types.Product[]) {
+  initProductDetails() {
+    const windowHash = window.location.hash.split('/');
+    const productWrapperDiv: HTMLDivElement | null = document.querySelector('.product-wrapper');
+    this.controller.getProductDetails(
+      (data?) => {
+        if (data !== undefined && productWrapperDiv) {
+          this.view.showProductDetails(data);
+        }
+      },
+      {
+        id: Number(windowHash[windowHash.length - 1]),
+      }
+    );
+  }
+
+  initFilters(/* data: Types.Product[] */) {
+    const data = this.cache;
     const filtersDiv: HTMLDivElement | null = document.querySelector('.filters-wrapper');
     if (data !== undefined && filtersDiv) {
       this.view.createCheckFilters(data, 'brand');
@@ -120,7 +131,6 @@ export default class Init {
       // * TODO: SORTING + ADD QUERY
       // * TODO: ADD VIEWSTYLE TO QUERY
       // * GET QUERY = WINDOW.LOCATION.SEARCH
-
     }
   }
 
@@ -136,7 +146,6 @@ export default class Init {
     }
   }
 
-
   filtersCheckListener(data: Types.Product[]) {
     const categoriesInput = document.getElementsByName('category');
     const categoriesLabels = document.querySelectorAll('.category__item');
@@ -147,7 +156,7 @@ export default class Init {
     categoriesLabels.forEach((label, indx) => {
       label.addEventListener('input', () => {
         this.changeCheckboxes(categoriesInput, indx, this.filtersObj.categories);
-        this.initCatalog(data);
+        this.initCatalog();
         console.log('this.filtersObj: ', this.filtersObj);
       });
     });
@@ -155,7 +164,7 @@ export default class Init {
     brandLabels.forEach((label, indx) => {
       label.addEventListener('input', () => {
         this.changeCheckboxes(brandInputs, indx, this.filtersObj.brands);
-        this.initCatalog(data);
+        this.initCatalog();
         console.log('this.filtersObj: ', this.filtersObj);
       });
     });
@@ -178,7 +187,7 @@ export default class Init {
       inputVals.min = +sliderInputMin.value;
       inputVals.max = +sliderInputMax.value;
       setTimeout(() => {
-        this.initCatalog(data);
+        this.initCatalog();
       }, 300);
       this.view.catalog.calcSliderInput(sliderInputMin, sliderInputMax, inputBoxMin, inputBoxMax, sliderTrack, true);
     });
@@ -186,7 +195,7 @@ export default class Init {
       inputVals.min = +sliderInputMin.value;
       inputVals.max = +sliderInputMax.value;
       setTimeout(() => {
-        this.initCatalog(data);
+        this.initCatalog();
       }, 300);
       this.view.catalog.calcSliderInput(sliderInputMin, sliderInputMax, inputBoxMin, inputBoxMax, sliderTrack, true);
     });
@@ -196,7 +205,7 @@ export default class Init {
       inputVals.min = +inputBoxMin.value;
       inputVals.max = +inputBoxMin.value;
       setTimeout(() => {
-        this.initCatalog(data);
+        this.initCatalog();
       }, 300);
       this.view.catalog.calcSliderInput(sliderInputMin, sliderInputMax, inputBoxMin, inputBoxMax, sliderTrack, false);
     });
@@ -206,7 +215,7 @@ export default class Init {
       inputVals.min = +inputBoxMin.value;
       inputVals.max = +inputBoxMin.value;
       setTimeout(() => {
-        this.initCatalog(data);
+        this.initCatalog();
       }, 300);
       this.view.catalog.calcSliderInput(sliderInputMin, sliderInputMax, inputBoxMin, inputBoxMax, sliderTrack, false);
     });

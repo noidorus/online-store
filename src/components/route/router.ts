@@ -1,47 +1,75 @@
-import AppView from '../appView/appView';
-import AppController from '../controller/controller';
+import Init from '../app/init';
+// import AppView from '../appView/appView';
+// import AppController from '../controller/controller';
 import Route from './route';
 
 class Router {
   routes: Route[];
-  view: AppView;
+  // view: AppView;
   rootElem: HTMLDivElement;
-  controller: AppController;
+  init: Init;
+  // controller: AppController;
 
   constructor(routes: Route[]) {
     this.routes = routes;
-    this.view = new AppView();
-    this.controller = new AppController();
+    this.init = new Init();
+    // this.view = new AppView();
+    // this.controller = new AppController();
     this.rootElem = document.getElementById('app') as HTMLDivElement;
   }
 
-  init(callback: () => void) {
-    window.addEventListener('hashchange', () => {
-      if (window.location.hash == '#cart') {
-        this.hasChanged(this.routes, () => {
-          this.view.createCart();
-        });
-      } else if (window.location.hash.match(/^(\#product-details\/(100|[1-9][0-9]?))$/g)) {
-        this.hasChanged(this.routes, () => {
-          const windowHash = window.location.hash.split('/');
-          const productWrapperDiv: HTMLDivElement | null = document.querySelector('.product-wrapper');
-          this.controller.getProductDetails(
-            (data?) => {
-              if (data !== undefined && productWrapperDiv) {
-                this.view.showProductDetails(data);
-              }
-            },
-            {
-              id: Number(windowHash[windowHash.length - 1]),
-            }
-          );
-        });
-      } else {
-        this.hasChanged(this.routes, callback);
-      }
+  initRoutes() {
+    this.init.getData(this.routes, () => {
+      this.initPaths();
     });
-    this.hasChanged(this.routes, callback);
+    console.log('init routes');
   }
+
+  startRouter() {
+    window.addEventListener('hashchange', () => {
+      this.initPaths();
+    });
+    // this.initPaths();
+    console.log('start router');
+    
+  }
+
+  initPaths() {
+    console.log('initPaths');
+    if (window.location.hash == '#cart') {
+      this.hasChanged(this.routes, () => {
+        this.init.initCart();
+      });
+    }
+    if (window.location.hash == '#catalog' || window.location.hash == '') {
+      this.hasChanged(this.routes, () => {
+        this.init.initFilters();
+        this.init.initCatalog();
+      });
+    }
+    if (window.location.hash.match(/^(\#product-details\/(100|[1-9][0-9]?))$/g)) {
+      this.hasChanged(this.routes, () => {
+        this.init.initProductDetails();
+      });
+    }
+  }
+
+  // startRouter(callback: () => void) {
+  //   window.addEventListener('hashchange', () => {
+  //     if (window.location.hash == '#cart') {
+  //       this.hasChanged(this.routes, () => {
+  //         this.view.createCart();
+  //       });
+  //     } else if (window.location.hash.match(/^(\#product-details\/(100|[1-9][0-9]?))$/g)) {
+  //       this.hasChanged(this.routes, () => {
+  //         this.init.initProductDetails();
+  //       });
+  //     } else {
+  //       this.hasChanged(this.routes, callback);
+  //     }
+  //   });
+  //   this.hasChanged(this.routes, callback);
+  // }
 
   hasChanged(r: Route[], callback: () => void) {
     if (window.location.hash.length > 0) {

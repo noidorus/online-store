@@ -115,8 +115,8 @@ class AppView {
   }
 
   createCatalog(products: Types.Product[], catalogDiv: HTMLDivElement, filtersObj: Types.IFilters) {
-
     const filteredArr = this.filterProducts(products, filtersObj);
+    console.log(filteredArr);
     filteredArr.forEach((card) => {
       this.catalog.drawCard(card, catalogDiv);
     });
