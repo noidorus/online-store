@@ -30,7 +30,7 @@ class Loader {
       }
     } else {
       // return `${this.baseLink}`;
-      return `${this.baseLink}?limit=100`;
+      return `${this.baseLink}?limit=100&loading=lazy`;
     }
   }
 

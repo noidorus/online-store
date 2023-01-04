@@ -24,35 +24,10 @@ class AppView {
     this.catalog.addCardViewToggler();
   }
 
-  createFilterPrice(data: Types.TypesOfData, filtersDiv: HTMLDivElement, filtersObj: Types.IFilters) {
-    const newData = data as Types.RootObject;
-    const pricesArr = newData.products.map((product) => {
-      return product.price;
-    });
-
-    const price = {
-      min: Math.min(...pricesArr),
-      max: Math.max(...pricesArr),
-    };
-    filtersObj.price = price;
-
-    this.catalog.drawPrice(price, filtersDiv);
-  }
-
-  createFilterCaregories(data: Types.TypesOfData, filtersDiv: HTMLDivElement) {
-    const categoriesDiv: HTMLDivElement | null = filtersDiv.querySelector('.category-filters');
-    const newData = data as string[];
-    if (categoriesDiv) {
-      newData.forEach((category) => {
-        this.catalog.drawCategory(category, categoriesDiv, 'categories');
-      });
-    }
-  }
-
-  createFilters(data: Types.Product[], type: string) {
+  createCheckFilters(data: Types.Product[], type: string) {
     const filterDiv = <HTMLDivElement>document.querySelector(`.${type}-filters`);
     let filters: string[] = [];
-    if (type == 'brands') {
+    if (type == 'brand') {
       filters = data.map((product) => {
         return product.brand;
       });
@@ -70,23 +45,45 @@ class AppView {
     }
   }
 
-  createFilterBrands(data: Types.TypesOfData, filtersDiv: HTMLDivElement) {
-    const brandsDiv: HTMLDivElement | null = filtersDiv.querySelector('.brands-filters');
-    const newData = (data as Types.RootObject).products;
-    const brands = newData.map((product) => {
-      return product.brand;
-    });
-    const uniqueBrands = [...new Set(brands)];
+  createPriceFilters(data: Types.Product[], filtersObj: Types.IFilters) {
+    const filterArr = data.map((product) => product.price);
 
-    if (brandsDiv) {
-      uniqueBrands.forEach((brand) => {
-        this.catalog.drawCategory(brand, brandsDiv, 'brands');
-      });
-    }
+    const price = {
+      min: Math.min(...filterArr),
+      max: Math.max(...filterArr),
+    };
+    filtersObj.price = price;
+
+    this.catalog.drawSliderFilter(price, 'price');
+  }
+
+  createStockFilters(data: Types.Product[], filtersObj: Types.IFilters) {
+    const filterArr = data.map((product) => product.stock);
+
+    const stock = {
+      min: Math.min(...filterArr),
+      max: Math.max(...filterArr),
+    };
+    filtersObj.stock = stock;
+
+    this.catalog.drawSliderFilter(stock, 'stock');
+  }
+
+  createDiscountFilters(data: Types.Product[], filtersObj: Types.IFilters) {
+    const filterArr = data.map((product) => product.discountPercentage);
+
+    const discount = {
+      min: Math.round(Math.min(...filterArr)),
+      max: Math.round(Math.max(...filterArr)),
+    };
+    filtersObj.discount = discount;
+
+    this.catalog.drawSliderFilter(discount, 'discount');
   }
 
   filterProducts(data: Types.Product[], filtersObj: Types.IFilters): Types.Product[] {
-    const filterCategory = data.filter((product) => {
+    let filteredProductArr = [];
+    filteredProductArr = data.filter((product) => {
       if (filtersObj.categories.length > 0) {
         return filtersObj.categories.includes(product.category);
       } else {
@@ -94,20 +91,32 @@ class AppView {
       }
     });
 
-    const filterBrand = filterCategory.filter((product) => {
+    filteredProductArr = filteredProductArr.filter((product) => {
       if (filtersObj.brands.length > 0) {
         return filtersObj.brands.includes(product.brand);
       } else {
         return true;
       }
     });
+    
 
-    return filterBrand;
+    filteredProductArr = filteredProductArr.filter(
+      (product) => product.price >= filtersObj.price.min && product.price <= filtersObj.price.max
+    );
+    filteredProductArr = filteredProductArr.filter(
+      (product) => product.stock >= filtersObj.stock.min && product.stock <= filtersObj.stock.max
+    );
+    filteredProductArr = filteredProductArr.filter(
+      (product) =>
+        product.discountPercentage >= filtersObj.discount.min && product.discountPercentage <= filtersObj.discount.max
+    );
+
+    return filteredProductArr;
   }
 
   createCatalog(products: Types.Product[], catalogDiv: HTMLDivElement, filtersObj: Types.IFilters) {
+
     const filteredArr = this.filterProducts(products, filtersObj);
-    // console.log('filteredArr: ', filteredArr);
     filteredArr.forEach((card) => {
       this.catalog.drawCard(card, catalogDiv);
     });
@@ -119,6 +128,10 @@ class AppView {
         this.cart.initCartAdd(productCardsDivsCart[i], products[i]);
       }
     }
+  }
+
+  goToPage() {
+    
   }
 
   createCart() {
