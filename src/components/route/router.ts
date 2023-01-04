@@ -22,20 +22,15 @@ class Router {
     this.init.getData(this.routes, () => {
       this.initPaths();
     });
-    console.log('init routes');
   }
 
   startRouter() {
     window.addEventListener('hashchange', () => {
       this.initPaths();
     });
-    // this.initPaths();
-    console.log('start router');
-    
   }
 
   initPaths() {
-    console.log('initPaths');
     if (window.location.hash == '#cart') {
       this.hasChanged(this.routes, () => {
         this.init.initCart();

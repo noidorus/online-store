@@ -10,7 +10,7 @@ export default class Init {
   // router: Router;
   filtersObj: Types.IFilters;
   cache: Types.Product[] = [];
-  cartItems: Types.TCart = [];
+  // cartItems: Types.TCart;
 
   constructor() {
     // this.router = new Router([
@@ -79,11 +79,11 @@ export default class Init {
   initCatalog(/* data: Types.Product[] */) {
     const catalogDiv: HTMLDivElement | null = document.querySelector('.cards-wrapper');
     const data = this.cache;
-    console.log(data);
     if (data !== undefined && catalogDiv) {
       catalogDiv.innerHTML = '';
-      this.view.createCatalog(data, catalogDiv, this.filtersObj);
+      this.view.initPagesandFilter(data, this.filtersObj, catalogDiv);
       this.view.createToggle();
+      this.view.createDropdown();
     }
   }
 
@@ -120,17 +120,12 @@ export default class Init {
       this.view.createDiscountFilters(data, this.filtersObj);
       this.filtersCheckListener(data);
       this.filtersRangeListener(data);
-      // this.view.createFilterCaregories(data, filtersDiv);
-      // this.view.createFilterBrands(data, filtersDiv);
-      // this.view.createFilterPrice(data, filtersDiv, this.filtersObj);7
-      // * TODO: WRITE FILTERS FOR PRICE & QTY + SLIDER
-      // * CHECK: IF FILTERS DUPLICATE
-      // * TODO: SEARCH & FILTER THROUGH QUERY
+      // * TODO: SEARCH & FILTER & SORT & CHANGE CARDS THROUGH QUERY
       // * TODO: COMBINE SEARCHING AND FILTERING
-      // * CHRCK: FOR DUPLICATION
-      // * TODO: SORTING + ADD QUERY
-      // * TODO: ADD VIEWSTYLE TO QUERY
       // * GET QUERY = WINDOW.LOCATION.SEARCH
+      // * todo: add promocodes
+      //  * IN CART: блок примененных промокодов
+      //  * IN CART: общее количество товаров 
     }
   }
 
@@ -220,4 +215,6 @@ export default class Init {
       this.view.catalog.calcSliderInput(sliderInputMin, sliderInputMax, inputBoxMin, inputBoxMax, sliderTrack, false);
     });
   }
+
+  
 }

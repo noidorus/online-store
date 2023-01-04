@@ -1,3 +1,4 @@
+import { capitalizeExpr } from '../helpers/helpers';
 import { Types } from '../types/Types';
 
 class Catalog {
@@ -9,8 +10,12 @@ class Catalog {
     label.className = `checkbox__item ${name}__item`;
     input.className = `checkbox__item-input ${name}__item-input`;
     span.className = 'checkmark';
-
-    label.textContent = category;
+    if (name == 'category') {
+      console.log('capitalized');
+      label.textContent = capitalizeExpr(category);
+    } else {
+      label.textContent = category;
+    }
     input.setAttribute('type', 'checkbox');
     input.setAttribute('name', name);
     input.value = category;

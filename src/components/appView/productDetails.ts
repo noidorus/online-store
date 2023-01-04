@@ -156,7 +156,7 @@ class ProductDetails {
       setTimeout(() => {
         const cartDiv = document.querySelector('.cart');
         if (cartDiv) {
-          this.cart.fillCart();
+          this.cart.fillCart(0);
         }
         this.cart.openModal();
       }, 50);
