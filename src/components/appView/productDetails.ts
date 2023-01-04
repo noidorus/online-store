@@ -76,8 +76,8 @@ class ProductDetails {
     mainImg.addEventListener('mousemove', (e) => {
       this.magnifyImage(e);
     });
-    mainImg.addEventListener('mouseleave', (e) => {
-      this.removeMagnify(e);
+    mainImg.addEventListener('mouseleave', () => {
+      this.removeMagnify();
     });
 
     // fill thumbnails
@@ -119,7 +119,7 @@ class ProductDetails {
     }
   }
 
-  removeMagnify(e: MouseEvent) {
+  removeMagnify() {
     document.querySelector('.modal-prodDetails')?.remove();
   }
 

@@ -34,29 +34,12 @@ class Loader {
     }
   }
 
-  // shortened prev
   load(callback: Types.CallBackType, options: Types.IOptions) {
     fetch(this.makeUrl(options))
       .then((res) => res.json())
       .then((data) => callback(data))
       .catch((err) => console.error(err));
   }
-
-  // async load(callback: Types.CallBackType, options: Types.IOptions) {
-  //   const response = await fetch(this.makeUrl(options));
-
-  //   const data = await response.json();
-
-  //   console.log('URL: ', this.makeUrl(options));
-
-  //   try {
-  //     if (data) {
-  //       callback(data);
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
 }
 
 export default Loader;

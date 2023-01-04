@@ -9,6 +9,7 @@ export default class Init {
   view: AppView;
   cardRouter: Router = new Router([]);
   filtersObj: Types.IFilters;
+  page: number;
 
   constructor() {
     this.controller = new AppController();
@@ -17,6 +18,7 @@ export default class Init {
       categories: [],
       brands: [],
     };
+    this.page = 0;
   }
 
   initHeaderLinks() {
@@ -36,7 +38,7 @@ export default class Init {
       this.controller.getProducts((data?) => {
         if (data !== undefined && catalogDiv) {
           catalogDiv.innerHTML = '';
-          this.view.createCatalog(data, catalogDiv, this.filtersObj);
+          this.view.createCatalog(data, catalogDiv, this.filtersObj, this.page);
           this.view.createToggle();
           this.selectCards();
         } else if (data !== undefined) {
@@ -140,7 +142,7 @@ export default class Init {
 
     categoriesLabels.forEach((label, indx) => {
       label.addEventListener('input', () => {
-        this.changeCheckboxes(categoriesInput, indx, this.filtersObj.categories);
+        this.changeCheckboxes(categoriesInput, indx, this.filtersObj[Types.FilterName.CATEGORIES]);
         this.initCatalog();
         console.log('this.filtersObj: ', this.filtersObj);
       });
@@ -148,7 +150,7 @@ export default class Init {
 
     brandLabels.forEach((label, indx) => {
       label.addEventListener('input', () => {
-        this.changeCheckboxes(brandInputs, indx, this.filtersObj.brands);
+        this.changeCheckboxes(brandInputs, indx, this.filtersObj[Types.FilterName.BRANDS]);
         this.initCatalog();
         console.log('this.filtersObj: ', this.filtersObj);
       });

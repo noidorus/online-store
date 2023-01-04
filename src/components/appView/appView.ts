@@ -5,9 +5,7 @@ import { Types } from '../types/Types';
 
 class AppView {
   productDetails: ProductDetails;
-
   catalog: Catalog;
-
   cart: Cart;
 
   constructor() {
@@ -84,11 +82,20 @@ class AppView {
     return filterBrand;
   }
 
-  createCatalog(data: Types.TypesOfData, catalogDiv: HTMLDivElement, filtersObj: Types.IFilters) {
+  splitArrays(data: Types.Product[], size: number) {
+    const subarray = [];
+    for (let i = 0; i < Math.ceil(data.length / size); i += 1) {
+      subarray[i] = data.slice(i * size, i * size + size);
+    }
+    return subarray;
+  }
+
+  createCatalog(data: Types.TypesOfData, catalogDiv: HTMLDivElement, filtersObj: Types.IFilters, page: number) {
     const products = (data as Types.RootObject).products;
     const filteredArr = this.filterProducts(products, filtersObj);
-    console.log('filteredArr: ', filteredArr);
-    filteredArr.forEach((card) => {
+    const splittedArray = this.splitArrays(filteredArr, 25);
+
+    splittedArray[page].forEach((card) => {
       this.catalog.drawCard(card, catalogDiv);
     });
 

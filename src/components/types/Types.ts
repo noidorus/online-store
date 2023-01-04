@@ -23,6 +23,11 @@ export namespace Types {
     brands: string[];
   }
 
+  export enum FilterName {
+    CATEGORIES = 'categories',
+    BRANDS = 'brands',
+  }
+
   export interface RootObject {
     products: Product[];
     total: number;
