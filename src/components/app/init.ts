@@ -67,19 +67,12 @@ export default class Init {
     }
   }
 
-  initCatalog(/* data: Types.Product[] */) {
-    // const searchQuery = new URLSearchParams(window.location.search);
+  initCatalog() {
     const data = this.cache;
     if (data !== undefined) {
       this.view.createToggle();
-      // if (searchQuery.has('search')) {
-      //   const searchString = searchQuery.get('search');
-      //   console.log(searchString);
-      //   if (searchString) this.makeSearch(searchString);
-      // } else {
-        this.filterProducts(this.cache, this.filtersObj);
-        this.view.initPagesandFilter(this.filteredArr, this.filtersObj);
-      // }
+      this.filterProducts(this.cache, this.filtersObj);
+      this.view.initPagesandFilter(this.filteredArr, this.filtersObj);
       this.view.createDropdown();
     }
   }
@@ -186,11 +179,6 @@ export default class Init {
       this.view.createDiscountFilters(data, this.filtersObj);
       this.filtersCheckListener(data, filterParams);
       this.filtersRangeListener(data, filterParams);
-      // * fix weird search & filter querying - set URLSearch global?
-      // * fix number inputs being weird
-      // * todo: add promocodes - enum& crissc cross old price
-      //  * IN CART: блок примененных промокодов - 3 promos adds block
-      //  * IN CART: items - кол-во видов товаров + products - общ кол-во товаров (в headere items заменить  на products)
     }
   }
 
