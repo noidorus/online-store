@@ -21,8 +21,8 @@ class Loader {
       switch (options.endpoint) {
         case Types.Endpoint.CATEGORIES:
           return `${this.baseLink}/categories`;
-        case Types.Endpoint.CATEGORY:
-          return `${this.baseLink}/category/${options.caterory}`;
+        // case Types.Endpoint.CATEGORY:
+        //   return `${this.baseLink}/category/${options.caterory}`;
         // case Types.Endpoint.SEARCH:
         //   return `${this.baseLink}/search?q=${options.search}`;
         default:

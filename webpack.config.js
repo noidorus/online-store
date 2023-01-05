@@ -80,7 +80,9 @@ const baseConfig = {
 
 module.exports = ({ mode }) => {
   const isProductionMode = mode === 'prod';
-  const envConfig = isProductionMode ? require('./webpack.prod.config') : require('./webpack.dev.config');
+  const envConfig = isProductionMode
+    ? require('./configs/webpack.prod.config')
+    : require('./configs/webpack.dev.config');
 
   return merge(baseConfig, envConfig);
 };

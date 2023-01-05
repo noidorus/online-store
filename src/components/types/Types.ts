@@ -49,7 +49,7 @@ export namespace Types {
 
   export interface IOptions {
     id?: number;
-    caterory?: string;
+    // caterory?: string;
     // search?: string;
     endpoint?: Endpoint;
   }
