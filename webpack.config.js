@@ -47,6 +47,7 @@ const baseConfig = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+    fallback: { "url": require.resolve("url/") }
   },
   output: {
     filename: 'index.js',

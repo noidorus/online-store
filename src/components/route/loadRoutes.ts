@@ -1,17 +1,17 @@
-import Route from './route';
-import Router from './router';
+// import Route from './route';
+// import Router from './router';
 
-class LoadRoutes {
-  init() {
-    const router: Router = new Router([
-      new Route('catalog', 'catalog.html', true),
-      new Route('cart', 'cart.html'),
-      new Route('product-details', 'product-details.html'),
-      new Route('404', '404.html'),
-    ]);
-    console.log(router);
-    router.init();
-  }
-}
+// class LoadRoutes {
+//   router: Router = new Router([]);
 
-export default LoadRoutes;
+//   init() {
+//     this.router.routes.push(
+//       new Route('catalog', 'catalog.html', true),
+//       new Route('cart', 'cart.html'),
+//       new Route('404', '404.html')
+//     );
+//     this.router.init();
+//   }
+// }
+
+// export default LoadRoutes;

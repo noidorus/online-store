@@ -8,6 +8,9 @@
 }
 
 .body {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
   font-family: 'Lato', sans-serif;
   background-color: 
   #f9f8fb;
@@ -65,7 +68,8 @@
 
 .header-header,
 .indep-header {
-  font-size: 2em;
+  font-size: 2.3em;
+  letter-spacing: 1px;
   font-weight: 600;
 }
 
@@ -116,7 +120,7 @@
 /* FOOTER */
 
 .footer {
-  position: absolute;
+  /* position: absolute; */
   bottom: 0;
   width: 100%;
   background-color: #eeeff0;

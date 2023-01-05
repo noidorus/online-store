@@ -1,16 +1,29 @@
 <div class="cart">
-  <div class="cart-substitute" style="display: none;">
-    <p class="cart-substitute__big-text">Your cart is empty</p>
-    <button class="cart-substitute__button button">Start shopping now!</button>
-  </div>
   <div class="cart-header">
     <div class="cart-header-wrapper">
       <h2 class="cart-header-main">My Cart</h2>
-      <div class="back-btn">
+      <div class="pagination-count-wrapper">
+        <div class="pagination-visible">
+          <p class="pagination-visible--active">3</p>
+          <div class="pagination-arrow"></div>
+        </div>
+        <div class="pagination-invisible">
+          <p class="pagination-inactive">3</p>
+          <p class="pagination-inactive">4</p>
+          <p class="pagination-inactive">5</p>
+          <p class="pagination-inactive">6</p>
+          <p class="pagination-inactive">7</p>
+        </div>
+      </div>
+      <a class="back-btn" href="">
         <img src="./assets/icons/arrow-left.svg" alt="" class="back-btn-img">
         <p class="back-btn-txt">Continue shopping</p>
-      </div>
+      </a>
     </div>
+  </div>
+  <div class="cart-substitute" style="display: none;">
+    <p class="cart-substitute__big-text">Your cart is empty</p>
+    <button class="cart-substitute__button button">Start shopping now!</button>
   </div>
   <div class="cart-wrapper">
     <div class="item-header-wrapper">
@@ -21,45 +34,6 @@
       <p class="item-header__total">TOTAL</p>
     </div>
     <div class="cart-items-wrapper">
-      <div class="cart__item">
-        <p class="cart__item-num">1</p>
-        <img src="./assets/imgs/test-img.webp" alt="" class="cart__item-img">
-        <p class="cart__item-name">Lenovo Legion 5 Pro</p>
-        <div class="cart__item-details">
-          <span class="details__item">AMD Ryzen 7-5800H</span> //
-          <span class="details__item">16GB RAM</span> //
-          <span class="details__item">1TB SSD</span> //
-          <span class="details__item">RTX 3070 8GB</span>
-        </div>
-        <p class="cart__item-price">$1,418</p>
-        <div class="cart__item-qty">
-          <button class="button btn-minus">−</button>
-          <input type="text" class="amount">
-          <button class="button btn-plus">+</button>
-        </div>
-        <p class="cart__item-total">$1,418</p>
-        <p class="cart__item-del">&#9587;</p>
-      </div>
-      <hr class="split-line">
-      <div class="cart__item">
-        <p class="cart__item-num">2</p>
-        <img src="./assets/imgs/test-img.webp" alt="" class="cart__item-img">
-        <p class="cart__item-name">Lenovo Legion 5 Pro</p>
-        <div class="cart__item-details">
-          <span class="details__item">AMD Ryzen 7-5800H</span> //
-          <span class="details__item">16GB RAM</span> //
-          <span class="details__item">1TB SSD</span> //
-          <span class="details__item">RTX 3070 8GB</span>
-        </div>
-        <p class="cart__item-price">$1,418</p>
-        <div class="cart__item-qty">
-          <button class="button btn-minus">−</button>
-          <input type="text" class="amount">
-          <button class="button btn-plus">+</button>
-        </div>
-        <p class="cart__item-total">$1,418</p>
-        <p class="cart__item-del">&#9587;</p>
-      </div>
     </div>
     <div class="cart-pages">
       <img src="./assets/icons/btn-prev.svg" alt="" class="page-prev btn-page">
@@ -92,6 +66,10 @@
           </div>
           <p class="amount amount-promo">-$10</p>
         </div>
+        <div class="discount-wrapper">
+          <p class="title title-discount">DISCOUNT</p>
+          <p class="amount amount-discount">$1,418</p>
+        </div>
         <hr class="split-line">
         <div class="total-wrapper">
           <p class="title title-total">TOTAL</p>
@@ -109,33 +87,32 @@
   <div class="modal-left">
     <h3 class="modal-header">How would you like to get your order?</h3>
     <label for="first-name" class="modal-label label-first-name">First name</label>
-    <input type="text" id="first-name" class="modal-input input-first-name">
+    <input type="text" id="first-name" class="modal-input input-first-name" minlength="3">
     <label for="last-name" class="modal-label label-last-name">Last name</label>
-    <input type="text" id="last-name" class="modal-input input-last-name">
+    <input type="text" id="last-name" class="modal-input input-last-name" minlength="3">
     <label for="phone-num" class="modal-label label-phone-num">Phone number</label>
     <div class="modal-input-wrapper input-wrapper-phone-num">
-      <span class="country-code">+375</span>
-      <input type="text" id="phone-num" class="modal-input input-phone">
+      <input type="text" id="phone-num" class="modal-input input-phone"  pattern="\+\d{9}">
     </div>
     <label for="address" class="modal-label label-address">Billing address</label>
-    <input type="text" id="address" class="modal-input input-address">
+    <input type="text" id="address" class="modal-input input-address" pattern="^(\b[A-Za-z]{3,}\s+[A-Za-z]{3,}\s+[A-Za-z]{3,}\b)$">
     <label for="email" class="modal-label label-email">E-mail</label>
-    <input type="email" id="email" class="modal-input input-email">
+    <input type="email" id="email" class="modal-input input-email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$">
     <h3 class="modal-header">Payment details</h3>
-    <label for="name" class="modal-label label-name">Name on card</label>
-    <input type="text" id="name" class="modal-input input-name">
+    <label for="name" class="modal-label label-card-name">Name on card</label>
+    <input type="text" id="name" class="modal-input input-card-name">
     <label for="card-num" class="modal-label label-card-num">Card number</label>
-    <input type="text" id="card-num" class="modal-input input-card-num">
+    <input type="text" id="card-num" class="modal-input input-card-num" pattern="^\d{16}$">
     <label for="cvv" class="modal-label label-cvv">CVV</label>
-    <input type="text" id="cvv" class="modal-input input-cvv">
+    <input type="text" id="cvv" class="modal-input input-cvv" maxlength="3" pattern="^\d{3}$">
     <label for="expiry" class="modal-label label-expiry">Expiry</label>
-    <input type="text" id="expiry" class="modal-input input-expiry">
+    <input type="text" id="expiry" class="modal-input input-expiry" maxlength="4" placeholder="MM/DD" pattern="^\d{4}$|^\d{2}\/\d{2}$">
     <button class="button modal-button">Complete payment — $1408</button>
   </div>
   <div class="modal-right">
     <div class="indep-logo-text-wrapper">
-      <p class="indep-header">ONLINE STORE</p>
-      <p class="indep-subheader">TECH SHOP</p>
+      <p class="indep-header">PURLE MOON</p>
+      <p class="indep-subheader">ONLINE STORE</p>
     </div>
   </div>
 </section>
