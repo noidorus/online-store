@@ -15,10 +15,18 @@ export namespace Types {
   }
 
   export interface IFilters {
-    price?: {
+    price: {
       min: number;
       max: number;
     };
+    stock: {
+      min: number;
+      max: number;
+    };
+    discount: {
+      min: number;
+      max: number;
+    }
     categories: string[];
     brands: string[];
   }

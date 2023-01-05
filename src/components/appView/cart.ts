@@ -6,11 +6,13 @@ class Cart {
   totalPrice = 0;
   promoPc = 0;
   totalDiscount = 0;
+  paginationCount = 3;
 
   initCartAdd(productCardDivCart: Element, product: Types.Product) {
+    const card = document.getElementById(`product-${product.id}`);
+    const cardCartWrapper = <HTMLDivElement>card?.lastChild?.lastChild?.lastChild;
+    if (this.productInCart(product)) cardCartWrapper?.classList.add('added');
     productCardDivCart.addEventListener('click', () => {
-      const card = document.getElementById(`product-${product.id}`);
-      const cardCartWrapper = <HTMLDivElement>card?.lastChild?.lastChild?.lastChild;
       if (this.productInCart(product)) {
         this.deleteProduct(product);
         cardCartWrapper?.classList.remove('added');
@@ -38,10 +40,15 @@ class Cart {
     this.updateHeader();
   }
 
-  fillCart() {
+  fillCart(page: number) {
+    const startIdx = page * this.paginationCount;
+    let endIdx = this.cartItems.length >= this.paginationCount ? startIdx + this.paginationCount : this.cartItems.length;
+    if (endIdx > this.cartItems.length) endIdx = this.cartItems.length;
+    const cartItemsWrapper = <HTMLDivElement>document.querySelector('.cart-items-wrapper');
+    cartItemsWrapper.innerHTML = '';
     if (this.cartItems.length == 0) {
-      const cartSubst = <HTMLDivElement>document.querySelector('.cart-substitute');
       const cartWrapper = <HTMLDivElement>document.querySelector('.cart-wrapper');
+      const cartSubst = <HTMLDivElement>document.querySelector('.cart-substitute');
       if (cartSubst && cartWrapper) {
         cartSubst.style.display = 'block';
         cartWrapper.style.display = 'none';
@@ -50,7 +57,7 @@ class Cart {
         });
       }
     } else {
-      for (let i = 0; i < this.cartItems.length; i++) {
+      for (let i = startIdx; i < endIdx; i++) {
         if (i == 0) {
           this.addItem(this.cartItems[i], i + 1, false);
         } else this.addItem(this.cartItems[i], i + 1, true);
@@ -96,6 +103,32 @@ class Cart {
       if (+inputExpiry.value.slice(0, 2) > 12 || +inputExpiry.value.slice(0, 2) < 0) inputExpiry.value = '';
       if (+inputExpiry.value.slice(3) > 31 || +inputExpiry.value.slice(3) < 0) inputExpiry.value = '';
     });
+  }
+
+  updateCart(page: number) {
+    const startIdx = page * this.paginationCount;
+    let endIdx = this.cartItems.length >= this.paginationCount ? startIdx + this.paginationCount : this.cartItems.length;
+    if (endIdx > this.cartItems.length) endIdx = this.cartItems.length;
+    const cartItemsWrapper = <HTMLDivElement>document.querySelector('.cart-items-wrapper');
+    cartItemsWrapper.innerHTML = '';
+    if (this.cartItems.length == 0) {
+      const cartWrapper = <HTMLDivElement>document.querySelector('.cart-wrapper');
+      const cartSubst = <HTMLDivElement>document.querySelector('.cart-substitute');
+      if (cartSubst && cartWrapper) {
+        cartSubst.style.display = 'block';
+        cartWrapper.style.display = 'none';
+        document.querySelector('.cart-substitute__button')?.addEventListener('click', () => {
+          window.location.href = '#catalog';
+        });
+      }
+    } else {
+      for (let i = startIdx; i < endIdx; i++) {
+        if (i == 0) {
+          this.addItem(this.cartItems[i], i + 1, false);
+        } else this.addItem(this.cartItems[i], i + 1, true);
+      }
+    }
+    this.updateCheckout();
   }
 
   addItem(item: Types.ICartSlot, itemPos: number, position: boolean) {
@@ -168,18 +201,24 @@ class Cart {
   ) {
     btnMinus.addEventListener('click', () => {
       input.value = String(+input.value - 1);
-      if (+input.value < 0) input.value = '0';
-      itemTotal.innerHTML = `$${+input.value * item.product.price}`;
-      item.qty = Number(input.value);
+      if (+input.value <= 0) {
+        this.deleteItem(item);
+      } else {
+        itemTotal.innerHTML = `$${+input.value * item.product.price}`;
+        item.qty = Number(input.value);
+      }
       this.updateHeader();
       this.updateCheckout();
     });
 
     input.addEventListener('change', () => {
-      if (+input.value < 0) input.value = '0';
-      if (+input.value > item.product.stock) input.value = String(item.product.stock);
-      itemTotal.innerHTML = `$${+input.value * item.product.price}`;
-      item.qty = Number(input.value);
+      if (+input.value <= 0) {
+        this.deleteItem(item);
+      } else {
+        if (+input.value > item.product.stock) input.value = String(item.product.stock);
+        itemTotal.innerHTML = `$${+input.value * item.product.price}`;
+        item.qty = Number(input.value);
+      }
       this.updateHeader();
       this.updateCheckout();
     });
@@ -203,11 +242,25 @@ class Cart {
   deleteItem(item: Types.ICartSlot) {
     const itemDiv = document.getElementById(`cartItemId${item.product.id}`);
     const breakLine = document.getElementById(`breakLine${item.product.id}`);
+    const pageToInit = this.findPage();
     this.cartItems.splice(this.cartItems.indexOf(item), 1);
     itemDiv?.remove();
     breakLine?.remove();
     this.updateHeader();
     this.updateCheckout();
+    console.log(pageToInit);
+    if (pageToInit !== undefined) this.updatePages(pageToInit);
+    if (this.cartItems.length == 0) {
+      const cartWrapper = <HTMLDivElement>document.querySelector('.cart-wrapper');
+      const cartSubst = <HTMLDivElement>document.querySelector('.cart-substitute');
+      if (cartSubst && cartWrapper) {
+        cartSubst.style.display = 'block';
+        cartWrapper.style.display = 'none';
+        document.querySelector('.cart-substitute__button')?.addEventListener('click', () => {
+          window.location.href = '#catalog';
+        });
+      }
+    }
   }
 
   deleteProduct(product: Types.Product) {
@@ -218,6 +271,33 @@ class Cart {
       }
     }
     this.updateHeader();
+  }
+
+  updatePages(activePage: number) {
+    const pagesCount = Math.ceil(this.cartItems.length / this.paginationCount);
+    console.log(activePage, pagesCount);
+    
+    if (activePage >= pagesCount) {
+      this.initPages(pagesCount, pagesCount - 1);
+      const createdPages = <HTMLDivElement[]>[...document.querySelectorAll('.page-idx')];
+      this.goToPage(createdPages, pagesCount - 1);
+    } else {
+      this.initPages(pagesCount, activePage);
+      const createdPages = <HTMLDivElement[]>[...document.querySelectorAll('.page-idx')];
+      this.goToPage(createdPages, activePage);
+    }
+  }
+
+  findPage() {
+    const currPageItems = document.querySelectorAll('.cart__item');
+    const cartId = currPageItems[0].id.replace('cartItemId', '');
+    let currPage;
+    for (let i = 0; i < this.cartItems.length; i++) {
+      if (this.cartItems[i].product.id == +cartId) {
+        currPage = Math.floor(i / this.paginationCount);
+      }
+    }
+    return currPage;
   }
 
   updateHeader() {
@@ -248,7 +328,6 @@ class Cart {
         this.totalPrice - this.totalDiscount - (this.totalPrice * this.promoPc) / 100
       }`;
     }
-    console.log(this.cartItems);
   }
 
   updatePromo(promoPcAm: number) {
@@ -376,9 +455,91 @@ class Cart {
     });
   }
 
-  // showConfirmationMessage() {
+  initPagesandCart() {
+    // TODO: add query 
+    this.paginationCount = 3;
+    const paginationDropdown = document.querySelector('.pagination-count-wrapper');
+    const paginationVisible = document.querySelector('.pagination-visible--active');
+    const paginationInvisible = document.querySelector('.pagination-invisible');
+    paginationDropdown?.addEventListener('click', () => {
+      paginationInvisible?.classList.toggle('show');
+    });
+    const paginationOpts = document.querySelectorAll('.pagination-inactive');
+    if (paginationVisible) {
+      paginationOpts.forEach((opt) => {
+        opt.addEventListener('click', () => {
+          this.paginationCount = Number(opt.textContent);
+          paginationVisible.textContent = opt.textContent;
+          const pagesCount = Math.ceil(this.cartItems.length / this.paginationCount);
+          this.initPages(pagesCount, 0);
+          this.fillCart(0);
+        });
+      });
+    }
+    const pagesCount = Math.ceil(this.cartItems.length / this.paginationCount);
+    this.initPages(pagesCount, 0);
+    this.fillCart(0);
+  }
 
-  // }
+  initPages(pagesCount: number, pageActive: number) {
+    const catalogPages = <HTMLDivElement>document.querySelector('.cart-pages');
+    if (catalogPages) {
+      if (pagesCount <= 1) {
+        catalogPages.style.display = 'none';
+      } else {
+        catalogPages.style.display = 'flex';
+        this.createPages(pagesCount, pageActive);
+      }
+    }
+  }
+
+  createPages(pagesCount: number, pageActive: number) {
+    const pagesWrapper = document.querySelector('.pages-wrapper');
+    const pageNext = document.querySelector('.page-next');
+    const pagePrev = document.querySelector('.page-prev');
+
+    if (pagesWrapper) {
+      pagesWrapper.innerHTML = '';
+    }
+    const pagesArr: HTMLDivElement[] = [];
+    for (let i = 0; i < pagesCount; i++) {
+      pagesArr.push(document.createElement('p'));
+      pagesArr[i].className = 'catalog__page';
+      pagesArr[i].className = 'page-idx';
+      pagesArr[i].textContent = String(i + 1);
+      pagesWrapper?.append(pagesArr[i]);
+      pagesArr[i].addEventListener('click', () => {
+        this.goToPage(pagesArr, i);
+      });
+    }
+    pagesArr[pageActive].classList.add('page-idx--active');
+    pageNext?.addEventListener('click', () => {
+      this.goToPage(pagesArr, this.findPageIdx(pagesArr) + 1);
+    });
+    pagePrev?.addEventListener('click', () => {
+      this.goToPage(pagesArr, this.findPageIdx(pagesArr) - 1);
+    });
+  }
+
+  goToPage(pagesArr: HTMLDivElement[], idx: number) {
+    const cartDiv: HTMLDivElement | null = document.querySelector('.cart-items-wrapper');
+    if (idx >= 0 && idx < pagesArr.length) {
+      for (let i = 0; i < pagesArr.length; i++) {
+        pagesArr[i].classList.remove('page-idx--active');
+      }
+      pagesArr[idx].classList.add('page-idx--active');
+      if (cartDiv) {
+        this.updateCart(idx);
+      }
+    }
+  }
+
+  findPageIdx(pagesArr: HTMLDivElement[]) {
+    for (let i = 0; i < pagesArr.length; i++) {
+      if (pagesArr[i].classList.contains('page-idx--active')) return i;
+    }
+    return 0;
+  }
 }
 
 export default Cart;

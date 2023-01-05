@@ -10,8 +10,8 @@
         </div>
         <div class="price-range-wrapper range-wrapper">
           <div class="slider-track"></div>
-          <input type="range" name="" id="" class="input-range range-one">
-          <input type="range" name="" id="" class="input-range range-two">
+          <input type="range" name="" id="" class="input-range range-min">
+          <input type="range" name="" id="" class="input-range range-max">
         </div>
       </div>
     </div>
@@ -22,15 +22,20 @@
     </div>
     <div class="accordion-container">
       <p class="filter-label label-accordion">Brand</p>
-      <div class="filter-content filters-scroll brands-filters"></div>
+      <div class="filter-content filters-scroll brand-filters"></div>
     </div>
     <!-- TODO: add slider -->
     <div class="accordion-container">
       <p class="filter-label label-accordion">Stock availability</p>
       <div class="filter-content content-accordion">
         <div class="stock-box-container input-box-container">
-          <input type="text" class="stock-box input-box">
-          <input type="text" class="stock-box input-box">
+          <input type="text" class="stock-min input-box">
+          <input type="text" class="stock-max input-box">
+        </div>
+        <div class="stock-range-wrapper range-wrapper">
+          <div class="slider-track"></div>
+          <input type="range" name="" id="" class="input-range range-min">
+          <input type="range" name="" id="" class="input-range range-max">
         </div>
       </div>
     </div>
@@ -39,8 +44,13 @@
       <p class="filter-label label-accordion">Discount</p>
       <div class="filter-content content-accordion">
         <div class="discount-box-container input-box-container">
-          <input type="text" class="discount-box input-box">
-          <input type="text" class="discount-box input-box">
+          <input type="text" class="discount-min input-box">
+          <input type="text" class="discount-max input-box">
+        </div>
+        <div class="discount-range-wrapper range-wrapper">
+          <div class="slider-track"></div>
+          <input type="range" name="" id="" class="input-range range-min">
+          <input type="range" name="" id="" class="input-range range-max">
         </div>
       </div>
     </div>
@@ -63,10 +73,23 @@
       <div class="sort-dropdown">
         <div class="sort-dropdown__label">Sort</div>
         <div class="sort-dropdown-icon"></div>
-        <div class="sort-dropdown-items">
-          <p class="dropdown__item"></p>
-          <p class="dropdown__item"></p>
-          <p class="dropdown__item"></p>
+      </div>
+      <div class="sort-dropdown-items">
+        <div class="dropdown__item" id="price-des">
+          <p class="dropdown__item-name">Price</p>
+          <div class="dropdown__item-arrow arrow-up"></div>
+        </div>
+        <div class="dropdown__item" id="price-asc">
+          <p class="dropdown__item-name">Price</p>
+          <div class="dropdown__item-arrow arrow-down"></div>
+        </div>
+        <div class="dropdown__item" id="rating-des">
+          <p class="dropdown__item-name">Rating</p>
+          <div class="dropdown__item-arrow arrow-up"></div>
+        </div>
+        <div class="dropdown__item" id="rating-asc">
+          <p class="dropdown__item-name">Rating</p>
+          <div class="dropdown__item-arrow arrow-down"></div>
         </div>
       </div>
     </div>
@@ -97,5 +120,11 @@
   </div>
 
   <div class="cards-wrapper">
+  </div>
+  <div class="catalog-pages">
+    <img src="./assets/icons/btn-prev.svg" alt="" class="page-prev btn-page">
+    <div class="pages-wrapper">
+    </div>
+    <img src="./assets/icons/btn-next.svg" alt="" class="page-next btn-page">
   </div>
 </div>

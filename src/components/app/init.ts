@@ -1,124 +1,132 @@
 import AppController from '../controller/controller';
 import AppView from '../appView/appView';
-import Router from '../route/router';
+// import Router from '../route/router';
 import Route from '../route/route';
 import { Types } from '../types/Types';
 
 export default class Init {
   controller: AppController;
   view: AppView;
-  cardRouter: Router = new Router([]);
+  // router: Router;
   filtersObj: Types.IFilters;
-  page: number;
+  cache: Types.Product[] = [];
 
   constructor() {
+    // this.router = new Router([
+    //   new Route('catalog', 'catalog.html', true),
+    //   new Route('cart', 'cart.html'),
+    //   new Route('404', '404.html'),
+    // ]);
     this.controller = new AppController();
     this.view = new AppView();
     this.filtersObj = {
       categories: [],
       brands: [],
+      price: {
+        min: 0,
+        max: 0,
+      },
+      stock: {
+        min: 0,
+        max: 0,
+      },
+      discount: {
+        min: 0,
+        max: 0,
+      },
     };
-    this.page = 0;
+    // this.page = 0;
   }
 
-  initHeaderLinks() {
-    const catalogLink = document.querySelector('.nav-list__item');
-
-    catalogLink?.addEventListener('click', () => {
-      window.onhashchange = () => {
-        this.initCatalog();
-        this.initFilters();
-      };
-    });
-  }
-
-  initCatalog() {
-    setTimeout(() => {
-      const catalogDiv: HTMLDivElement | null = document.querySelector('.cards-wrapper');
-      this.controller.getProducts((data?) => {
-        if (data !== undefined && catalogDiv) {
-          catalogDiv.innerHTML = '';
-          this.view.createCatalog(data, catalogDiv, this.filtersObj, this.page);
-          this.view.createToggle();
-          this.selectCards();
-        } else if (data !== undefined) {
-          for (let i = 0; i < data.products.length; i++) {
-            this.makeRoute(data.products[i].id);
-          }
-        }
-      });
-    }, 50);
-  }
-
-  selectCards() {
-    const productCards = document.querySelectorAll('.product-card');
-    productCards.forEach((el) => {
-      this.makeRoute(Number(el.id.split('-')[1]));
-      this.initCardLinks(el);
-    });
-  }
-
-  initCardLinks(el: Element) {
-    el.addEventListener('click', (e) => {
-      if (e.target) {
-        const eventTarget = <HTMLDivElement>e.target;
-        if (
-          !eventTarget.classList.contains('card-cart-img') &&
-          !eventTarget.classList.contains('card-cart') &&
-          !eventTarget.classList.contains('card-bottom-wrapper')
-        ) {
-          window.location.hash = `#product-details/${el.id.split('-')[1]}`;
-          this.initProductDetails();
-        }
+  getData(routeArr: Route[], callback: () => void) {
+    this.controller.getProducts((data?) => {
+      if (data !== undefined) {
+        this.cache = [...data.products];
+        this.loadCardRoutes(routeArr, data.products);
+        callback();
       }
     });
+  }
+
+  loadCardRoutes(routeArr: Route[], data: Types.Product[]) {
+    for (let i = 0; i < data.length; i++) {
+      routeArr.push(new Route(`product-details/${data[i].id}`, 'product-details.html'));
+    }
+  }
+
+  // initApp() {
+  //   if (window.location.hash == '' || window.location.hash == '#catalog') {
+  //     this.initFilters();
+  //     this.initCatalog();
+  //   } else if (window.location.hash == '#cart') {
+  //     this.initCart();
+  //   } else if (window.location.hash.match(/^(\#product-details\/(100|[1-9][0-9]?))$/g)) {
+  //     const windowHash = window.location.hash.split('/');
+  //     const productWrapperDiv: HTMLDivElement | null = document.querySelector('.product-wrapper');
+  //     this.controller.getProductDetails(
+  //       (data?) => {
+  //         if (data !== undefined && productWrapperDiv) {
+  //           this.view.showProductDetails(data);
+  //         }
+  //       },
+  //       {
+  //         id: Number(windowHash[windowHash.length - 1]),
+  //       }
+  //     );
+  //   }
+  // }
+
+  initCatalog(/* data: Types.Product[] */) {
+    const catalogDiv: HTMLDivElement | null = document.querySelector('.cards-wrapper');
+    const data = this.cache;
+    if (data !== undefined && catalogDiv) {
+      catalogDiv.innerHTML = '';
+      this.view.initPagesandFilter(data, this.filtersObj, catalogDiv);
+      this.view.createToggle();
+      this.view.createDropdown();
+    }
+  }
+
+  initCart() {
+    const cartDiv = document.querySelector('.cart');
+    if (cartDiv) {
+      this.view.createCart();
+    }
   }
 
   initProductDetails() {
-    setTimeout(() => {
-      const windowHash = window.location.hash.split('/');
-      if (windowHash[0] === '#product-details') {
-        const productWrapperDiv: HTMLDivElement | null = document.querySelector('.product-wrapper');
-        this.controller.getProductDetails(
-          (data?) => {
-            if (data !== undefined && productWrapperDiv) {
-              this.view.showProductDetails(data);
-            }
-          },
-          {
-            id: Number(windowHash[windowHash.length - 1]),
-          }
-        );
+    const windowHash = window.location.hash.split('/');
+    const productWrapperDiv: HTMLDivElement | null = document.querySelector('.product-wrapper');
+    this.controller.getProductDetails(
+      (data?) => {
+        if (data !== undefined && productWrapperDiv) {
+          this.view.showProductDetails(data);
+        }
+      },
+      {
+        id: Number(windowHash[windowHash.length - 1]),
       }
-    }, 500);
+    );
   }
 
-  makeRoute(elId: number) {
-    this.cardRouter.routes.push(new Route(`product-details/${elId}`, 'product-details.html'));
-    this.cardRouter.init();
-  }
-
-  initFilters() {
-    setTimeout(() => {
-      const filtersDiv: HTMLDivElement | null = document.querySelector('.filters-wrapper');
-
-      this.controller.getCategories((data?) => {
-        if (data !== undefined && filtersDiv) {
-          this.view.createFilterCaregories(data, filtersDiv);
-        }
-      });
-
-      this.controller.getProducts((data?) => {
-        if (data !== undefined && filtersDiv) {
-          this.view.createFilterBrands(data, filtersDiv);
-          this.view.createFilterPrice(data, filtersDiv, this.filtersObj);
-        }
-      });
-    }, 50);
-
-    setTimeout(() => {
-      this.filtersListener();
-    }, 1000);
+  initFilters(/* data: Types.Product[] */) {
+    const data = this.cache;
+    const filtersDiv: HTMLDivElement | null = document.querySelector('.filters-wrapper');
+    if (data !== undefined && filtersDiv) {
+      this.view.createCheckFilters(data, 'brand');
+      this.view.createCheckFilters(data, 'category');
+      this.view.createPriceFilters(data, this.filtersObj);
+      this.view.createStockFilters(data, this.filtersObj);
+      this.view.createDiscountFilters(data, this.filtersObj);
+      this.filtersCheckListener(data);
+      this.filtersRangeListener(data);
+      // * TODO: SEARCH & FILTER & SORT & CHANGE CARDS THROUGH QUERY
+      // * TODO: COMBINE SEARCHING AND FILTERING
+      // * GET QUERY = WINDOW.LOCATION.SEARCH
+      // * todo: add promocodes
+      //  * IN CART: блок примененных промокодов
+      //  * IN CART: общее количество товаров
+    }
   }
 
   changeCheckboxes(input: NodeListOf<HTMLElement>, index: number, arr: string[]) {
@@ -133,12 +141,13 @@ export default class Init {
     }
   }
 
-  filtersListener() {
-    const categoriesInput = document.getElementsByName('categories');
-    const categoriesLabels = document.querySelectorAll('.categories__item');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  filtersCheckListener(data: Types.Product[]) {
+    const categoriesInput = document.getElementsByName('category');
+    const categoriesLabels = document.querySelectorAll('.category__item');
 
-    const brandInputs = document.getElementsByName('brands');
-    const brandLabels = document.querySelectorAll('.brands__item');
+    const brandInputs = document.getElementsByName('brand');
+    const brandLabels = document.querySelectorAll('.brand__item');
 
     categoriesLabels.forEach((label, indx) => {
       label.addEventListener('input', () => {
@@ -157,9 +166,54 @@ export default class Init {
     });
   }
 
-  initCart() {
-    setTimeout(() => {
-      this.view.createCart();
-    }, 50);
+  filtersRangeListener(data: Types.Product[]) {
+    this.addFilterRangeListener('price', data, this.filtersObj.price);
+    this.addFilterRangeListener('stock', data, this.filtersObj.stock);
+    this.addFilterRangeListener('discount', data, this.filtersObj.discount);
+  }
+
+  addFilterRangeListener(filterType: string, data: Types.Product[], inputVals: { min: number; max: number }) {
+    const sliderWrapper = document.querySelector(`.${filterType}-range-wrapper`);
+    const sliderInputMin = <HTMLInputElement>sliderWrapper?.querySelector('.range-min');
+    const sliderInputMax = <HTMLInputElement>sliderWrapper?.querySelector('.range-max');
+    const inputBoxMin = <HTMLInputElement>document.querySelector(`.${filterType}-min`);
+    const inputBoxMax = <HTMLInputElement>document.querySelector(`.${filterType}-max`);
+    const sliderTrack = <HTMLDivElement>sliderWrapper?.querySelector('.slider-track');
+    sliderInputMin.addEventListener('input', () => {
+      inputVals.min = +sliderInputMin.value;
+      inputVals.max = +sliderInputMax.value;
+      setTimeout(() => {
+        this.initCatalog();
+      }, 300);
+      this.view.catalog.calcSliderInput(sliderInputMin, sliderInputMax, inputBoxMin, inputBoxMax, sliderTrack, true);
+    });
+    sliderInputMax.addEventListener('input', () => {
+      inputVals.min = +sliderInputMin.value;
+      inputVals.max = +sliderInputMax.value;
+      setTimeout(() => {
+        this.initCatalog();
+      }, 300);
+      this.view.catalog.calcSliderInput(sliderInputMin, sliderInputMax, inputBoxMin, inputBoxMax, sliderTrack, true);
+    });
+    inputBoxMin.addEventListener('input', () => {
+      sliderInputMin.value = inputBoxMin.value;
+      if (inputBoxMin.value == '') sliderInputMin.value = sliderInputMin.min;
+      inputVals.min = +inputBoxMin.value;
+      inputVals.max = +inputBoxMin.value;
+      setTimeout(() => {
+        this.initCatalog();
+      }, 300);
+      this.view.catalog.calcSliderInput(sliderInputMin, sliderInputMax, inputBoxMin, inputBoxMax, sliderTrack, false);
+    });
+    inputBoxMin.addEventListener('input', () => {
+      sliderInputMax.value = inputBoxMin.value;
+      if (inputBoxMax.value == '') sliderInputMax.value = sliderInputMax.max;
+      inputVals.min = +inputBoxMin.value;
+      inputVals.max = +inputBoxMin.value;
+      setTimeout(() => {
+        this.initCatalog();
+      }, 300);
+      this.view.catalog.calcSliderInput(sliderInputMin, sliderInputMax, inputBoxMin, inputBoxMax, sliderTrack, false);
+    });
   }
 }
