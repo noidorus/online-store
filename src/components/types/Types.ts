@@ -53,13 +53,13 @@ export namespace Types {
   export interface IOptions {
     id?: number;
     caterory?: string;
-    // search?: string;
+    search?: string;
     endpoint?: Endpoint;
   }
 
   export enum Endpoint {
     CATEGORIES = 'categories',
     CATEGORY = 'category',
-    // SEARCH = 'search',
+    SEARCH = 'search',
   }
 }

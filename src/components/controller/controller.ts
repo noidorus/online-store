@@ -16,4 +16,11 @@ export default class AppController extends AppLoader {
       endpoint: Types.Endpoint.CATEGORIES,
     });
   }
+
+  getSearchResults(searchString: string, callback: Types.CallBackType) {
+    super.getResp(callback, {
+      endpoint: Types.Endpoint.SEARCH,
+      search: searchString,
+    });
+  }
 }

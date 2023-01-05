@@ -38,8 +38,7 @@ class Router {
     }
     if (window.location.hash == '#catalog' || window.location.hash == '') {
       this.hasChanged(this.routes, () => {
-        this.init.initFilters();
-        this.init.initCatalog();
+        this.init.initMainPage();
       });
     }
     if (window.location.hash.match(/^(\#product-details\/(100|[1-9][0-9]?))$/g)) {
