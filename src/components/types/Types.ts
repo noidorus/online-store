@@ -26,7 +26,7 @@ export namespace Types {
     discount: {
       min: number;
       max: number;
-    }
+    };
     categories: string[];
     brands: string[];
   }
@@ -57,13 +57,8 @@ export namespace Types {
 
   export interface IOptions {
     id?: number;
-<<<<<<< HEAD
-    // caterory?: string;
-    // search?: string;
-=======
     caterory?: string;
     search?: string;
->>>>>>> c33a879ed861fd6762711abe400c26d62ae886c6
     endpoint?: Endpoint;
   }
 
@@ -72,7 +67,5 @@ export namespace Types {
     CATEGORY = 'category',
     SEARCH = 'search',
   }
-  
   export const promos = ['FIRELINK/10', 'DOGDOG/10', 'PALISADE/20', 'PIRANHA/30'];
 }
-
