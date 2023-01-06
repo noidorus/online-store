@@ -126,6 +126,8 @@ class AppView {
   }
 
   initPagesandFilter(filteredArr: Types.Product[], filtersObj: Types.IFilters) {
+    const storagedItems = localStorage.getItem('onlineStoreCart112547');
+    if (storagedItems) this.cart.cartItems = JSON.parse(storagedItems);
     const catalogDiv: HTMLDivElement | null = document.querySelector('.cards-wrapper');
     const pagesCount = Math.ceil(filteredArr.length / PAGINATION_COUNT);
     this.initPages(filteredArr, pagesCount);
@@ -133,6 +135,7 @@ class AppView {
     if (catalogDiv) {
       catalogDiv.innerHTML = '';
       this.createCatalog(filteredArr, catalogDiv, 0);
+      this.cart.updateHeader();
     }
   }
 
@@ -148,9 +151,7 @@ class AppView {
         this.catalog.drawCard(filteredArr[i], catalogDiv);
       }
     }
-    // filteredArr.forEach((card) => {
-    //   this.catalog.drawCard(card, catalogDiv);
-    // });
+
     const productCards = document.querySelectorAll('.product-card');
     const productCardsDivsCart = document.querySelectorAll('.card-cart');
     if (productCardsDivsCart && productCards) {
@@ -310,7 +311,7 @@ class AppView {
   }
 
   createCart() {
-    this.cart.initPagesandCart();
+    this.cart.initCartPage();
   }
 }
 

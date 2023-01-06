@@ -124,6 +124,8 @@ class ProductDetails {
   }
 
   initButtons(data: Types.Product) {
+    const storagedItems = localStorage.getItem('onlineStoreCart112547');
+    if (storagedItems) this.cart.cartItems = JSON.parse(storagedItems);
     const btnAdd = document.querySelector('.button-add');
     const btnBuyNow = document.querySelector('.button-buy-now');
     const btnGoToCart = document.querySelector('.to-cart');
