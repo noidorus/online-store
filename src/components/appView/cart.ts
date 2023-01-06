@@ -42,7 +42,8 @@ class Cart {
 
   fillCart(page: number) {
     const startIdx = page * this.paginationCount;
-    let endIdx = this.cartItems.length >= this.paginationCount ? startIdx + this.paginationCount : this.cartItems.length;
+    let endIdx =
+      this.cartItems.length >= this.paginationCount ? startIdx + this.paginationCount : this.cartItems.length;
     if (endIdx > this.cartItems.length) endIdx = this.cartItems.length;
     const cartItemsWrapper = <HTMLDivElement>document.querySelector('.cart-items-wrapper');
     cartItemsWrapper.innerHTML = '';
@@ -107,7 +108,8 @@ class Cart {
 
   updateCart(page: number) {
     const startIdx = page * this.paginationCount;
-    let endIdx = this.cartItems.length >= this.paginationCount ? startIdx + this.paginationCount : this.cartItems.length;
+    let endIdx =
+      this.cartItems.length >= this.paginationCount ? startIdx + this.paginationCount : this.cartItems.length;
     if (endIdx > this.cartItems.length) endIdx = this.cartItems.length;
     const cartItemsWrapper = <HTMLDivElement>document.querySelector('.cart-items-wrapper');
     cartItemsWrapper.innerHTML = '';
@@ -276,7 +278,7 @@ class Cart {
   updatePages(activePage: number) {
     const pagesCount = Math.ceil(this.cartItems.length / this.paginationCount);
     console.log(activePage, pagesCount);
-    
+
     if (activePage >= pagesCount) {
       this.initPages(pagesCount, pagesCount - 1);
       const createdPages = <HTMLDivElement[]>[...document.querySelectorAll('.page-idx')];
@@ -456,7 +458,7 @@ class Cart {
   }
 
   initPagesandCart() {
-    // TODO: add query 
+    // TODO: add query
     this.paginationCount = 3;
     const paginationDropdown = document.querySelector('.pagination-count-wrapper');
     const paginationVisible = document.querySelector('.pagination-visible--active');

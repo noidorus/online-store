@@ -75,31 +75,21 @@ class Catalog {
     // productCard.append(productCardLink);
     productCard.append(productImg);
     productCard.append(cardTextWrapper);
-    
+
     cardTextWrapper.append(cardTop);
     cardTextWrapper.append(cardTitle);
     cardTextWrapper.append(cardDescription);
     cardTextWrapper.append(cardBottom);
-    
+
     cardTop.append(cardPrice, productCardLink);
     cardBottom.append(cardRating, cardCart);
-    
+
     cardRating.append(ratingStar);
     cardRating.append(raitingText);
-    
+
     cardCart.append(cardCartImg);
     div.append(productCard);
   }
-
-  // drawPrice(price: { min: number; max: number }, filtersDiv: HTMLDivElement) {
-  //   const inputTextMin: HTMLInputElement | null = filtersDiv.querySelector('.price-min');
-  //   const inputTextMax: HTMLInputElement | null = filtersDiv.querySelector('.price-max');
-
-  //   if (inputTextMin && inputTextMax) {
-  //     inputTextMin.value = price.min.toString();
-  //     inputTextMax.value = price.max.toString();
-  //   }
-  // }
 
   drawSliderFilter(filterCat: { min: number; max: number }, filterType: string) {
     const inputTextMin: HTMLInputElement | null = document.querySelector(`.${filterType}-min`);
@@ -110,7 +100,7 @@ class Catalog {
     }
     this.drawSliderInput(filterCat, filterType);
   }
-  
+
   drawSliderInput(filterCat: { min: number; max: number }, filterType: string) {
     const sliderWrapper = document.querySelector(`.${filterType}-range-wrapper`);
     const sliderInputMin = <HTMLInputElement>sliderWrapper?.querySelector('.range-min');
@@ -151,10 +141,9 @@ class Catalog {
     sliderTrack.style.background = this.fillSliderTrack(sliderInputMin, sliderInputMax, sliderMaxValue);
   }
 
-  
-
-  fillSliderTrack(minInput: HTMLInputElement, maxInput: HTMLInputElement, maxVal: string) {
-    const dif = 100 / (+maxInput.max - +minInput.min);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  fillSliderTrack(minInput: HTMLInputElement, maxInput: HTMLInputElement, maxVal?: string) {
+    const dif = Math.round(100 / (+maxInput.max - +minInput.min));
     const pc1 = (+minInput.value - +minInput.min) * dif;
     const pc2 = (+maxInput.value - +minInput.min) * dif;
     return `Linear-Gradient(To Right, #Dadae5 ${pc1}% , #8e2de2 ${pc1}% , #8e2de2 ${pc2}%, #Dadae5 ${pc2}%)`;

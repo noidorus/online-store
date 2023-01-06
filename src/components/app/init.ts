@@ -1,22 +1,15 @@
 import AppController from '../controller/controller';
 import AppView from '../appView/appView';
-// import Router from '../route/router';
 import Route from '../route/route';
 import { Types } from '../types/Types';
 
 export default class Init {
   controller: AppController;
   view: AppView;
-  // router: Router;
   filtersObj: Types.IFilters;
   cache: Types.Product[] = [];
 
   constructor() {
-    // this.router = new Router([
-    //   new Route('catalog', 'catalog.html', true),
-    //   new Route('cart', 'cart.html'),
-    //   new Route('404', '404.html'),
-    // ]);
     this.controller = new AppController();
     this.view = new AppView();
     this.filtersObj = {
@@ -35,7 +28,6 @@ export default class Init {
         max: 0,
       },
     };
-    // this.page = 0;
   }
 
   getData(routeArr: Route[], callback: () => void) {
@@ -53,28 +45,6 @@ export default class Init {
       routeArr.push(new Route(`product-details/${data[i].id}`, 'product-details.html'));
     }
   }
-
-  // initApp() {
-  //   if (window.location.hash == '' || window.location.hash == '#catalog') {
-  //     this.initFilters();
-  //     this.initCatalog();
-  //   } else if (window.location.hash == '#cart') {
-  //     this.initCart();
-  //   } else if (window.location.hash.match(/^(\#product-details\/(100|[1-9][0-9]?))$/g)) {
-  //     const windowHash = window.location.hash.split('/');
-  //     const productWrapperDiv: HTMLDivElement | null = document.querySelector('.product-wrapper');
-  //     this.controller.getProductDetails(
-  //       (data?) => {
-  //         if (data !== undefined && productWrapperDiv) {
-  //           this.view.showProductDetails(data);
-  //         }
-  //       },
-  //       {
-  //         id: Number(windowHash[windowHash.length - 1]),
-  //       }
-  //     );
-  //   }
-  // }
 
   initCatalog(/* data: Types.Product[] */) {
     const catalogDiv: HTMLDivElement | null = document.querySelector('.cards-wrapper');
@@ -179,40 +149,54 @@ export default class Init {
     const inputBoxMin = <HTMLInputElement>document.querySelector(`.${filterType}-min`);
     const inputBoxMax = <HTMLInputElement>document.querySelector(`.${filterType}-max`);
     const sliderTrack = <HTMLDivElement>sliderWrapper?.querySelector('.slider-track');
+
     sliderInputMin.addEventListener('input', () => {
       inputVals.min = +sliderInputMin.value;
       inputVals.max = +sliderInputMax.value;
+
       setTimeout(() => {
         this.initCatalog();
       }, 300);
+
       this.view.catalog.calcSliderInput(sliderInputMin, sliderInputMax, inputBoxMin, inputBoxMax, sliderTrack, true);
     });
+
     sliderInputMax.addEventListener('input', () => {
       inputVals.min = +sliderInputMin.value;
       inputVals.max = +sliderInputMax.value;
+
       setTimeout(() => {
         this.initCatalog();
       }, 300);
+
       this.view.catalog.calcSliderInput(sliderInputMin, sliderInputMax, inputBoxMin, inputBoxMax, sliderTrack, true);
     });
+
     inputBoxMin.addEventListener('input', () => {
       sliderInputMin.value = inputBoxMin.value;
       if (inputBoxMin.value == '') sliderInputMin.value = sliderInputMin.min;
+
       inputVals.min = +inputBoxMin.value;
       inputVals.max = +inputBoxMin.value;
+
       setTimeout(() => {
         this.initCatalog();
       }, 300);
+
       this.view.catalog.calcSliderInput(sliderInputMin, sliderInputMax, inputBoxMin, inputBoxMax, sliderTrack, false);
     });
+
     inputBoxMin.addEventListener('input', () => {
       sliderInputMax.value = inputBoxMin.value;
       if (inputBoxMax.value == '') sliderInputMax.value = sliderInputMax.max;
+
       inputVals.min = +inputBoxMin.value;
       inputVals.max = +inputBoxMin.value;
+
       setTimeout(() => {
         this.initCatalog();
       }, 300);
+
       this.view.catalog.calcSliderInput(sliderInputMin, sliderInputMax, inputBoxMin, inputBoxMax, sliderTrack, false);
     });
   }
