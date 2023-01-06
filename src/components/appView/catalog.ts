@@ -11,7 +11,6 @@ class Catalog {
     input.className = `checkbox__item-input ${name}__item-input`;
     span.className = 'checkmark';
     if (name == 'category') {
-      console.log('capitalized');
       label.textContent = capitalizeExpr(category);
     } else {
       label.textContent = category;
@@ -75,18 +74,18 @@ class Catalog {
     // productCard.append(productCardLink);
     productCard.append(productImg);
     productCard.append(cardTextWrapper);
-    
+
     cardTextWrapper.append(cardTop);
     cardTextWrapper.append(cardTitle);
     cardTextWrapper.append(cardDescription);
     cardTextWrapper.append(cardBottom);
-    
+
     cardTop.append(cardPrice, productCardLink);
     cardBottom.append(cardRating, cardCart);
-    
+
     cardRating.append(ratingStar);
     cardRating.append(raitingText);
-    
+
     cardCart.append(cardCartImg);
     div.append(productCard);
   }
@@ -110,7 +109,7 @@ class Catalog {
     }
     this.drawSliderInput(filterCat, filterType);
   }
-  
+
   drawSliderInput(filterCat: { min: number; max: number }, filterType: string) {
     const sliderWrapper = document.querySelector(`.${filterType}-range-wrapper`);
     const sliderInputMin = <HTMLInputElement>sliderWrapper?.querySelector('.range-min');
@@ -154,8 +153,6 @@ class Catalog {
     if (input) inputBoxMax.value = sliderInputMax.value;
     sliderTrack.style.background = this.fillSliderTrack(sliderInputMin, sliderInputMax, sliderMaxValue);
   }
-
-  
 
   fillSliderTrack(minInput: HTMLInputElement, maxInput: HTMLInputElement, maxVal: string) {
     const dif = 100 / (+maxInput.max - +minInput.min);

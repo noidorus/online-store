@@ -1,6 +1,5 @@
 import AppController from '../controller/controller';
 import AppView from '../appView/appView';
-import Router from '../route/router';
 import Route from '../route/route';
 import { Types } from '../types/Types';
 
@@ -167,7 +166,7 @@ export default class Init {
     );
   }
 
-  initFilters(/* data: Types.Product[] */) {
+  initFilters() {
     const filterParams = new URLSearchParams(window.location.search);
     const data = this.cache;
     const filtersDiv: HTMLDivElement | null = document.querySelector('.filters-wrapper');

@@ -23,7 +23,6 @@
 
   padding: 0.5em 1em;
   border-radius: 1em;
-  cursor: pointer;
 }
 
 .crumb-split {
@@ -264,10 +263,10 @@
   background-size: 300%;
   border-radius: 1em;
   box-shadow: 0 0 50px 2px black;
-  top: 19%;
-  left: 41%;
-  width: 50em;
-  height: 50em;
+  top: 10%;
+  left: 45%;
+  width: 70em;
+  height: 70em;
 }
 
 @media (max-width: 1919px) {
@@ -275,5 +274,10 @@
   .breadcrumbs,
   .product-wrapper {
     width: 100%;
+  }
+
+  .modal-prodDetails {
+    width: 50vw;
+    height: 50vw;
   }
 }

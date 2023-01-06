@@ -62,4 +62,7 @@ export namespace Types {
     CATEGORY = 'category',
     SEARCH = 'search',
   }
+  
+  export const promos = ['FIRELINK/10', 'DOGDOG/10', 'PALISADE/20', 'PIRANHA/30'];
 }
+
