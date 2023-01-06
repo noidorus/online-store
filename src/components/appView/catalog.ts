@@ -41,7 +41,6 @@ class Catalog {
     const cardCartImg = document.createElement('img');
 
     // Add Classes
-    // productCardLink.className = 'product-card-link';
     productCard.className = 'product-card';
     productCardLink.href = `#product-details/${card.id}`;
     productCard.id = `product-${card.id}`;
@@ -71,7 +70,6 @@ class Catalog {
     raitingText.textContent = card.rating.toString();
 
     // Add to html
-    // productCard.append(productCardLink);
     productCard.append(productImg);
     productCard.append(cardTextWrapper);
 
@@ -89,16 +87,6 @@ class Catalog {
     cardCart.append(cardCartImg);
     div.append(productCard);
   }
-
-  // drawPrice(price: { min: number; max: number }, filtersDiv: HTMLDivElement) {
-  //   const inputTextMin: HTMLInputElement | null = filtersDiv.querySelector('.price-min');
-  //   const inputTextMax: HTMLInputElement | null = filtersDiv.querySelector('.price-max');
-
-  //   if (inputTextMin && inputTextMax) {
-  //     inputTextMin.value = price.min.toString();
-  //     inputTextMax.value = price.max.toString();
-  //   }
-  // }
 
   drawSliderFilter(filterCat: { min: number; max: number }, filterType: string) {
     const inputTextMin: HTMLInputElement | null = document.querySelector(`.${filterType}-min`);
