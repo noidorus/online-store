@@ -21,10 +21,17 @@ class Loader {
       switch (options.endpoint) {
         case Types.Endpoint.CATEGORIES:
           return `${this.baseLink}/categories`;
+<<<<<<< HEAD
         // case Types.Endpoint.CATEGORY:
         //   return `${this.baseLink}/category/${options.caterory}`;
         // case Types.Endpoint.SEARCH:
         //   return `${this.baseLink}/search?q=${options.search}`;
+=======
+        case Types.Endpoint.CATEGORY:
+          return `${this.baseLink}/category/${options.caterory}`;
+        case Types.Endpoint.SEARCH:
+          return `${this.baseLink}/search?q=${options.search}`;
+>>>>>>> c33a879ed861fd6762711abe400c26d62ae886c6
         default:
           return `${this.baseLink}/${options.id}`;
       }

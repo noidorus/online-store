@@ -11,7 +11,6 @@ class Catalog {
     input.className = `checkbox__item-input ${name}__item-input`;
     span.className = 'checkmark';
     if (name == 'category') {
-      console.log('capitalized');
       label.textContent = capitalizeExpr(category);
     } else {
       label.textContent = category;
@@ -110,8 +109,12 @@ class Catalog {
     const sliderTrack = <HTMLDivElement>sliderWrapper?.querySelector('.slider-track');
     sliderInputMin.max = String(filterCat.max);
     sliderInputMax.max = String(filterCat.max);
+    inputBoxMin.max = String(filterCat.max);
+    inputBoxMax.max = String(filterCat.max);
     sliderInputMin.min = String(filterCat.min);
     sliderInputMax.min = String(filterCat.min);
+    inputBoxMin.min = String(filterCat.min);
+    inputBoxMax.min = String(filterCat.min);
     sliderInputMin.value = sliderInputMin.min;
     sliderInputMax.value = sliderInputMax.max;
     this.calcSliderInput(sliderInputMin, sliderInputMax, inputBoxMin, inputBoxMax, sliderTrack, true);
@@ -147,22 +150,6 @@ class Catalog {
     const pc1 = (+minInput.value - +minInput.min) * dif;
     const pc2 = (+maxInput.value - +minInput.min) * dif;
     return `Linear-Gradient(To Right, #Dadae5 ${pc1}% , #8e2de2 ${pc1}% , #8e2de2 ${pc2}%, #Dadae5 ${pc2}%)`;
-  }
-
-  addCardViewToggler() {
-    const toggleBtn = document.querySelector('.display-icon');
-    const catalogContainer = document.querySelector('.cards-wrapper');
-    if (toggleBtn && catalogContainer) {
-      toggleBtn.addEventListener('click', () => {
-        if (toggleBtn.classList.contains('list')) {
-          toggleBtn.classList.remove('list');
-          catalogContainer.classList.remove('list');
-        } else {
-          toggleBtn.classList.add('list');
-          catalogContainer.classList.add('list');
-        }
-      });
-    }
   }
 }
 

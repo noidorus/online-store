@@ -1,4 +1,3 @@
-// import LoadRoutes from '../route/loadRoutes';
 import Route from '../route/route';
 import Router from '../route/router';
 

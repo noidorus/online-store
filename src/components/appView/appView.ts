@@ -10,8 +10,6 @@ class AppView {
   catalog: Catalog;
   cart: Cart;
 
-  filteredArr: Types.Product[] = [];
-
   cartItems: Types.TCart;
 
   constructor() {
@@ -26,7 +24,38 @@ class AppView {
   }
 
   createToggle() {
-    this.catalog.addCardViewToggler();
+    const toggleQuery = new URLSearchParams(window.location.search);
+    const toggleBtn = <HTMLDivElement>document.querySelector('.display-icon');
+    const catalogContainer = <HTMLDivElement>document.querySelector('.cards-wrapper');
+    this.getToggleView(toggleQuery, toggleBtn, catalogContainer);
+    if (toggleBtn && catalogContainer) {
+      toggleBtn.addEventListener('click', () => {
+        if (toggleBtn.classList.contains('list')) {
+          toggleBtn.classList.remove('list');
+          catalogContainer.classList.remove('list');
+          toggleQuery.set('view', 'card');
+          const newPathQuery = window.location.pathname + '?' + toggleQuery.toString();
+          history.pushState(null, '', newPathQuery);
+        } else {
+          toggleBtn.classList.add('list');
+          catalogContainer.classList.add('list');
+          toggleQuery.set('view', 'list');
+          const newPathQuery = window.location.pathname + '?' + toggleQuery.toString();
+          history.pushState(null, '', newPathQuery);
+        }
+      });
+    }
+  }
+
+  getToggleView(toggleQuery: URLSearchParams, toggleBtn: HTMLDivElement, catalogContainer: HTMLDivElement) {
+    const currView = toggleQuery.get('view');
+    if (currView == 'list') {
+      toggleBtn.classList.add('list');
+      catalogContainer.classList.add('list');
+    } else {
+      toggleBtn.classList.remove('list');
+      catalogContainer.classList.remove('list');
+    }
   }
 
   createDropdown() {
@@ -94,49 +123,25 @@ class AppView {
     this.catalog.drawSliderFilter(discount, 'discount');
   }
 
-  filterProducts(data: Types.Product[], filtersObj: Types.IFilters) {
-    this.filteredArr = [];
-    this.filteredArr = data.filter((product) => {
-      if (filtersObj.categories.length > 0) {
-        return filtersObj.categories.includes(product.category);
-      } else {
-        return true;
-      }
-    });
-
-    this.filteredArr = this.filteredArr.filter((product) => {
-      if (filtersObj.brands.length > 0) {
-        return filtersObj.brands.includes(product.brand);
-      } else {
-        return true;
-      }
-    });
-
-    this.filteredArr = this.filteredArr.filter(
-      (product) => product.price >= filtersObj.price.min && product.price <= filtersObj.price.max
-    );
-    this.filteredArr = this.filteredArr.filter(
-      (product) => product.stock >= filtersObj.stock.min && product.stock <= filtersObj.stock.max
-    );
-    this.filteredArr = this.filteredArr.filter(
-      (product) =>
-        Math.round(product.discountPercentage) >= filtersObj.discount.min &&
-        Math.round(product.discountPercentage) <= filtersObj.discount.max
-    );
-  }
-
-  initPagesandFilter(products: Types.Product[], filtersObj: Types.IFilters, catalogDiv: HTMLDivElement) {
-    this.filterProducts(products, filtersObj);
-    const pagesCount = Math.ceil(this.filteredArr.length / PAGINATION_COUNT);
-    this.initPages(pagesCount);
-    this.createCatalog(this.filteredArr, catalogDiv, 0);
-    this.initSorting();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  initPagesandFilter(filteredArr: Types.Product[], filtersObj?: Types.IFilters) {
+    const storagedItems = localStorage.getItem('onlineStoreCart112547');
+    if (storagedItems) this.cart.cartItems = JSON.parse(storagedItems);
+    const catalogDiv: HTMLDivElement | null = document.querySelector('.cards-wrapper');
+    const pagesCount = Math.ceil(filteredArr.length / PAGINATION_COUNT);
+    this.initPages(filteredArr, pagesCount);
+    this.initSorting(filteredArr);
+    if (catalogDiv) {
+      catalogDiv.innerHTML = '';
+      this.createCatalog(filteredArr, catalogDiv, 0);
+      this.cart.updateHeader();
+    }
   }
 
   createCatalog(filteredArr: Types.Product[], catalogDiv: HTMLDivElement, page: number) {
     const startIdx = page * PAGINATION_COUNT;
-    let endIdx = this.filteredArr.length >= PAGINATION_COUNT ? startIdx + PAGINATION_COUNT : this.filteredArr.length;
-    if (endIdx > this.filteredArr.length) endIdx = this.filteredArr.length;
+    let endIdx = filteredArr.length >= PAGINATION_COUNT ? startIdx + PAGINATION_COUNT : filteredArr.length;
+    if (endIdx > filteredArr.length) endIdx = filteredArr.length;
     catalogDiv.innerHTML = '';
     if (filteredArr.length == 0) {
       catalogDiv.innerHTML = `<div class='catalog-replacer'>No products found. Please try other filters.</div>`;
@@ -145,6 +150,7 @@ class AppView {
         this.catalog.drawCard(filteredArr[i], catalogDiv);
       }
     }
+
     const productCards = document.querySelectorAll('.product-card');
     const productCardsDivsCart = document.querySelectorAll('.card-cart');
     if (productCardsDivsCart && productCards) {
@@ -154,67 +160,108 @@ class AppView {
     }
   }
 
-  initPages(pagesCount: number) {
+  initPages(filteredArr: Types.Product[], pagesCount: number) {
     const catalogPages = <HTMLDivElement>document.querySelector('.catalog-pages');
     if (catalogPages) {
       if (pagesCount <= 0) {
         catalogPages.style.display = 'none';
       } else {
         catalogPages.style.display = 'flex';
-        this.createPages(pagesCount);
+        this.createPages(filteredArr, pagesCount);
       }
     }
   }
 
-  createSortedCatalog() {
+  createSortedCatalog(filteredArr: Types.Product[]) {
     const catalogDiv: HTMLDivElement | null = document.querySelector('.cards-wrapper');
     if (catalogDiv) {
-      const pagesCount = Math.ceil(this.filteredArr.length / PAGINATION_COUNT);
-      this.initPages(pagesCount);
-      this.createCatalog(this.filteredArr, catalogDiv, 0);
+      const pagesCount = Math.ceil(filteredArr.length / PAGINATION_COUNT);
+      this.initPages(filteredArr, pagesCount);
+      this.createCatalog(filteredArr, catalogDiv, 0);
     }
   }
 
-  initSorting() {
+  initSorting(filteredArr: Types.Product[]) {
+    const sortParams = new URLSearchParams(window.location.search);
+    this.sortArrayInitial(filteredArr, sortParams);
     const priceAsc = document.getElementById('price-asc');
     const priceDes = document.getElementById('price-des');
     const ratingAsc = document.getElementById('rating-asc');
     const ratingDes = document.getElementById('rating-des');
     priceAsc?.addEventListener('click', () => {
-      this.filteredArr = this.filteredArr.sort((a, b) => {
+      filteredArr = filteredArr.sort((a, b) => {
         if (a.price > b.price) return -1;
         if (a.price < b.price) return 1;
         return 0;
       });
-      this.createSortedCatalog();
+      this.addToQuery('priceAsc', sortParams);
+      this.createSortedCatalog(filteredArr);
     });
     priceDes?.addEventListener('click', () => {
-      this.filteredArr = this.filteredArr.sort((a, b) => {
+      filteredArr = filteredArr.sort((a, b) => {
         if (a.price < b.price) return -1;
         if (a.price > b.price) return 1;
         return 0;
       });
-      this.createSortedCatalog();
+      this.addToQuery('priceDes', sortParams);
+      this.createSortedCatalog(filteredArr);
     });
     ratingAsc?.addEventListener('click', () => {
-      this.filteredArr = this.filteredArr.sort((a, b) => {
+      filteredArr = filteredArr.sort((a, b) => {
         if (a.rating > b.rating) return -1;
         if (a.rating < b.rating) return 1;
         return 0;
       });
-      this.createSortedCatalog();
+      this.addToQuery('ratingAsc', sortParams);
+      this.createSortedCatalog(filteredArr);
     });
     ratingDes?.addEventListener('click', () => {
-      this.filteredArr = this.filteredArr.sort((a, b) => {
+      filteredArr = filteredArr.sort((a, b) => {
         if (a.rating < b.rating) return -1;
         if (a.rating > b.rating) return 1;
         return 0;
       });
-      this.createSortedCatalog();
+      this.addToQuery('ratingDes', sortParams);
+      this.createSortedCatalog(filteredArr);
     });
   }
 
-  createPages(pagesCount: number) {
+  addToQuery(type: string, sortParams: URLSearchParams) {
+    sortParams.set('sort', type);
+    const newPathQuery = window.location.pathname + '?' + sortParams.toString();
+    history.pushState(null, '', newPathQuery);
+  }
+
+  sortArrayInitial(filteredArr: Types.Product[], sortParams: URLSearchParams) {
+    const sortKey = sortParams.get('sort');
+    if (sortKey == 'priceAsc') {
+      filteredArr = filteredArr.sort((a, b) => {
+        if (a.price > b.price) return -1;
+        if (a.price < b.price) return 1;
+        return 0;
+      });
+    } else if (sortKey == 'priceDes') {
+      filteredArr = filteredArr.sort((a, b) => {
+        if (a.price < b.price) return -1;
+        if (a.price > b.price) return 1;
+        return 0;
+      });
+    } else if (sortKey == 'ratingAsc') {
+      filteredArr = filteredArr.sort((a, b) => {
+        if (a.rating > b.rating) return -1;
+        if (a.rating < b.rating) return 1;
+        return 0;
+      });
+    } else if (sortKey == 'ratingDes') {
+      filteredArr = filteredArr.sort((a, b) => {
+        if (a.rating < b.rating) return -1;
+        if (a.rating > b.rating) return 1;
+        return 0;
+      });
+    }
+  }
+
+  createPages(filteredArr: Types.Product[], pagesCount: number) {
     const pagesWrapper = document.querySelector('.pages-wrapper');
     const pageNext = document.querySelector('.page-next');
     const pagePrev = document.querySelector('.page-prev');
@@ -230,19 +277,19 @@ class AppView {
       pagesArr[i].textContent = String(i + 1);
       pagesWrapper?.append(pagesArr[i]);
       pagesArr[i].addEventListener('click', () => {
-        this.goToPage(pagesArr, i);
+        this.goToPage(filteredArr, pagesArr, i);
       });
     }
     pagesArr[0].classList.add('page-idx--active');
     pageNext?.addEventListener('click', () => {
-      this.goToPage(pagesArr, this.findPageIdx(pagesArr) + 1);
+      this.goToPage(filteredArr, pagesArr, this.findPageIdx(pagesArr) + 1);
     });
     pagePrev?.addEventListener('click', () => {
-      this.goToPage(pagesArr, this.findPageIdx(pagesArr) - 1);
+      this.goToPage(filteredArr, pagesArr, this.findPageIdx(pagesArr) - 1);
     });
   }
 
-  goToPage(pagesArr: HTMLDivElement[], idx: number) {
+  goToPage(filteredArr: Types.Product[], pagesArr: HTMLDivElement[], idx: number) {
     const catalogDiv: HTMLDivElement | null = document.querySelector('.cards-wrapper');
     if (idx >= 0 && idx < pagesArr.length) {
       for (let i = 0; i < pagesArr.length; i++) {
@@ -250,7 +297,7 @@ class AppView {
       }
       pagesArr[idx].classList.add('page-idx--active');
       if (catalogDiv) {
-        this.createCatalog(this.filteredArr, catalogDiv, idx);
+        this.createCatalog(filteredArr, catalogDiv, idx);
       }
     }
   }
@@ -263,7 +310,7 @@ class AppView {
   }
 
   createCart() {
-    this.cart.initPagesandCart();
+    this.cart.initCartPage();
   }
 }
 

@@ -57,14 +57,22 @@ export namespace Types {
 
   export interface IOptions {
     id?: number;
+<<<<<<< HEAD
     // caterory?: string;
     // search?: string;
+=======
+    caterory?: string;
+    search?: string;
+>>>>>>> c33a879ed861fd6762711abe400c26d62ae886c6
     endpoint?: Endpoint;
   }
 
   export enum Endpoint {
     CATEGORIES = 'categories',
     CATEGORY = 'category',
-    // SEARCH = 'search',
+    SEARCH = 'search',
   }
+  
+  export const promos = ['FIRELINK/10', 'DOGDOG/10', 'PALISADE/20', 'PIRANHA/30'];
 }
+

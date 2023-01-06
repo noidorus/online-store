@@ -33,8 +33,7 @@ class Router {
 
     if (window.location.hash == '#catalog' || window.location.hash == '') {
       this.hasChanged(this.routes, () => {
-        this.init.initFilters();
-        this.init.initCatalog();
+        this.init.initMainPage();
       });
     }
 
@@ -70,10 +69,6 @@ class Router {
     console.log('routed');
     this.rootElem.innerHTML = html;
     callback();
-  }
-
-  checkValidity(htmlName: string) {
-    return this.routes.find((route) => route.htmlName == htmlName);
   }
 }
 
