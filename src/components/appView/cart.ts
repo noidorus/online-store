@@ -2,23 +2,14 @@ import { Types } from '../types/Types';
 
 class Cart {
   cartItems: Types.TCart = [];
-
   totalQty = 0;
-
   totalPrice = 0;
-
   checkoutPrice = 0;
-
   totalDiscount = 0;
-
   appliedPromos: string[] = [];
-
   promoPc = 0;
-
   promoMoneyAmount = 0;
-
   entriesOnPage = 3;
-
   pageQuery = new URLSearchParams(window.location.search);
 
   // HIGHEST ENTRY POINT
@@ -492,7 +483,7 @@ class Cart {
     }
 
     if (inputAddress) {
-      if (!inputAddress.value.match(/^(\b[A-Za-z]{3,}\s+[A-Za-z]{3,}\s+[A-Za-z]{3,}\b)$/g)) {
+      if (!inputAddress.value.match(/^(\b[A-Za-z]{3,15}\s+[A-Za-z]{3,15}\s+[\d\-]{3,7}\b)$/g)) {
         console.log('inputAddress');
         formValid = false;
       }

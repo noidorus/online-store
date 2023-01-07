@@ -19,11 +19,6 @@ export default class Init {
   filterQuery = new URLSearchParams(window.location.search);
 
   constructor() {
-    // this.router = new Router([
-    //   new Route('catalog', 'catalog.html', true),
-    //   new Route('cart', 'cart.html'),
-    //   new Route('404', '404.html'),
-    // ]);
     this.controller = new AppController();
     this.view = new AppView();
     this.filtersObj = {
@@ -192,8 +187,8 @@ export default class Init {
       this.view.createPriceFilters(data, this.filtersObj);
       this.view.createStockFilters(data, this.filtersObj);
       this.view.createDiscountFilters(data, this.filtersObj);
-      this.filtersCheckListener(data);
-      this.filtersRangeListener(data);
+      this.filtersCheckListener();
+      this.filtersRangeListener();
       this.initFiltersFromQuery();
     }
   }
@@ -352,9 +347,11 @@ export default class Init {
       setTimeout(() => {
         this.view.initPagesandFilter(this.filteredArr, this.filtersObj);
       }, 300);
+
       this.view.catalog.calcSliderInput(sliderInputMin, sliderInputMax, inputBoxMin, inputBoxMax, sliderTrack, true);
       this.writeToQuery(filterType, `${sliderInputMin.value},${sliderInputMax.value}`);
     });
+
     sliderInputMax.addEventListener('input', () => {
       inputVals.min = +sliderInputMin.value;
       inputVals.max = +sliderInputMax.value;
@@ -362,19 +359,23 @@ export default class Init {
       setTimeout(() => {
         this.view.initPagesandFilter(this.filteredArr, this.filtersObj);
       }, 300);
+
       this.view.catalog.calcSliderInput(sliderInputMin, sliderInputMax, inputBoxMin, inputBoxMax, sliderTrack, true);
       this.writeToQuery(filterType, `${sliderInputMin.value},${sliderInputMax.value}`);
     });
+
     inputBoxMin.addEventListener('input', () => {
       sliderInputMin.value = inputBoxMin.value;
       sliderInputMax.value = inputBoxMax.value;
       if (inputBoxMin.value == '') sliderInputMin.value = sliderInputMin.min;
+
       inputVals.min = +inputBoxMin.value;
       inputVals.max = +inputBoxMax.value;
       this.filterProducts(this.cache, this.filtersObj);
       setTimeout(() => {
         this.view.initPagesandFilter(this.filteredArr, this.filtersObj);
       }, 300);
+
       this.view.catalog.calcSliderInput(sliderInputMin, sliderInputMax, inputBoxMin, inputBoxMax, sliderTrack, false);
       this.writeToQuery(filterType, `${inputBoxMin.value},${inputBoxMax.value}`);
     });
@@ -382,18 +383,20 @@ export default class Init {
       sliderInputMin.value = inputBoxMin.value;
       sliderInputMax.value = inputBoxMax.value;
       if (inputBoxMax.value == '') sliderInputMax.value = sliderInputMax.max;
+
       inputVals.min = +inputBoxMin.value;
       inputVals.max = +inputBoxMax.value;
       this.filterProducts(this.cache, this.filtersObj);
       setTimeout(() => {
         this.view.initPagesandFilter(this.filteredArr, this.filtersObj);
       }, 300);
+
       this.view.catalog.calcSliderInput(sliderInputMin, sliderInputMax, inputBoxMin, inputBoxMax, sliderTrack, false);
       this.writeToQuery(filterType, `${inputBoxMin.value},${inputBoxMax.value}`);
     });
   }
 
-  filtersCheckListener(data: Types.Product[]) {
+  filtersCheckListener() {
     const categoriesInput = <NodeListOf<HTMLInputElement>>document.getElementsByName('category');
     const categoriesLabels = document.querySelectorAll('.category__item');
 
@@ -417,7 +420,7 @@ export default class Init {
     });
   }
 
-  filtersRangeListener(data: Types.Product[]) {
+  filtersRangeListener() {
     this.addFilterRangeListener('price', this.filtersObj.price);
     this.addFilterRangeListener('stock', this.filtersObj.stock);
     this.addFilterRangeListener('discount', this.filtersObj.discount);

@@ -30,11 +30,13 @@ class Router {
         this.init.initCart();
       });
     }
+
     if (window.location.hash == '#catalog' || window.location.hash == '') {
       this.hasChanged(this.routes, () => {
         this.init.initMainPage();
       });
     }
+
     if (window.location.hash.match(/^(\#product-details\/(100|[1-9][0-9]?))$/g)) {
       this.hasChanged(this.routes, () => {
         this.init.initProductDetails();

@@ -7,9 +7,7 @@ const PAGINATION_COUNT = 6;
 
 class AppView {
   productDetails: ProductDetails;
-
   catalog: Catalog;
-
   cart: Cart;
 
   cartItems: Types.TCart;
@@ -20,7 +18,6 @@ class AppView {
     this.productDetails = new ProductDetails(this.cart);
     this.catalog = new Catalog();
   }
-
 
   // Show product details
   showProductDetails(data: Types.Product) {
@@ -131,7 +128,6 @@ class AppView {
   }
 
   // Pagination
-
   initPages(filteredArr: Types.Product[], pagesCount: number) {
     const catalogPages = <HTMLDivElement>document.querySelector('.catalog-pages');
     if (catalogPages) {
@@ -144,7 +140,8 @@ class AppView {
     }
   }
 
-  initPagesandFilter(filteredArr: Types.Product[], filtersObj: Types.IFilters) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  initPagesandFilter(filteredArr: Types.Product[], filtersObj?: Types.IFilters) {
     const storagedItems = localStorage.getItem('onlineStoreCart112547');
     if (storagedItems) this.cart.cartItems = JSON.parse(storagedItems);
     const catalogDiv: HTMLDivElement | null = document.querySelector('.cards-wrapper');
@@ -203,7 +200,7 @@ class AppView {
       pagePrev.addEventListener('click', () => {
         if (this.findPageIdx(pagesArr) - 1 >= 0) {
           this.goToPage(filteredArr, pagesArr, this.findPageIdx(pagesArr) - 1);
-        } 
+        }
         console.log('gotopagePrev', this.findPageIdx(pagesArr) - 1);
       });
       pagePrev.setAttribute('listener', 'true');
@@ -212,7 +209,7 @@ class AppView {
 
   goToPage(filteredArr: Types.Product[], pagesArr: HTMLDivElement[], idx: number) {
     console.log(filteredArr);
-    
+
     const catalogDiv: HTMLDivElement | null = document.querySelector('.cards-wrapper');
     if (idx >= 0 && idx < pagesArr.length) {
       for (let i = 0; i < pagesArr.length; i++) {
@@ -231,7 +228,6 @@ class AppView {
     }
     return 0;
   }
-
 
   // Catalog methods
   createCatalog(filteredArr: Types.Product[], catalogDiv: HTMLDivElement, page: number) {
@@ -317,7 +313,6 @@ class AppView {
   }
 
   initSortingVisual(sortParams: URLSearchParams) {
-    
     const sortDropdown = document.querySelector('.sort-dropdown__label');
     const sortParamsNew = sortParams.get('sort');
     console.log(sortParamsNew);
@@ -365,8 +360,6 @@ class AppView {
       });
     }
   }
-
-
 
   createCart() {
     this.cart.initCartPage();

@@ -100,12 +100,14 @@
     <input type="text" id="last-name" class="modal-input input-last-name" minlength="3">
     <label for="phone-num" class="modal-label label-phone-num">Phone number</label>
     <div class="modal-input-wrapper input-wrapper-phone-num">
-      <input type="text" id="phone-num" class="modal-input input-phone"  pattern="\+\d{9}">
+      <input type="text" id="phone-num" class="modal-input input-phone" pattern="\+\d{9}" placeholder="+123456789">
     </div>
     <label for="address" class="modal-label label-address">Billing address</label>
-    <input type="text" id="address" class="modal-input input-address" pattern="^(\b[A-Za-z]{3,}\s+[A-Za-z]{3,}\s+[A-Za-z]{3,}\b)$">
+    <input type="text" id="address" class="modal-input input-address"
+      pattern="^(\b[A-Za-z]{3,15}\s+[A-Za-z]{3,15}\s+[\d\-]{3,7}\b)$" placeholder="Peace Srteet 26-28">
     <label for="email" class="modal-label label-email">E-mail</label>
-    <input type="email" id="email" class="modal-input input-email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$">
+    <input type="email" id="email" class="modal-input input-email"
+      pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$">
     <h3 class="modal-header">Payment details</h3>
     <label for="name" class="modal-label label-card-name">Name on card</label>
     <input type="text" id="name" class="modal-input input-card-name">
@@ -114,7 +116,8 @@
     <label for="cvv" class="modal-label label-cvv">CVV</label>
     <input type="text" id="cvv" class="modal-input input-cvv" maxlength="3" pattern="^\d{3}$">
     <label for="expiry" class="modal-label label-expiry">Expiry</label>
-    <input type="text" id="expiry" class="modal-input input-expiry" maxlength="4" placeholder="MM/DD" pattern="^\d{4}$|^\d{2}\/\d{2}$">
+    <input type="text" id="expiry" class="modal-input input-expiry" maxlength="4" placeholder="MM/DD"
+      pattern="^\d{4}$|^\d{2}\/\d{2}$">
     <button class="button modal-button">Complete payment — $1408</button>
   </div>
   <div class="modal-right">

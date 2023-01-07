@@ -142,8 +142,9 @@ class Catalog {
     sliderTrack.style.background = this.fillSliderTrack(sliderInputMin, sliderInputMax, sliderMaxValue);
   }
 
-  fillSliderTrack(minInput: HTMLInputElement, maxInput: HTMLInputElement, maxVal: string) {
-    const dif = 100 / (+maxInput.max - +minInput.min);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  fillSliderTrack(minInput: HTMLInputElement, maxInput: HTMLInputElement, maxVal?: string) {
+    const dif = Math.round(100 / (+maxInput.max - +minInput.min));
     const pc1 = (+minInput.value - +minInput.min) * dif;
     const pc2 = (+maxInput.value - +minInput.min) * dif;
     return `Linear-Gradient(To Right, #Dadae5 ${pc1}% , #8e2de2 ${pc1}% , #8e2de2 ${pc2}%, #Dadae5 ${pc2}%)`;
