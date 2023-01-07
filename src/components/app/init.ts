@@ -104,7 +104,9 @@ export default class Init {
         this.controller.getProducts((data?) => {
           if (data !== undefined) {
             this.cache = [...data.products];
-            this.view.initPagesandFilter(this.cache, this.filtersObj);
+            console.log(this.filtersObj);
+            this.filterProducts(this.cache, this.filtersObj);
+            this.view.initPagesandFilter(this.filteredArr, this.filtersObj);
           }
         });
       } else {
@@ -150,6 +152,7 @@ export default class Init {
     this.controller.getSearchResults(value, (data?) => {
       if (data !== undefined) {
         this.searchArr = [...data.products];
+        console.log(this.filtersObj);
         this.filterProducts(this.searchArr, this.filtersObj);
         this.view.initPagesandFilter(this.searchArr, this.filtersObj);
         searchResults.textContent = `${this.searchArr.length} results for `;
@@ -209,8 +212,9 @@ export default class Init {
       this.removeFromQuery('category');
       this.removeFromQuery('brand');
       this.removeFromQuery('discount');
+      this.removeSearch();
       this.initFilters();
-      this.initCatalog();
+      this.view.initPagesandFilter(this.filteredArr, this.filtersObj);
     });
     btnCopyFilters?.addEventListener('click', () => {
       const copyText = window.location.href;
@@ -225,6 +229,16 @@ export default class Init {
         }
       );
     });
+  }
+
+  removeSearch() {
+    this.filteredArr = this.cache;
+    const resultsWrapper = <HTMLDivElement>document.querySelector('.results-wrapper');
+    const searchBar = <HTMLInputElement>document.querySelector('.search-bar-input');
+    const searchCount = <HTMLDivElement>document.querySelector('.search-count-wrapper');
+    searchBar.value = '';
+    resultsWrapper.style.justifyContent = 'flex-end';
+    searchCount.style.display = 'none';
   }
 
   // * Init filters from query
@@ -297,7 +311,6 @@ export default class Init {
 
   getCheckboxFiltersFromQuery(type: string, inputList: NodeListOf<HTMLInputElement>) {
     const checkboxParams = this.getQuery(type);
-    console.log(checkboxParams);
     if (checkboxParams) {
       const filterArr = checkboxParams.split(',');
       const inputArr = Array.from(inputList);

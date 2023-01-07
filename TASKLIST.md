@@ -1,7 +1,3 @@
-## CATALOG
-* feat: sorting - show type of sorting applied
-* feat: add button to remove all filters
-
 ## MODAL
 * polish validation if i have time
 
