@@ -201,15 +201,12 @@ class AppView {
         if (this.findPageIdx(pagesArr) - 1 >= 0) {
           this.goToPage(filteredArr, pagesArr, this.findPageIdx(pagesArr) - 1);
         }
-        console.log('gotopagePrev', this.findPageIdx(pagesArr) - 1);
       });
       pagePrev.setAttribute('listener', 'true');
     }
   }
 
   goToPage(filteredArr: Types.Product[], pagesArr: HTMLDivElement[], idx: number) {
-    console.log(filteredArr);
-
     const catalogDiv: HTMLDivElement | null = document.querySelector('.cards-wrapper');
     if (idx >= 0 && idx < pagesArr.length) {
       for (let i = 0; i < pagesArr.length; i++) {
@@ -315,7 +312,6 @@ class AppView {
   initSortingVisual(sortParams: URLSearchParams) {
     const sortDropdown = document.querySelector('.sort-dropdown__label');
     const sortParamsNew = sortParams.get('sort');
-    console.log(sortParamsNew);
     if (sortDropdown) {
       if (sortParamsNew == 'priceAsc') sortDropdown.textContent = 'Price ascending';
       else if (sortParamsNew == 'priceDes') sortDropdown.textContent = 'Price descending';
