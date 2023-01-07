@@ -483,7 +483,7 @@ class Cart {
     }
 
     if (inputAddress) {
-      if (!inputAddress.value.match(/^(\b[A-Za-z]{3,}\s+[A-Za-z]{3,}\s+[A-Za-z]{3,}\b)$/g)) {
+      if (!inputAddress.value.match(/^(\b[A-Za-z]{3,15}\s+[A-Za-z]{3,15}\s+[\d\-]{3,7}\b)$/g)) {
         console.log('inputAddress');
         formValid = false;
       }

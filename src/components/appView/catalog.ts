@@ -41,7 +41,6 @@ class Catalog {
     const cardCartImg = document.createElement('img');
 
     // Add Classes
-    // productCardLink.className = 'product-card-link';
     productCard.className = 'product-card';
     productCardLink.href = `#product-details/${card.id}`;
     productCard.id = `product-${card.id}`;
@@ -71,7 +70,6 @@ class Catalog {
     raitingText.textContent = card.rating.toString();
 
     // Add to html
-    // productCard.append(productCardLink);
     productCard.append(productImg);
     productCard.append(cardTextWrapper);
 
