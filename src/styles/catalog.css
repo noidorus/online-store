@@ -143,9 +143,9 @@
   position: relative;
   margin: 0.5em;
   padding-left: 1.5em;
-  /* -webkit-user-select: none;
+  -webkit-user-select: none;
   -moz-user-select: none;
-  -ms-user-select: none; */
+  -ms-user-select: none;
   user-select: none;
   scroll-snap-align: start;
   cursor: pointer;
@@ -153,9 +153,9 @@
 
 .filter-content .checkbox__item-input {
   position: absolute;
-  /* opacity: 0;
+  opacity: 0;
   height: 0;
-  width: 0; */
+  width: 0;
   cursor: pointer;
 }
 
