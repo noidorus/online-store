@@ -157,15 +157,14 @@ class AppView {
 
   createPages(filteredArr: Types.Product[], pagesCount: number) {
     const catalogPages = document.querySelector('.catalog-pages');
-    // const pagesWrapper = document.querySelector('.pages-wrapper');
     const pagesWrapper = document.createElement('div');
-    pagesWrapper?.classList.add('pages-wrapper');
     const pageNext = document.createElement('img');
     const pagePrev = document.createElement('img');
+
     pageNext.src = '../../assets/icons/btn-next.svg';
     pagePrev.src = '../../assets/icons/btn-prev.svg';
-    // const pageNext = document.querySelector('.page-next');
-    // const pagePrev = document.querySelector('.page-prev');
+
+    pagesWrapper?.classList.add('pages-wrapper');
     pageNext.classList.add('btn-page');
     pagePrev.classList.add('btn-page');
     pageNext.classList.add('page-next');
@@ -176,7 +175,6 @@ class AppView {
     }
     catalogPages?.append(pagePrev);
     const pagesArr: HTMLDivElement[] = [];
-    // pagesArr.push(pageNext)
     for (let i = 0; i < pagesCount; i++) {
       pagesArr.push(document.createElement('p'));
       pagesArr[i].className = 'catalog__page';

@@ -5,17 +5,11 @@ import { Types } from '../types/Types';
 
 export default class Init {
   controller: AppController;
-
   view: AppView;
-
   filtersObj: Types.IFilters;
-
   cache: Types.Product[] = [];
-
   filteredArr: Types.Product[] = [];
-
   searchArr: Types.Product[] = [];
-
   filterQuery = new URLSearchParams(window.location.search);
 
   constructor() {
