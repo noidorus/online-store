@@ -76,8 +76,8 @@ class ProductDetails {
     mainImg.addEventListener('mousemove', (e) => {
       this.magnifyImage(e);
     });
-    mainImg.addEventListener('mouseleave', (e) => {
-      this.removeMagnify(e);
+    mainImg.addEventListener('mouseleave', () => {
+      this.removeMagnify();
     });
 
     // fill thumbnails
@@ -119,11 +119,13 @@ class ProductDetails {
     }
   }
 
-  removeMagnify(e: MouseEvent) {
+  removeMagnify() {
     document.querySelector('.modal-prodDetails')?.remove();
   }
 
   initButtons(data: Types.Product) {
+    const storagedItems = localStorage.getItem('onlineStoreCart112547');
+    if (storagedItems) this.cart.cartItems = JSON.parse(storagedItems);
     const btnAdd = document.querySelector('.button-add');
     const btnBuyNow = document.querySelector('.button-buy-now');
     const btnGoToCart = document.querySelector('.to-cart');
