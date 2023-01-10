@@ -46,7 +46,7 @@ export default class Init {
 
   loadCardRoutes(routeArr: Route[], data: Types.Product[]) {
     for (let i = 0; i < data.length; i++) {
-      routeArr.push(new Route(`product-details/${data[i].id}`, 'product-details.html'));
+      routeArr.push(new Route(`product-details-${data[i].id}`, 'product-details.html'));
     }
   }
 
@@ -143,7 +143,7 @@ export default class Init {
         this.searchArr = [...data.products];
         console.log(this.filtersObj);
         this.filterProducts(this.searchArr, this.filtersObj);
-        this.view.initPagesandFilter(this.searchArr, this.filtersObj);
+        this.view.initPagesandFilter(this.filteredArr, this.filtersObj);
         searchResults.textContent = `${this.searchArr.length} results for `;
       }
     });
@@ -159,7 +159,7 @@ export default class Init {
 
   // Product details methods
   initProductDetails() {
-    const windowHash = window.location.hash.split('/');
+    const windowHash = window.location.pathname.split('-');
     const productWrapperDiv: HTMLDivElement | null = document.querySelector('.product-wrapper');
     this.controller.getProductDetails(
       (data?) => {
@@ -194,7 +194,7 @@ export default class Init {
     const btnRemoveFilters = document.querySelector('.btn-remove-filters');
     const btnCopyFilters = document.querySelector('.btn-copy-filters');
     btnRemoveFilters?.addEventListener('click', () => {
-      // window.location.search = '';
+      const sortDropdown = document.querySelector('.sort-dropdown__label');
       this.removeFromQuery('search');
       this.removeFromQuery('price');
       this.removeFromQuery('stock');
@@ -203,6 +203,7 @@ export default class Init {
       this.removeFromQuery('discount');
       this.removeSearch();
       this.initFilters();
+      if (sortDropdown) sortDropdown.textContent = 'Sort';
       this.view.initPagesandFilter(this.filteredArr, this.filtersObj);
     });
     btnCopyFilters?.addEventListener('click', () => {
@@ -314,9 +315,13 @@ export default class Init {
       for (let i = 0; i < inputList.length; i++) {
         inputList[i].checked = false;
       }
-      this.filtersObj.brands = [];
-      this.filtersObj.categories = [];
+      this.nullifyCheckboxFilters(type);
     }
+  }
+
+  nullifyCheckboxFilters(type: string) {
+    if (type == 'category') this.filtersObj.categories = [];
+    else if (type == 'brand') this.filtersObj.brands = [];
   }
 
   changeCheckboxFromQuery(type: string, inputList: NodeListOf<HTMLInputElement>) {
@@ -453,6 +458,7 @@ export default class Init {
     if (this.searchArr.length !== 0 || searchParams.has('search')) {
       data = this.searchArr;
     }
+    
 
     this.filteredArr = data.filter((product) => {
       if (filtersObj.categories.length > 0) {
@@ -481,6 +487,8 @@ export default class Init {
         Math.round(product.discountPercentage) >= filtersObj.discount.min &&
         Math.round(product.discountPercentage) <= filtersObj.discount.max
     );
+    console.log(this.filteredArr);
+    
   }
 
   // Query related methods
@@ -493,13 +501,13 @@ export default class Init {
 
   removeFromQuery(key: string) {
     this.filterQuery.delete(key);
-    const newPathQuery = window.location.pathname + '?' + this.filterQuery.toString() + window.location.hash;
+    const newPathQuery = window.location.pathname + '?' + this.filterQuery.toString();
     history.pushState(null, '', newPathQuery);
   }
 
   writeToQuery(key: string, value: string) {
     this.filterQuery.set(key, value);
-    const newPathQuery = window.location.pathname + '?' + this.filterQuery.toString() + window.location.hash;
+    const newPathQuery = window.location.pathname + '?' + this.filterQuery.toString();
     history.pushState(null, '', newPathQuery);
   }
 
@@ -522,7 +530,7 @@ export default class Init {
       this.filterQuery.set(type, filterQuery.join(','));
     } else this.filterQuery.delete(type);
     if (this.filterQuery.get(type) == '') this.filterQuery.delete(type);
-    const newPathQuery = window.location.pathname + '?' + this.filterQuery.toString() + window.location.hash;
+    const newPathQuery = window.location.pathname + '?' + this.filterQuery.toString();
     history.pushState(null, '', newPathQuery);
   }
 }
