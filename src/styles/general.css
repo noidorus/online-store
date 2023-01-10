@@ -143,6 +143,20 @@
   font-weight: 500;
 }
 
+.pull-request-link {
+  border: 0.1em solid #6901ff;
+  font-weight: bold;
+  font-size: 1.5em;
+  padding: 0.8em 1em;
+  border-radius: 0.5em;
+  transition: all .5s linear;
+}
+
+.pull-request-link:hover {
+  background-color: #8e2de2;
+  color: whitesmoke;
+}
+
 .footer .git-logo {
   width: 5em;
 }

@@ -126,8 +126,6 @@ class Catalog {
     sliderTrack: HTMLDivElement,
     input: boolean
   ) {
-
-    
     const sliderMaxValue = sliderInputMin.max;
     const minGap = 0;
     if (+sliderInputMax.value - +sliderInputMin.value <= minGap) {
@@ -146,7 +144,7 @@ class Catalog {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   fillSliderTrack(minInput: HTMLInputElement, maxInput: HTMLInputElement, maxVal?: string) {
-    const dif = 100 / (+maxInput.max - +minInput.min);
+    const dif = Math.round(100 / (+maxInput.max - +minInput.min));
     console.log('filled track', dif);
     const pc1 = (+minInput.value - +minInput.min) * dif;
     const pc2 = (+maxInput.value - +minInput.min) * dif;
