@@ -154,7 +154,7 @@ class ProductDetails {
     btnBuyNow?.addEventListener('click', () => {
       this.cart.addToCart(data);
       console.log(this.cart.cartItems);
-      window.location.href = '#cart';
+      window.location.pathname = '/cart';
       setTimeout(() => {
         const cartDiv = document.querySelector('.cart');
         if (cartDiv) {
@@ -164,10 +164,10 @@ class ProductDetails {
       }, 50);
     });
     btnGoToCart?.addEventListener('click', () => {
-      window.location.href = '#cart';
+      window.location.pathname = '/cart';
     });
     btnGoToCatalog?.addEventListener('click', () => {
-      window.location.href = '#catalog';
+      window.location.pathname = '/catalog';
     });
   }
 }

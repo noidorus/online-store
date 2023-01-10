@@ -10,7 +10,7 @@ class Route {
   }
 
   isActiveRoute(hashedPath: string): boolean {
-    return hashedPath.replace('#', '') === this.name;
+    return hashedPath.replace('/', '') === this.name;
   }
 }
 

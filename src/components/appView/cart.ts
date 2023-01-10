@@ -94,7 +94,7 @@ class Cart {
 
     const backBtn = document.querySelector('.back-btn');
     backBtn?.addEventListener('click', () => {
-      window.location.hash = '#catalog';
+      window.location.pathname = '/catalog';
     });
   }
 
@@ -174,7 +174,7 @@ class Cart {
       cartSubst.style.display = 'block';
       cartWrapper.style.display = 'none';
       document.querySelector('.cart-substitute__button')?.addEventListener('click', () => {
-        window.location.href = '#catalog';
+        window.location.pathname = '/catalog';
       });
     }
   }
@@ -325,13 +325,13 @@ class Cart {
 
   deleteFromQuery(key: string) {
     this.pageQuery.delete(key);
-    const newPathQuery = window.location.pathname + '?' + this.pageQuery.toString() + window.location.hash;
+    const newPathQuery = window.location.pathname + '?' + this.pageQuery.toString();
     history.pushState(null, '', newPathQuery);
   }
 
   writeToQuery(key: string, value: string) {
     this.pageQuery.set(key, value);
-    const newPathQuery = window.location.pathname + '?' + this.pageQuery.toString() + window.location.hash;
+    const newPathQuery = window.location.pathname + '?' + this.pageQuery.toString();
     history.pushState(null, '', newPathQuery);
   }
 
@@ -536,7 +536,7 @@ class Cart {
       modalBtn.remove();
       modalTxt.innerHTML = 'The order was successfully completed!\nRedirecting...';
       setTimeout(() => {
-        window.location.hash = '#catalog';
+        window.location.pathname = '/catalog';
       }, 5000);
     } else {
       modalTxt.innerHTML = 'Please check the validity of all areas!';
@@ -684,7 +684,7 @@ class Cart {
         cartSubst.style.display = 'block';
         cartWrapper.style.display = 'none';
         document.querySelector('.cart-substitute__button')?.addEventListener('click', () => {
-          window.location.href = '#catalog';
+          window.location.pathname = '/catalog';
         });
       }
     }
