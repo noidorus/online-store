@@ -1,7 +1,8 @@
 import { capitalizeExpr } from '../helpers/helpers';
+import { ICatalog } from '../types/interfaces';
 import { Types } from '../types/Types';
 
-class Catalog {
+class Catalog implements ICatalog {
   drawCategory(category: string, div: HTMLDivElement, name: string): void {
     const label = document.createElement('label');
     const input = document.createElement('input');
@@ -126,26 +127,22 @@ class Catalog {
     sliderTrack: HTMLDivElement,
     input: boolean
   ) {
-
-    
-    const sliderMaxValue = sliderInputMin.max;
     const minGap = 0;
     if (+sliderInputMax.value - +sliderInputMin.value <= minGap) {
       sliderInputMin.value = String(+sliderInputMax.value - minGap);
     }
     if (input) inputBoxMin.value = sliderInputMin.value;
-    sliderTrack.style.background = this.fillSliderTrack(sliderInputMin, sliderInputMax, sliderMaxValue);
+    sliderTrack.style.background = this.fillSliderTrack(sliderInputMin, sliderInputMax);
 
     if (+sliderInputMax.value - +sliderInputMin.value <= minGap) {
       sliderInputMax.value = String(+sliderInputMax.value + minGap);
     }
 
     if (input) inputBoxMax.value = sliderInputMax.value;
-    sliderTrack.style.background = this.fillSliderTrack(sliderInputMin, sliderInputMax, sliderMaxValue);
+    sliderTrack.style.background = this.fillSliderTrack(sliderInputMin, sliderInputMax);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  fillSliderTrack(minInput: HTMLInputElement, maxInput: HTMLInputElement, maxVal?: string) {
+  fillSliderTrack(minInput: HTMLInputElement, maxInput: HTMLInputElement) {
     const dif = 100 / (+maxInput.max - +minInput.min);
     const pc1 = (+minInput.value - +minInput.min) * dif;
     const pc2 = (+maxInput.value - +minInput.min) * dif;
