@@ -1,6 +1,7 @@
 import { Types } from '../types/Types';
 
 class Cart {
+  openModalBool = false;
   cartItems: Types.TCart = [];
   totalQty = 0;
   totalPrice = 0;
@@ -18,6 +19,7 @@ class Cart {
     const storagedItems = localStorage.getItem('onlineStoreCart112547');
     if (storagedItems) this.cartItems = JSON.parse(storagedItems);
 
+    if (this.openModal) this.openModal();
     // init Number of entries on page & calc the amount of pages
     let currPage = this.getFromQuery('page') ? Number(this.getFromQuery('page')) - 1 : 0;
     this.entriesOnPage = this.getFromQuery('entries') ? Number(this.getFromQuery('entries')) : 3;
@@ -38,6 +40,17 @@ class Cart {
       this.updateCheckout();
       this.createPagesAndCart(pagesCount, currPage);
     }
+  }
+
+  initOpenModal() {
+    const cartDiv = document.querySelector('.cart');
+    if (cartDiv) {
+      this.fillCart(0);
+    }
+    console.log('open modal');
+    
+    this.openModal();
+    this.openModalBool = false;
   }
 
   // ***
@@ -443,7 +456,6 @@ class Cart {
   openModal() {
     const modal = document.querySelector('.modal');
     const overlay = document.querySelector('.overlay');
-
     if (modal && overlay) {
       modal.classList.remove('hidden');
       overlay.classList.remove('hidden');

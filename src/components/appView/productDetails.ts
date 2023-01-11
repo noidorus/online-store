@@ -13,6 +13,7 @@ class ProductDetails {
     this.drawCrumbs(data);
     this.drawProductDescr(data);
     this.drawProductImgs(data);
+    this.cart.updateHeader();
   }
 
   drawCrumbs(data: Types.Product) {
@@ -153,15 +154,7 @@ class ProductDetails {
     });
     btnBuyNow?.addEventListener('click', () => {
       this.cart.addToCart(data);
-      console.log(this.cart.cartItems);
-      window.location.pathname = '/cart';
-      setTimeout(() => {
-        const cartDiv = document.querySelector('.cart');
-        if (cartDiv) {
-          this.cart.fillCart(0);
-        }
-        this.cart.openModal();
-      }, 50);
+      this.cart.openModalBool = true;
     });
     btnGoToCart?.addEventListener('click', () => {
       window.location.pathname = '/cart';
