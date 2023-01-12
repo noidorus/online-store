@@ -135,6 +135,19 @@
   gap: 2em;
 }
 
+.footer .gitHub-unames {
+  font-size: 2em;
+  font-family: 'Landasans', 'Roboto', sans-serif;
+  letter-spacing: 3px;
+  display: flex;
+  margin-right: 2em;
+  gap: 1em;
+}
+
+/* .footer .github-uname,
+.footer .splitter {
+} */
+
 .footer-text {
   color: #656565;
   font-family: 'Landasans', 'Roboto', sans-serif;

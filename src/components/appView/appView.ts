@@ -2,15 +2,18 @@ import ProductDetails from './productDetails';
 import Cart from './cart';
 import Catalog from './catalog';
 import { Types } from '../types/Types';
+import { IAppView, ICart, ICatalog, IProductDetails } from '../types/interfaces';
 
 const PAGINATION_COUNT = 6;
 
-class AppView {
-  productDetails: ProductDetails;
-  catalog: Catalog;
-  cart: Cart;
+class AppView implements IAppView {
+  public productDetails: IProductDetails;
 
-  cartItems: Types.TCart;
+  public catalog: ICatalog;
+
+  public cart: ICart;
+
+  public cartItems: Types.TCart;
 
   constructor() {
     this.cart = new Cart();
@@ -20,12 +23,12 @@ class AppView {
   }
 
   // Show product details
-  showProductDetails(data: Types.Product) {
+  showProductDetails(data: Types.Product): void {
     this.productDetails.drawProduct(data);
   }
 
   // Create toggle
-  createToggle() {
+  createToggle(): void {
     const toggleQuery = new URLSearchParams(window.location.search);
     const toggleBtn = <HTMLDivElement>document.querySelector('.display-icon');
     const catalogContainer = <HTMLDivElement>document.querySelector('.cards-wrapper');
@@ -49,7 +52,7 @@ class AppView {
     }
   }
 
-  getToggleView(toggleQuery: URLSearchParams, toggleBtn: HTMLDivElement, catalogContainer: HTMLDivElement) {
+  getToggleView(toggleQuery: URLSearchParams, toggleBtn: HTMLDivElement, catalogContainer: HTMLDivElement): void {
     const currView = toggleQuery.get('view');
     if (currView == 'list') {
       toggleBtn.classList.add('list');
@@ -61,7 +64,7 @@ class AppView {
   }
 
   // Sort dropdown
-  createDropdown() {
+  createDropdown(): void {
     const dropdownSort = document.querySelector('.sort-dropdown');
     const dropdownMenu = document.querySelector('.sort-dropdown-items');
     dropdownSort?.addEventListener('click', () => {
@@ -70,7 +73,7 @@ class AppView {
   }
 
   // Retrieve categories from data --> draw
-  createCheckFilters(data: Types.Product[], type: string) {
+  createCheckFilters(data: Types.Product[], type: string): void {
     const filterDiv = <HTMLDivElement>document.querySelector(`.${type}-filters`);
     let filters: string[] = [];
     if (type == 'brand') {
@@ -91,7 +94,7 @@ class AppView {
     }
   }
 
-  createPriceFilters(data: Types.Product[], filtersObj: Types.IFilters) {
+  createPriceFilters(data: Types.Product[], filtersObj: Types.IFilters): void {
     const filterArr = data.map((product) => product.price);
 
     const price = {
@@ -103,7 +106,7 @@ class AppView {
     this.catalog.drawSliderFilter(price, 'price');
   }
 
-  createStockFilters(data: Types.Product[], filtersObj: Types.IFilters) {
+  createStockFilters(data: Types.Product[], filtersObj: Types.IFilters): void {
     const filterArr = data.map((product) => product.stock);
 
     const stock = {
@@ -115,7 +118,7 @@ class AppView {
     this.catalog.drawSliderFilter(stock, 'stock');
   }
 
-  createDiscountFilters(data: Types.Product[], filtersObj: Types.IFilters) {
+  createDiscountFilters(data: Types.Product[], filtersObj: Types.IFilters): void {
     const filterArr = data.map((product) => product.discountPercentage);
 
     const discount = {
@@ -128,7 +131,7 @@ class AppView {
   }
 
   // Pagination
-  initPages(filteredArr: Types.Product[], pagesCount: number) {
+  initPages(filteredArr: Types.Product[], pagesCount: number): void {
     const catalogPages = <HTMLDivElement>document.querySelector('.catalog-pages');
     if (catalogPages) {
       if (pagesCount <= 0) {
@@ -141,7 +144,7 @@ class AppView {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  initPagesandFilter(filteredArr: Types.Product[], filtersObj?: Types.IFilters) {
+  initPagesandFilter(filteredArr: Types.Product[], filtersObj?: Types.IFilters): void {
     const storagedItems = localStorage.getItem('onlineStoreCart112547');
     if (storagedItems) this.cart.cartItems = JSON.parse(storagedItems);
     const catalogDiv: HTMLDivElement | null = document.querySelector('.cards-wrapper');
@@ -155,7 +158,7 @@ class AppView {
     }
   }
 
-  createPages(filteredArr: Types.Product[], pagesCount: number) {
+  createPages(filteredArr: Types.Product[], pagesCount: number): void {
     const catalogPages = document.querySelector('.catalog-pages');
     const pagesWrapper = document.createElement('div');
     const pageNext = document.createElement('img');
@@ -204,7 +207,7 @@ class AppView {
     }
   }
 
-  goToPage(filteredArr: Types.Product[], pagesArr: HTMLDivElement[], idx: number) {
+  goToPage(filteredArr: Types.Product[], pagesArr: HTMLDivElement[], idx: number): void {
     const catalogDiv: HTMLDivElement | null = document.querySelector('.cards-wrapper');
     if (idx >= 0 && idx < pagesArr.length) {
       for (let i = 0; i < pagesArr.length; i++) {
@@ -217,7 +220,7 @@ class AppView {
     }
   }
 
-  findPageIdx(pagesArr: HTMLDivElement[]) {
+  findPageIdx(pagesArr: HTMLDivElement[]): number {
     for (let i = 0; i < pagesArr.length; i++) {
       if (pagesArr[i].classList.contains('page-idx--active')) return i;
     }
@@ -225,7 +228,7 @@ class AppView {
   }
 
   // Catalog methods
-  createCatalog(filteredArr: Types.Product[], catalogDiv: HTMLDivElement, page: number) {
+  createCatalog(filteredArr: Types.Product[], catalogDiv: HTMLDivElement, page: number): void {
     const startIdx = page * PAGINATION_COUNT;
     let endIdx = filteredArr.length >= PAGINATION_COUNT ? startIdx + PAGINATION_COUNT : filteredArr.length;
     if (endIdx > filteredArr.length) endIdx = filteredArr.length;
@@ -247,7 +250,7 @@ class AppView {
     }
   }
 
-  createSortedCatalog(filteredArr: Types.Product[]) {
+  createSortedCatalog(filteredArr: Types.Product[]): void {
     const catalogDiv: HTMLDivElement | null = document.querySelector('.cards-wrapper');
     if (catalogDiv) {
       const pagesCount = Math.ceil(filteredArr.length / PAGINATION_COUNT);
@@ -256,7 +259,7 @@ class AppView {
     }
   }
 
-  initSorting(filteredArr: Types.Product[]) {
+  initSorting(filteredArr: Types.Product[]): void {
     const sortParams = new URLSearchParams(window.location.search);
     this.sortArrayInitial(filteredArr, sortParams);
     this.initSortingVisual(sortParams);
@@ -307,7 +310,7 @@ class AppView {
     });
   }
 
-  initSortingVisual(sortParams: URLSearchParams) {
+  initSortingVisual(sortParams: URLSearchParams): void {
     const sortDropdown = document.querySelector('.sort-dropdown__label');
     const sortParamsNew = sortParams.get('sort');
     if (sortDropdown) {
@@ -320,13 +323,13 @@ class AppView {
 
   // Query methods
 
-  addToQuery(type: string, sortParams: URLSearchParams) {
+  addToQuery(type: string, sortParams: URLSearchParams): void {
     sortParams.set('sort', type);
     const newPathQuery = window.location.pathname + '?' + sortParams.toString();
     history.pushState(null, '', newPathQuery);
   }
 
-  sortArrayInitial(filteredArr: Types.Product[], sortParams: URLSearchParams) {
+  sortArrayInitial(filteredArr: Types.Product[], sortParams: URLSearchParams): void {
     const sortKey = sortParams.get('sort');
     if (sortKey == 'priceAsc') {
       filteredArr = filteredArr.sort((a, b) => {
@@ -355,7 +358,7 @@ class AppView {
     }
   }
 
-  createCart() {
+  createCart(): void {
     this.cart.initCartPage();
   }
 }

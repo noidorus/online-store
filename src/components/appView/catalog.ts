@@ -1,7 +1,8 @@
 import { capitalizeExpr } from '../helpers/helpers';
+import { ICatalog } from '../types/interfaces';
 import { Types } from '../types/Types';
 
-class Catalog {
+class Catalog implements ICatalog {
   drawCategory(category: string, div: HTMLDivElement, name: string): void {
     const label = document.createElement('label');
     const input = document.createElement('input');
@@ -42,7 +43,7 @@ class Catalog {
 
     // Add Classes
     productCard.className = 'product-card';
-    productCardLink.href = `#product-details/${card.id}`;
+    productCardLink.href = `/product-details-${card.id}`;
     productCard.id = `product-${card.id}`;
     productImg.className = 'card-image';
     cardTextWrapper.className = 'card-txt-wrapper';
@@ -126,26 +127,24 @@ class Catalog {
     sliderTrack: HTMLDivElement,
     input: boolean
   ) {
-    const sliderMaxValue = sliderInputMin.max;
     const minGap = 0;
     if (+sliderInputMax.value - +sliderInputMin.value <= minGap) {
       sliderInputMin.value = String(+sliderInputMax.value - minGap);
     }
     if (input) inputBoxMin.value = sliderInputMin.value;
-    sliderTrack.style.background = this.fillSliderTrack(sliderInputMin, sliderInputMax, sliderMaxValue);
+    sliderTrack.style.background = this.fillSliderTrack(sliderInputMin, sliderInputMax);
 
     if (+sliderInputMax.value - +sliderInputMin.value <= minGap) {
       sliderInputMax.value = String(+sliderInputMax.value + minGap);
     }
 
     if (input) inputBoxMax.value = sliderInputMax.value;
-    sliderTrack.style.background = this.fillSliderTrack(sliderInputMin, sliderInputMax, sliderMaxValue);
+    sliderTrack.style.background = this.fillSliderTrack(sliderInputMin, sliderInputMax);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   fillSliderTrack(minInput: HTMLInputElement, maxInput: HTMLInputElement, maxVal?: string) {
     const dif = Math.round(100 / (+maxInput.max - +minInput.min));
-    console.log('filled track', dif);
     const pc1 = (+minInput.value - +minInput.min) * dif;
     const pc2 = (+maxInput.value - +minInput.min) * dif;
     return `Linear-Gradient(To Right, #Dadae5 ${pc1}% , #8e2de2 ${pc1}% , #8e2de2 ${pc2}%, #Dadae5 ${pc2}%)`;

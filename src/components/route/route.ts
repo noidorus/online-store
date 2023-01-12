@@ -1,7 +1,11 @@
-class Route {
-  name: string;
-  htmlName: string;
-  default: boolean;
+import { IRoute } from "../types/interfaces";
+
+class Route implements IRoute {
+  public name: string;
+
+  public htmlName: string;
+
+  public default: boolean;
 
   constructor(name: string, htmlName: string, defaultRoute = false) {
     this.name = name;
@@ -9,8 +13,8 @@ class Route {
     this.default = defaultRoute;
   }
 
-  isActiveRoute(hashedPath: string): boolean {
-    return hashedPath.replace('#', '') === this.name;
+  isActiveRoute(path: string): boolean {
+    return path.replace('/', '') === this.name;
   }
 }
 

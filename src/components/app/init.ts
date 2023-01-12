@@ -2,15 +2,22 @@ import AppController from '../controller/controller';
 import AppView from '../appView/appView';
 import Route from '../route/route';
 import { Types } from '../types/Types';
+import { IAppController, IAppView, IInit } from '../types/interfaces';
 
-export default class Init {
-  controller: AppController;
-  view: AppView;
-  filtersObj: Types.IFilters;
-  cache: Types.Product[] = [];
-  filteredArr: Types.Product[] = [];
-  searchArr: Types.Product[] = [];
-  filterQuery = new URLSearchParams(window.location.search);
+export default class Init implements IInit {
+  public controller: IAppController;
+
+  public view: IAppView;
+
+  public filtersObj: Types.IFilters;
+
+  public cache: Types.Product[] = [];
+
+  public filteredArr: Types.Product[] = [];
+
+  public searchArr: Types.Product[] = [];
+
+  public filterQuery = new URLSearchParams(window.location.search);
 
   constructor() {
     this.controller = new AppController();
@@ -34,7 +41,7 @@ export default class Init {
   }
 
   // Get all product data and load routes
-  getData(routeArr: Route[], callback: () => void) {
+  getData(routeArr: Route[], callback: () => void): void {
     this.controller.getProducts((data?) => {
       if (data !== undefined) {
         this.cache = [...data.products];
@@ -44,14 +51,14 @@ export default class Init {
     });
   }
 
-  loadCardRoutes(routeArr: Route[], data: Types.Product[]) {
+  loadCardRoutes(routeArr: Route[], data: Types.Product[]): void {
     for (let i = 0; i < data.length; i++) {
-      routeArr.push(new Route(`product-details/${data[i].id}`, 'product-details.html'));
+      routeArr.push(new Route(`product-details-${data[i].id}`, 'product-details.html'));
     }
   }
 
   // Init main catalog page
-  initMainPage() {
+  initMainPage(): void {
     this.initSearchInput();
     this.initFilterButtons();
     // init catalog from search query and if it's empty get all products
@@ -64,7 +71,7 @@ export default class Init {
     }
   }
 
-  initCatalog() {
+  initCatalog(): void {
     const data = this.cache;
     if (data !== undefined) {
       this.view.createToggle();
@@ -76,7 +83,7 @@ export default class Init {
 
   // Search related methods
   // * Search Input Listener
-  initSearchInput() {
+  initSearchInput(): void {
     const resultsWrapper = <HTMLDivElement>document.querySelector('.results-wrapper');
     const searchBar = <HTMLInputElement>document.querySelector('.search-bar-input');
     const searchCount = <HTMLDivElement>document.querySelector('.search-count-wrapper');
@@ -110,7 +117,7 @@ export default class Init {
     });
   }
 
-  makeInitialSearch(searchString: string) {
+  makeInitialSearch(searchString: string): void {
     const searchParam = <HTMLSpanElement>document.querySelector('.search-param');
     const searchBar = <HTMLInputElement>document.querySelector('.search-bar-input');
     const resultsWrapper = <HTMLDivElement>document.querySelector('.results-wrapper');
@@ -122,7 +129,7 @@ export default class Init {
     this.initialSearch(searchString);
   }
 
-  initialSearch(value: string) {
+  initialSearch(value: string): void {
     const searchResults = <HTMLSpanElement>document.querySelector('.search-results');
     this.controller.getSearchResults(value, (data?) => {
       if (data !== undefined) {
@@ -136,21 +143,21 @@ export default class Init {
   }
 
   // * simple search
-  search(value: string) {
+  search(value: string): void {
     const searchResults = <HTMLSpanElement>document.querySelector('.search-results');
     this.controller.getSearchResults(value, (data?) => {
       if (data !== undefined) {
         this.searchArr = [...data.products];
         console.log(this.filtersObj);
         this.filterProducts(this.searchArr, this.filtersObj);
-        this.view.initPagesandFilter(this.searchArr, this.filtersObj);
+        this.view.initPagesandFilter(this.filteredArr, this.filtersObj);
         searchResults.textContent = `${this.searchArr.length} results for `;
       }
     });
   }
 
   // Cart methods
-  initCart() {
+  initCart(): void {
     const cartDiv = document.querySelector('.cart');
     if (cartDiv) {
       this.view.createCart();
@@ -158,8 +165,8 @@ export default class Init {
   }
 
   // Product details methods
-  initProductDetails() {
-    const windowHash = window.location.hash.split('/');
+  initProductDetails(): void {
+    const windowHash = window.location.pathname.split('-');
     const productWrapperDiv: HTMLDivElement | null = document.querySelector('.product-wrapper');
     this.controller.getProductDetails(
       (data?) => {
@@ -175,7 +182,7 @@ export default class Init {
 
   // Filter related methods
   // * Init general filters
-  initFilters() {
+  initFilters(): void {
     const data = this.cache;
     const filtersDiv: HTMLDivElement | null = document.querySelector('.filters-wrapper');
     if (data !== undefined && filtersDiv) {
@@ -190,11 +197,11 @@ export default class Init {
     }
   }
 
-  initFilterButtons() {
+  initFilterButtons(): void {
     const btnRemoveFilters = document.querySelector('.btn-remove-filters');
     const btnCopyFilters = document.querySelector('.btn-copy-filters');
     btnRemoveFilters?.addEventListener('click', () => {
-      // window.location.search = '';
+      const sortDropdown = document.querySelector('.sort-dropdown__label');
       this.removeFromQuery('search');
       this.removeFromQuery('price');
       this.removeFromQuery('stock');
@@ -203,6 +210,7 @@ export default class Init {
       this.removeFromQuery('discount');
       this.removeSearch();
       this.initFilters();
+      if (sortDropdown) sortDropdown.textContent = 'Sort';
       this.view.initPagesandFilter(this.filteredArr, this.filtersObj);
     });
     btnCopyFilters?.addEventListener('click', () => {
@@ -220,7 +228,7 @@ export default class Init {
     });
   }
 
-  removeSearch() {
+  removeSearch(): void {
     this.filteredArr = this.cache;
     const resultsWrapper = <HTMLDivElement>document.querySelector('.results-wrapper');
     const searchBar = <HTMLInputElement>document.querySelector('.search-bar-input');
@@ -231,7 +239,7 @@ export default class Init {
   }
 
   // * Init filters from query
-  initFiltersFromQuery() {
+  initFiltersFromQuery(): void {
     const categoriesInput = <NodeListOf<HTMLInputElement>>document.getElementsByName('category');
     const brandInputs = <NodeListOf<HTMLInputElement>>document.getElementsByName('brand');
     this.getCheckboxFiltersFromQuery('category', categoriesInput);
@@ -241,7 +249,7 @@ export default class Init {
     this.initRangeFiltersFromQuery('discount');
   }
 
-  initRangeFiltersFromQuery(type: string) {
+  initRangeFiltersFromQuery(type: string): void {
     const sliderWrapper = document.querySelector(`.${type}-range-wrapper`);
     const sliderInputMin = <HTMLInputElement>sliderWrapper?.querySelector('.range-min');
     const sliderInputMax = <HTMLInputElement>sliderWrapper?.querySelector('.range-max');
@@ -256,7 +264,7 @@ export default class Init {
     sliderInputMax: HTMLInputElement,
     inputBoxMin: HTMLInputElement,
     inputBoxMax: HTMLInputElement
-  ) {
+  ): void {
     const rangeFilterParams = this.getQuery(type);
     if (rangeFilterParams) {
       const minMax = rangeFilterParams.split(',');
@@ -285,7 +293,7 @@ export default class Init {
     }
   }
 
-  getRangeFiltersByType(type: string, minMax: string[]) {
+  getRangeFiltersByType(type: string, minMax: string[]): void {
     if (type == 'price') {
       this.filtersObj.price.min = +minMax[0];
       this.filtersObj.price.max = +minMax[1];
@@ -298,7 +306,7 @@ export default class Init {
     }
   }
 
-  getCheckboxFiltersFromQuery(type: string, inputList: NodeListOf<HTMLInputElement>) {
+  getCheckboxFiltersFromQuery(type: string, inputList: NodeListOf<HTMLInputElement>): void {
     const checkboxParams = this.getQuery(type);
     if (checkboxParams) {
       const filterArr = checkboxParams.split(',');
@@ -314,12 +322,16 @@ export default class Init {
       for (let i = 0; i < inputList.length; i++) {
         inputList[i].checked = false;
       }
-      this.filtersObj.brands = [];
-      this.filtersObj.categories = [];
+      this.nullifyCheckboxFilters(type);
     }
   }
 
-  changeCheckboxFromQuery(type: string, inputList: NodeListOf<HTMLInputElement>) {
+  nullifyCheckboxFilters(type: string): void {
+    if (type == 'category') this.filtersObj.categories = [];
+    else if (type == 'brand') this.filtersObj.brands = [];
+  }
+
+  changeCheckboxFromQuery(type: string, inputList: NodeListOf<HTMLInputElement>): void {
     if (type == 'category') {
       for (let i = 0; i < inputList.length; i++) {
         if (inputList[i].checked) {
@@ -340,7 +352,7 @@ export default class Init {
   }
 
   // FilterListeners
-  addFilterRangeListener(filterType: string, inputVals: { min: number; max: number }) {
+  addFilterRangeListener(filterType: string, inputVals: { min: number; max: number }): void {
     const sliderWrapper = document.querySelector(`.${filterType}-range-wrapper`);
     const sliderInputMin = <HTMLInputElement>sliderWrapper?.querySelector('.range-min');
     const sliderInputMax = <HTMLInputElement>sliderWrapper?.querySelector('.range-max');
@@ -403,7 +415,7 @@ export default class Init {
     });
   }
 
-  filtersCheckListener() {
+  filtersCheckListener(): void {
     const categoriesInput = <NodeListOf<HTMLInputElement>>document.getElementsByName('category');
     const categoriesLabels = document.querySelectorAll('.category__item');
 
@@ -427,13 +439,13 @@ export default class Init {
     });
   }
 
-  filtersRangeListener() {
+  filtersRangeListener(): void {
     this.addFilterRangeListener('price', this.filtersObj.price);
     this.addFilterRangeListener('stock', this.filtersObj.stock);
     this.addFilterRangeListener('discount', this.filtersObj.discount);
   }
 
-  changeCheckboxes(input: NodeListOf<HTMLElement>, index: number, arr: string[], type: string) {
+  changeCheckboxes(input: NodeListOf<HTMLElement>, index: number, arr: string[], type: string): void {
     const checkbox = <HTMLInputElement>input[index];
     const checkboxArr = arr;
     if (checkbox.checked) {
@@ -447,12 +459,13 @@ export default class Init {
   }
 
   // * Perform Filtering
-  filterProducts(data: Types.Product[], filtersObj: Types.IFilters) {
+  filterProducts(data: Types.Product[], filtersObj: Types.IFilters): void {
     this.filteredArr = [];
     const searchParams = new URLSearchParams(window.location.search);
     if (this.searchArr.length !== 0 || searchParams.has('search')) {
       data = this.searchArr;
     }
+    
 
     this.filteredArr = data.filter((product) => {
       if (filtersObj.categories.length > 0) {
@@ -481,29 +494,31 @@ export default class Init {
         Math.round(product.discountPercentage) >= filtersObj.discount.min &&
         Math.round(product.discountPercentage) <= filtersObj.discount.max
     );
+    console.log(this.filteredArr);
+    
   }
 
   // Query related methods
-  getQuery(key: string) {
+  getQuery(key: string): string | false | null {
     if (this.filterQuery.has(key)) {
       return this.filterQuery.get(key);
     }
     return false;
   }
 
-  removeFromQuery(key: string) {
+  removeFromQuery(key: string): void {
     this.filterQuery.delete(key);
-    const newPathQuery = window.location.pathname + '?' + this.filterQuery.toString() + window.location.hash;
+    const newPathQuery = window.location.pathname + '?' + this.filterQuery.toString();
     history.pushState(null, '', newPathQuery);
   }
 
-  writeToQuery(key: string, value: string) {
+  writeToQuery(key: string, value: string): void {
     this.filterQuery.set(key, value);
-    const newPathQuery = window.location.pathname + '?' + this.filterQuery.toString() + window.location.hash;
+    const newPathQuery = window.location.pathname + '?' + this.filterQuery.toString();
     history.pushState(null, '', newPathQuery);
   }
 
-  addToQuery(input: HTMLInputElement, type: string) {
+  addToQuery(input: HTMLInputElement, type: string): void {
     if (this.filterQuery.has(type)) {
       const oldParams = this.filterQuery.get(type);
       if (!oldParams?.includes(input.value) && oldParams) {
@@ -514,7 +529,7 @@ export default class Init {
     }
   }
 
-  deleteFromQuery(input: HTMLInputElement, type: string) {
+  deleteFromQuery(input: HTMLInputElement, type: string): void {
     const filterQuery = this.filterQuery.get(type)?.split(',');
     const idxOfToDel = filterQuery?.indexOf(input.value);
     if (idxOfToDel !== undefined && filterQuery !== undefined) {
@@ -522,7 +537,7 @@ export default class Init {
       this.filterQuery.set(type, filterQuery.join(','));
     } else this.filterQuery.delete(type);
     if (this.filterQuery.get(type) == '') this.filterQuery.delete(type);
-    const newPathQuery = window.location.pathname + '?' + this.filterQuery.toString() + window.location.hash;
+    const newPathQuery = window.location.pathname + '?' + this.filterQuery.toString();
     history.pushState(null, '', newPathQuery);
   }
 }

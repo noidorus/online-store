@@ -1,8 +1,9 @@
 import Route from '../route/route';
 import Router from '../route/router';
+import { IApp, IRouter } from '../types/interfaces';
 
-class App {
-  router: Router;
+class App implements IApp {
+  public router: IRouter;
 
   constructor() {
     this.router = new Router([
@@ -12,7 +13,7 @@ class App {
     ]);
   }
 
-  start() {
+  start(): void {
     this.router.initRoutes();
     this.router.startRouter();
   }
