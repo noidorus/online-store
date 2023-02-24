@@ -1,0 +1,283 @@
+.breadcrumbs-wrapper {
+  background-color: #eeeff0;
+}
+
+.breadcrumbs,
+.product-wrapper {
+  width: 1920px;
+  margin: 0 auto;
+}
+
+.breadcrumbs {
+  padding: 2em 5em;
+  display: flex;
+  align-items: center;
+}
+
+.crumb {
+  font-size: 1.8em;
+  font-weight: 600;
+
+  color: #000000;
+  background: #ffffff;
+
+  padding: 0.5em 1em;
+  border-radius: 1em;
+}
+
+.crumb-split {
+  width: 2em;
+  height: 2em;
+  background-image: url('../assets/icons/btn-next.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  margin: 0 1em;
+}
+
+.product-wrapper {
+  padding: 5em 2em;
+
+  display: grid;
+  grid-template-columns: 2fr 4fr;
+  /* grid-auto-rows: min-content; */
+  grid-template-rows: 0.5fr 0.5fr 0.5fr 1fr 1.5fr 0.5fr 0.5fr;
+  column-gap: 3em;
+  row-gap: 1em;
+}
+
+.product-img-wrapper {
+  display: grid;
+  row-gap: 1em;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+  grid-row: 1/8;
+}
+
+.product-img {
+  width: 50em;
+  height: 50em;
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+
+  border-radius: 3em;
+  grid-column: 1/5;
+
+  position: relative;
+}
+
+.product-img .sale {
+  font-size: 2em;
+  text-transform: uppercase;
+  font-weight: 600
+  ;
+  position: absolute;
+  right: 0;
+  top: 10%;
+
+  background: #f4c517;
+  padding: 0.5em;
+}
+
+.product-thumb {
+  width: 10em;
+  height: 10em;
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+
+  border-radius: 2em;
+
+  cursor: pointer;
+}
+
+.product-thumb.thumb--active {
+  outline: 5px solid #8e2de2;
+}
+
+.product-row-one,
+.product-row-two,
+.product-stock {
+  display: flex;
+  align-items: center;
+}
+
+.product-row-one {
+  justify-content: space-between;
+}
+
+.rating-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
+.rating-star-wrapper {
+  display: flex;
+  gap: 0.2em;
+}
+
+.rating-star {
+  width: 2em;
+  height: 2em;
+  background: url("../assets/icons/star.svg") center/cover no-repeat;
+  filter: invert(7%) sepia(0%) saturate(1896%) hue-rotate(174deg) brightness(99%) contrast(91%);
+}
+
+.rating-star.checked {
+  filter: invert(28%) sepia(73%) saturate(697%) hue-rotate(349deg) brightness(101%) contrast(91%);
+}
+
+.product-brand,
+.product-category {
+  font-size: 1.45em;
+  font-weight: 600;
+
+  border: 2px solid #8e2de2;
+  border-radius: 0.5em;
+  padding: 0.5em;
+  height: fit-content;
+}
+
+.product-title {
+  font-family: 'Landasans';
+  font-size: 6em;
+  letter-spacing: 4px;
+}
+
+.rating-txt {
+  font-size: 1.5em;
+}
+
+.product-description {
+  font-size: 2em;
+  color: #656565;
+}
+
+.product-row-two {
+  gap: 1em;
+  grid-row: 5/6;
+}
+
+.product-row-two .button {
+  font-size: 2.5em;
+  font-weight: 600;
+  height: fit-content;
+  border-radius: 1em;
+  padding: 0.8em;
+  color: #f9f8fb;
+}
+
+.button-add {
+  background-color: #8e2de2;
+}
+
+.button-add.added {
+  background-color: #eeeff0;
+  border: 2px solid #8e2de2;
+  color: #8e2de2;
+}
+
+.button-buy-now {
+  background-color: #000000;
+}
+
+.product-stock {
+  gap: 1em;
+}
+
+.product-stock-txt {
+  font-size: 2em;
+}
+
+.product-stock-q {
+  font-family: 'Landasans', sans-serif;
+  color: #8e2de2;
+  font-size: 2em;
+  letter-spacing: 2px;
+}
+
+.to-cart,
+.to-catalog,
+.to-catalog-txt-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.to-cart,
+.to-catalog {
+  font-size: 1.8em;
+  justify-content: space-between;
+
+  margin: 0 1em;
+  border: 1px solid #8e2de2;
+  border-radius: 2em;
+  padding: 1em;
+  overflow: hidden;
+
+  cursor: pointer;
+  position: relative;
+
+}
+
+.to-cart::before,
+.to-catalog::before {
+  content: '';
+  position: absolute;
+  left: -33em;
+  height: 5em;
+  width: 33em;
+  background: #dab0ffa6;
+  z-index: -1;
+  transition: left 0.2s ease-out;
+}
+
+.to-cart:hover::before,
+.to-catalog:hover::before {
+  left: 0;
+}
+
+.to-catalog-txt-wrapper {
+  gap: 0.5em;
+}
+
+.to-catalog .emph {
+  font-weight: 600;
+  color: #8e2de2;
+}
+
+.to-cart .crumb-split,
+.to-catalog .crumb-split {
+  margin: 0;
+  height: 1.5em;
+  width: 1.5em;
+  filter: invert(28%) sepia(84%) saturate(6114%) hue-rotate(267deg) brightness(91%) contrast(93%);
+}
+
+.modal-prodDetails {
+  position: fixed;
+  background-repeat: no-repeat;
+  background-size: 300%;
+  border-radius: 1em;
+  box-shadow: 0 0 50px 2px black;
+  top: 10%;
+  left: 45%;
+  width: 70em;
+  height: 70em;
+}
+
+@media (max-width: 1919px) {
+  
+  .breadcrumbs,
+  .product-wrapper {
+    width: 100%;
+  }
+
+  .modal-prodDetails {
+    width: 50vw;
+    height: 50vw;
+  }
+}
