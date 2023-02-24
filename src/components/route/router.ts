@@ -12,19 +12,19 @@ class Router {
     this.rootElem = document.getElementById('app') as HTMLDivElement;
   }
 
-  initRoutes() {
+  initRoutes(): void {
     this.init.getData(this.routes, () => {
       this.initPaths();
     });
   }
 
-  startRouter() {
+  startRouter(): void {
     window.addEventListener('hashchange', () => {
       this.initPaths();
     });
   }
 
-  initPaths() {
+  initPaths(): void {
     if (window.location.hash == '#cart') {
       this.hasChanged(this.routes, () => {
         this.init.initCart();
@@ -44,7 +44,7 @@ class Router {
     }
   }
 
-  hasChanged(r: Route[], callback: () => void) {
+  hasChanged(r: Route[], callback: () => void): void {
     if (window.location.hash.length > 0) {
       for (let i = 0, length = r.length; i < length; i += 1) {
         const route = r[i];
@@ -63,7 +63,7 @@ class Router {
     }
   }
 
-  async goToRoute(htmlName: string, callback: () => void) {
+  async goToRoute(htmlName: string, callback: () => void): Promise<void> {
     const url = `components/views/${htmlName}`;
     const html = await fetch(url).then((res) => res.text());
     console.log('routed');

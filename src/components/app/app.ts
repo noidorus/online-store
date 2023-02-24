@@ -12,7 +12,7 @@ class App {
     ]);
   }
 
-  start() {
+  start(): void {
     this.router.initRoutes();
     this.router.startRouter();
   }

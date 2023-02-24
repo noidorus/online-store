@@ -13,7 +13,7 @@ class Cart {
   pageQuery = new URLSearchParams(window.location.search);
 
   // HIGHEST ENTRY POINT
-  initCartPage() {
+  initCartPage(): void {
     // init cart items
     const storagedItems = localStorage.getItem('onlineStoreCart112547');
     if (storagedItems) this.cartItems = JSON.parse(storagedItems);
@@ -42,7 +42,7 @@ class Cart {
 
   // ***
   // INIT methods
-  initCartLinks() {
+  initCartLinks(): void {
     // init pagination dropdown
     this.initPaginationDropdownLinks();
     // init promo input
@@ -54,7 +54,7 @@ class Cart {
   }
 
   // Init links
-  initPaginationDropdownLinks() {
+  initPaginationDropdownLinks(): void {
     const paginationDropdownBtn = document.querySelector('.pagination-count-wrapper');
     const paginationVisible = document.querySelector('.pagination-visible--active');
     const paginationInvisible = document.querySelector('.pagination-invisible');
@@ -77,14 +77,14 @@ class Cart {
     }
   }
 
-  initCheckoutLink() {
+  initCheckoutLink(): void {
     const checkoutBtn = document.querySelector('.checkout-button-wrapper');
     checkoutBtn?.addEventListener('click', () => {
       this.openModal();
     });
   }
 
-  initModalLinks() {
+  initModalLinks(): void {
     const overlay = document.querySelector('.overlay');
     if (overlay)
       overlay.addEventListener('click', () => {
@@ -98,7 +98,7 @@ class Cart {
     });
   }
 
-  initPromoInput() {
+  initPromoInput(): void {
     const promocodeInput = <HTMLInputElement>document.querySelector('.promocode-input');
     const btnApply = document.querySelector('.btn-submit');
     promocodeInput?.addEventListener('change', () => {
@@ -117,7 +117,7 @@ class Cart {
     itemDelete: HTMLDivElement,
     itemTotal: HTMLDivElement,
     item: Types.ICartSlot
-  ) {
+  ): void {
     btnMinus.addEventListener('click', () => {
       console.log(this.cartItems);
 
@@ -165,7 +165,7 @@ class Cart {
   }
 
   // FILL methods
-  createFiller() {
+  createFiller(): void {
     const cartWrapper = <HTMLDivElement>document.querySelector('.cart-wrapper');
     const cartSubst = <HTMLDivElement>document.querySelector('.cart-substitute');
     const numOfEntriesOnPage = <HTMLDivElement>document.querySelector('.pagination-count-wrapper');
@@ -179,12 +179,12 @@ class Cart {
     }
   }
 
-  createPagesAndCart(pagesCount: number, pageNumber: number) {
+  createPagesAndCart(pagesCount: number, pageNumber: number): void {
     this.createPages(pagesCount, pageNumber);
     this.fillCart(pageNumber);
   }
 
-  fillCart(page: number) {
+  fillCart(page: number): void {
     this.appliedPromos = [];
     this.promoPc = 0;
     const startIdx = page * this.entriesOnPage;
@@ -229,7 +229,7 @@ class Cart {
 
   // ***
   // UPDATE methods
-  updateHeader() {
+  updateHeader(): void {
     const priceDiv = <HTMLDivElement>document.querySelector('.shopping-cart__price');
     const quantityDiv = <HTMLDivElement>document.querySelector('.shopping-cart__count');
     this.updateNumParams();
@@ -237,7 +237,7 @@ class Cart {
     priceDiv.innerHTML = `$${this.totalPrice}`;
   }
 
-  updateCheckout() {
+  updateCheckout(): void {
     const amountItemsQty = document.querySelector('.amount-items-qty');
     const amountTotalQty = document.querySelector('.amount-total-qty');
     const amountSubtotal = document.querySelector('.amount-subtotal');
@@ -271,18 +271,18 @@ class Cart {
     }
   }
 
-  updateNumParams() {
+  updateNumParams(): void {
     this.totalQty = this.cartItems.reduce((acc, curr) => acc + curr.qty, 0);
     this.totalPrice = this.cartItems.reduce((acc, curr) => acc + curr.product.price * curr.qty, 0);
     this.totalDiscount = this.cartItems.reduce((acc, curr) => acc + curr.product.discountPercentage, 0);
   }
 
-  updateDropdown(entriesOnPage: number) {
+  updateDropdown(entriesOnPage: number): void {
     const paginationVisible = document.querySelector('.pagination-visible--active');
     if (paginationVisible) paginationVisible.textContent = String(entriesOnPage);
   }
 
-  updateCart(page: number) {
+  updateCart(page: number): void {
     const startIdx = page * this.entriesOnPage;
     let endIdx = this.cartItems.length >= this.entriesOnPage ? startIdx + this.entriesOnPage : this.cartItems.length;
     if (endIdx > this.cartItems.length) endIdx = this.cartItems.length;
@@ -300,7 +300,7 @@ class Cart {
     this.updateCheckout();
   }
 
-  updatePages(activePage: number) {
+  updatePages(activePage: number): void {
     const pagesCount = Math.ceil(this.cartItems.length / this.entriesOnPage);
     console.log(activePage, pagesCount);
 
@@ -316,27 +316,27 @@ class Cart {
   }
 
   // Query string related methods
-  getFromQuery(key: string) {
+  getFromQuery(key: string): string | false | null {
     if (this.pageQuery.has(key)) {
       return this.pageQuery.get(key);
     }
     return false;
   }
 
-  deleteFromQuery(key: string) {
+  deleteFromQuery(key: string): void {
     this.pageQuery.delete(key);
     const newPathQuery = window.location.pathname + '?' + this.pageQuery.toString() + window.location.hash;
     history.pushState(null, '', newPathQuery);
   }
 
-  writeToQuery(key: string, value: string) {
+  writeToQuery(key: string, value: string): void {
     this.pageQuery.set(key, value);
     const newPathQuery = window.location.pathname + '?' + this.pageQuery.toString() + window.location.hash;
     history.pushState(null, '', newPathQuery);
   }
 
   // Pagination related methods
-  createPages(pagesCount: number, pageActive: number) {
+  createPages(pagesCount: number, pageActive: number): void {
     const catalogPages = <HTMLDivElement>document.querySelector('.cart-pages');
     if (catalogPages) {
       if (pagesCount <= 1) {
@@ -348,7 +348,7 @@ class Cart {
     }
   }
 
-  drawPages(pagesCount: number, pageActive: number) {
+  drawPages(pagesCount: number, pageActive: number): void {
     const pagesWrapper = document.querySelector('.pages-wrapper');
     const pageNext = document.querySelector('.page-next');
     const pagePrev = document.querySelector('.page-prev');
@@ -376,7 +376,7 @@ class Cart {
     });
   }
 
-  goToPage(pagesArr: HTMLDivElement[], idx: number) {
+  goToPage(pagesArr: HTMLDivElement[], idx: number): void {
     const cartDiv: HTMLDivElement | null = document.querySelector('.cart-items-wrapper');
     if (idx >= 0 && idx < pagesArr.length) {
       for (let i = 0; i < pagesArr.length; i++) {
@@ -390,14 +390,14 @@ class Cart {
     }
   }
 
-  findPageIdx(pagesArr: HTMLDivElement[]) {
+  findPageIdx(pagesArr: HTMLDivElement[]): number {
     for (let i = 0; i < pagesArr.length; i++) {
       if (pagesArr[i].classList.contains('page-idx--active')) return i;
     }
     return 0;
   }
 
-  findPage() {
+  findPage(): number | undefined {
     const currPageItems = document.querySelectorAll('.cart__item');
     const cartId = currPageItems[0].id.replace('cartItemId', '');
     let currPage;
@@ -410,13 +410,13 @@ class Cart {
   }
 
   // Promo related methods
-  searchPromo(promo: string, type: string[]) {
+  searchPromo(promo: string, type: string[]): void {
     for (let i = 0; i < type.length; i++) {
       if (promo == type[i].split('/')[0]) this.addPromo(type[i]);
     }
   }
 
-  addPromo(value: string) {
+  addPromo(value: string): void {
     if (!this.appliedPromos.includes(value)) {
       const promoName = value.split('/')[0];
       const promoPc = +value.split('/')[1];
@@ -426,7 +426,7 @@ class Cart {
     }
   }
 
-  drawPromo(promoName: string, promoAmount: number) {
+  drawPromo(promoName: string, promoAmount: number): void {
     const promoInputWrapper = document.querySelector('.promocode-input-wrapper');
     const appliedPromo = document.createElement('p');
     appliedPromo.classList.add('applied-promo');
@@ -440,7 +440,7 @@ class Cart {
   }
 
   // Modal related methods
-  openModal() {
+  openModal(): void {
     const modal = document.querySelector('.modal');
     const overlay = document.querySelector('.overlay');
 
@@ -459,7 +459,7 @@ class Cart {
     }
   }
 
-  validateForm() {
+  validateForm(): boolean {
     let formValid = true;
     const inputFirstName = <HTMLInputElement>document.querySelector('.input-first-name');
     const inputLastName = <HTMLInputElement>document.querySelector('.input-last-name');
@@ -520,7 +520,7 @@ class Cart {
     return formValid;
   }
 
-  showMessage(mesType: boolean) {
+  showMessage(mesType: boolean): void {
     const modalWarning = document.createElement('div');
     const modalTxt = document.createElement('p');
     const modalBtn = document.createElement('button');
@@ -549,7 +549,7 @@ class Cart {
   }
 
   // Helpers
-  productInCart(product: Types.Product) {
+  productInCart(product: Types.Product): boolean {
     for (let i = 0; i < this.cartItems.length; i++) {
       if (this.cartItems[i].product.id === product.id) return true;
     }
@@ -557,7 +557,7 @@ class Cart {
   }
 
   // Add/Delete methods
-  initCartAdd(productCardDivCart: Element, product: Types.Product) {
+  initCartAdd(productCardDivCart: Element, product: Types.Product): void {
     const storagedItems = localStorage.getItem('onlineStoreCart112547');
     if (storagedItems) this.cartItems = JSON.parse(storagedItems);
     const card = document.getElementById(`product-${product.id}`);
@@ -574,7 +574,7 @@ class Cart {
     });
   }
 
-  addToCart(product: Types.Product) {
+  addToCart(product: Types.Product): void {
     const storagedItems = localStorage.getItem('onlineStoreCart112547');
     if (storagedItems) this.cartItems = JSON.parse(storagedItems);
     if (this.cartItems.length === 0) {
@@ -597,7 +597,7 @@ class Cart {
     this.updateHeader();
   }
 
-  addItem(item: Types.ICartSlot, itemPos: number, position: boolean) {
+  addItem(item: Types.ICartSlot, itemPos: number, position: boolean): void {
     const itemWrapper = document.querySelector('.cart-items-wrapper');
     const cartItem = document.createElement('div');
     const itemNum = document.createElement('div');
@@ -666,7 +666,7 @@ class Cart {
     this.makeInteractible(btnMinus, input, btnPlus, itemDeleteIcon, itemTotal, item);
   }
 
-  deleteItem(item: Types.ICartSlot) {
+  deleteItem(item: Types.ICartSlot): void {
     const itemDiv = document.getElementById(`cartItemId${item.product.id}`);
     const breakLine = document.getElementById(`breakLine${item.product.id}`);
     const pageToInit = this.findPage();
@@ -690,7 +690,7 @@ class Cart {
     }
   }
 
-  deleteProduct(product: Types.Product) {
+  deleteProduct(product: Types.Product): void {
     const storagedItems = localStorage.getItem('onlineStoreCart112547');
     if (storagedItems) this.cartItems = JSON.parse(storagedItems);
     for (let i = 0; i < this.cartItems.length; i++) {

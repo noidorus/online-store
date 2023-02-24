@@ -9,20 +9,20 @@ class ProductDetails {
     this.cart = cart;
   }
 
-  drawProduct(data: Types.Product) {
+  drawProduct(data: Types.Product): void {
     this.drawCrumbs(data);
     this.drawProductDescr(data);
     this.drawProductImgs(data);
   }
 
-  drawCrumbs(data: Types.Product) {
+  drawCrumbs(data: Types.Product): void {
     const crumbs = document.querySelectorAll('.crumb');
     crumbs[1].innerHTML = capitalizeExpr(data.category);
     crumbs[2].innerHTML = capitalizeExpr(data.brand);
     crumbs[3].innerHTML = data.title;
   }
 
-  drawProductDescr(data: Types.Product) {
+  drawProductDescr(data: Types.Product): void {
     // select all elements
     const productBrand = document.querySelector('.product-brand');
     const productCategory = document.querySelector('.product-category');
@@ -57,7 +57,7 @@ class ProductDetails {
     this.initButtons(data);
   }
 
-  drawProductImgs(data: Types.Product) {
+  drawProductImgs(data: Types.Product): void {
     // select imgs elements
     const mainImg = <HTMLDivElement>document.querySelector('.product-img');
     const images = data.images;
@@ -88,7 +88,7 @@ class ProductDetails {
     this.selectImage(images, imgThumbs, mainImg);
   }
 
-  selectImage(dataImages: string[], imgThumbs: HTMLElement[], mainImg: HTMLDivElement) {
+  selectImage(dataImages: string[], imgThumbs: HTMLElement[], mainImg: HTMLDivElement): void {
     for (let i = 0; i < imgThumbs.length; i++) {
       if (imgThumbs[i].classList.contains('thumb--active')) {
         mainImg.style.backgroundImage = `url(${dataImages[i]})`;
@@ -103,13 +103,13 @@ class ProductDetails {
     }
   }
 
-  createMagnifyerDiv() {
+  createMagnifyerDiv(): void {
     const modal = document.createElement('div');
     modal.classList.add('modal-prodDetails');
     document.body.append(modal);
   }
 
-  magnifyImage(e: MouseEvent) {
+  magnifyImage(e: MouseEvent): void {
     const modal = <HTMLDivElement>document.querySelector('.modal-prodDetails');
     if (modal) {
       const currImg = <HTMLDivElement>document.querySelector('.product-img');
@@ -119,11 +119,11 @@ class ProductDetails {
     }
   }
 
-  removeMagnify() {
+  removeMagnify(): void {
     document.querySelector('.modal-prodDetails')?.remove();
   }
 
-  initButtons(data: Types.Product) {
+  initButtons(data: Types.Product): void {
     const storagedItems = localStorage.getItem('onlineStoreCart112547');
     if (storagedItems) this.cart.cartItems = JSON.parse(storagedItems);
     const btnAdd = document.querySelector('.button-add');

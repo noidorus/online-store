@@ -12,7 +12,7 @@ class Loader {
       console.error('No callback for GET response');
     },
     options: Types.IOptions
-  ) {
+  ): void {
     this.load(callback, options);
   }
 
@@ -33,7 +33,7 @@ class Loader {
     }
   }
 
-  load(callback: Types.CallBackType, options: Types.IOptions) {
+  load(callback: Types.CallBackType, options: Types.IOptions): void {
     fetch(this.makeUrl(options))
       .then((res) => res.json())
       .then((data) => callback(data))

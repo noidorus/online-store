@@ -24,7 +24,7 @@ class Catalog {
     div.append(label);
   }
 
-  drawCard(card: Types.Product, div: HTMLDivElement) {
+  drawCard(card: Types.Product, div: HTMLDivElement): void {
     const productCard = document.createElement('div');
     const productCardLink = document.createElement('a');
     const productImg = document.createElement('img');
@@ -88,7 +88,7 @@ class Catalog {
     div.append(productCard);
   }
 
-  drawSliderFilter(filterCat: { min: number; max: number }, filterType: string) {
+  drawSliderFilter(filterCat: { min: number; max: number }, filterType: string): void {
     const inputTextMin: HTMLInputElement | null = document.querySelector(`.${filterType}-min`);
     const inputTextMax: HTMLInputElement | null = document.querySelector(`.${filterType}-max`);
     if (inputTextMin && inputTextMax) {
@@ -98,7 +98,7 @@ class Catalog {
     this.drawSliderInput(filterCat, filterType);
   }
 
-  drawSliderInput(filterCat: { min: number; max: number }, filterType: string) {
+  drawSliderInput(filterCat: { min: number; max: number }, filterType: string): void {
     const sliderWrapper = document.querySelector(`.${filterType}-range-wrapper`);
     const sliderInputMin = <HTMLInputElement>sliderWrapper?.querySelector('.range-min');
     const sliderInputMax = <HTMLInputElement>sliderWrapper?.querySelector('.range-max');
@@ -125,27 +125,25 @@ class Catalog {
     inputBoxMax: HTMLInputElement,
     sliderTrack: HTMLDivElement,
     input: boolean
-  ) {
-    const sliderMaxValue = sliderInputMin.max;
+  ): void {
     const minGap = 0;
     if (+sliderInputMax.value - +sliderInputMin.value <= minGap) {
       sliderInputMin.value = String(+sliderInputMax.value - minGap);
     }
     if (input) inputBoxMin.value = sliderInputMin.value;
-    sliderTrack.style.background = this.fillSliderTrack(sliderInputMin, sliderInputMax, sliderMaxValue);
+    sliderTrack.style.background = this.fillSliderTrack(sliderInputMin, sliderInputMax);
 
     if (+sliderInputMax.value - +sliderInputMin.value <= minGap) {
       sliderInputMax.value = String(+sliderInputMax.value + minGap);
     }
 
     if (input) inputBoxMax.value = sliderInputMax.value;
-    sliderTrack.style.background = this.fillSliderTrack(sliderInputMin, sliderInputMax, sliderMaxValue);
+    sliderTrack.style.background = this.fillSliderTrack(sliderInputMin, sliderInputMax);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  fillSliderTrack(minInput: HTMLInputElement, maxInput: HTMLInputElement, maxVal?: string) {
+  fillSliderTrack(minInput: HTMLInputElement, maxInput: HTMLInputElement): string {
     const dif = Math.round(100 / (+maxInput.max - +minInput.min));
-    console.log('filled track', dif);
     const pc1 = (+minInput.value - +minInput.min) * dif;
     const pc2 = (+maxInput.value - +minInput.min) * dif;
     return `Linear-Gradient(To Right, #Dadae5 ${pc1}% , #8e2de2 ${pc1}% , #8e2de2 ${pc2}%, #Dadae5 ${pc2}%)`;
